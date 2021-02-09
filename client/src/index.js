@@ -9,11 +9,13 @@ import { createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
 import { reducers } from './reducers'
 
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import App from './App';
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID
-const store = createStore(reducers, compose(applyMiddleware(thunk)))
+const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
 
 ReactDOM.render(
   <Provider store={store}>

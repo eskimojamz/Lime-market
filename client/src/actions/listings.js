@@ -29,6 +29,10 @@ export const updateListing = (id, listing) => async (dispatch) => {
       console.log(error.message);
     }
 };
+
+export const setCurrentId = (currentId) => {
+    return { type: 'SET_ID', payload: currentId }
+};
   
 // export const followListing = (id) => async (dispatch) => {
 //     try {

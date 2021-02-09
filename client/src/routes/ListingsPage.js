@@ -1,14 +1,22 @@
+// import { useSelector } from 'react-redux'
+import Listing from '../components/Listing'
+
+import { useAuth0 } from '@auth0/auth0-react'
 import { useSelector } from 'react-redux'
 
-import Listing from '../components/Listing'
-  
 const ListingsPage = () => {
+
+    
     const listings = useSelector((state) => state.listings)
-    console.log(listings)
+    console.log("listings", listings)
+       
+    const { user } = useAuth0()
+    
 
     return (
         <div>
-            {listings.map(listing => <Listing listing={listing}/>)}
+            
+            {listings.map(listing => <Listing listing={listing} user={user}/>)}
         </div>
     )
 }

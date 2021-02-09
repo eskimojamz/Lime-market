@@ -2,9 +2,10 @@ import React from 'react'
 import ListingForm from '../components/ListingForm'
 
 const FormPage = () => {
+    
     return (
         <div>
-            <ListingForm></ListingForm>
+            <ListingForm ></ListingForm>
         </div>
     )
 }

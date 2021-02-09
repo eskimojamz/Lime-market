@@ -1,10 +1,10 @@
-// export default (currentId = [], action) => {
-//     switch (action.type) {
-//         case 'GET_ID': 
-//             return action.payload
-//         case 'CREATE': 
-//             return [...listings, action.payload]
-//         default:
-//             return currentId
-//     }
-// }
+const currentIdReducer = (state = [], action) => {
+    switch (action.type) {
+        case 'SET_ID':
+            return action.payload
+        default:
+            return state
+    }
+}
+
+export default currentIdReducer

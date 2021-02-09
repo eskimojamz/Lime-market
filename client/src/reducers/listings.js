@@ -1,12 +1,14 @@
-export default (listings = [], action) => {
+const listingsReducer = (state = [], action) => {
     switch (action.type) {
         case 'FETCH_ALL': 
             return action.payload
         case 'CREATE': 
-            return [...listings, action.payload]
+            return [...state, action.payload]
         case 'UPDATE':
-            return listings.map((listing) => (listing._id === action.payload._id ? action.payload : listing));
+            return state.map((listing) => (listing._id === action.payload._id ? action.payload : listing));
         default:
-            return listings
+            return state
     }
 }
+
+export default listingsReducer
