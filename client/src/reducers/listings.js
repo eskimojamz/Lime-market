@@ -6,6 +6,8 @@ const listingsReducer = (state = [], action) => {
             return [...state, action.payload]
         case 'UPDATE':
             return state.map((listing) => (listing._id === action.payload._id ? action.payload : listing));
+        case 'DELETE':
+            return state.filter((listing) => (listing._id !== action.payload))
         default:
             return state
     }

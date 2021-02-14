@@ -14,7 +14,7 @@ const ListingsPage = () => {
     
 
     return (
-        <div>
+        <div className="listing-wrapper">
             
             {listings.map(listing => <Listing listing={listing} user={user}/>)}
         </div>

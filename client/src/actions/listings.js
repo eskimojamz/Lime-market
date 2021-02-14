@@ -29,10 +29,6 @@ export const updateListing = (id, listing) => async (dispatch) => {
       console.log(error.message);
     }
 };
-
-export const setCurrentId = (currentId) => {
-    return { type: 'SET_ID', payload: currentId }
-};
   
 // export const followListing = (id) => async (dispatch) => {
 //     try {
@@ -44,12 +40,16 @@ export const setCurrentId = (currentId) => {
 //     }
 // };
   
-// export const deleteListing = (id) => async (dispatch) => {
-//     try {
-//         await api.deleteListing(id);
+export const deleteListing = (id) => async (dispatch) => {
+    try {
+        await api.deleteListing(id);
 
-//         dispatch({ type: DELETE, payload: id });
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// };
+        dispatch({ type: 'DELETE', payload: id });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+export const setCurrentId = (currentId) => {
+    return { type: 'SET_ID', payload: currentId }
+};

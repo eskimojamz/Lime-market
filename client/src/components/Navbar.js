@@ -1,28 +1,64 @@
+import { useState } from 'react'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
+import logo from '../assets/HoppangLogo.svg'
 
 const Navbar = () => {
-    const { user } = useAuth0()
+    const[isOpen, setIsOpen] = useState(false)
+    const { user, isAuthenticated } = useAuth0()
     console.log(user)
 
-    return (
-        <div>
-            <h1>Usedo</h1>
-            
-            <Link to='/'>Home</Link>
-            <Link to='/listings'>Listings</Link>
-            <Link to='/profile'>Profile</Link>
-            <Link to='/form'>Sell an item</Link>
-           
-            <LoginButton />
+    const Nav = (props) => {
+        return (
+        <nav className="nav">
+            {props.children}
+        </nav>
+        )
+    }
+
+    const ProfileMenu = () => {
+        return (
+        <div className="profile-menu">
+            <h5>Signed in as: </h5>
+            <h5>{user.nickname}</h5>
+            <Link to="/profile"><button className="profile-btn">My Profile</button></Link>
             <LogoutButton />
-                <h3>{user?.nickname}</h3>
-                <img src={user?.picture} />
         </div>
+        )
+    }
+
+    return (
+        <>
+        <Nav>
+            <div className="nav-left">
+                <Link to='/'><img className="logo" src={logo} /></Link>
+                <h1>Hoppang</h1>
+            </div>
+
+            <div className="nav-right">
+                <Link to='/form'><button className="sell-btn">Sell Now</button></Link>
+                
+                {isAuthenticated
+                    ? (
+                    <>
+                    <img className="profile" src={user?.picture} onClick={() => setIsOpen(!isOpen)} />
+                    {isOpen && (
+                    <ProfileMenu>
+                    </ProfileMenu>)}
+                    </>
+                    )
+                    : <LoginButton />
+                }
+            </div>
+        </Nav>
+        </>
+
     )
 }
 
 export default Navbar
+
+
 
