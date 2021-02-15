@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { Link } from 'react-router-dom'
 import { setCurrentId } from '../actions/listings'
 
 const Listing = ({listing, user}) => {
-    const currentId = useSelector(state => state.currentId)
+    const id = listing._id
     const dispatch = useDispatch()
 
     return (
         
             <div className="listing">
                 <div className="listing-img-div">
-                    <img src={listing.selectedFile} />
+                    <img src={listing.selectedFile[0].base64} />
                 </div>
                 <div className="listing-body">
                     <h3>{listing.title}</h3>
@@ -22,7 +22,13 @@ const Listing = ({listing, user}) => {
                         <h3>{listing.price}</h3>
                     </div>
                     <div className="listing-btn">
-                        <button className="button-primary">See More</button>
+                        <Link 
+                            to={{
+                                pathname: `/listings:${id}`,
+                                state: {listing}
+                            }}>
+                            <button className="button-primary">See More</button>
+                        </Link>
                     </div>
                     {/* {(user?.sub === listing?.creator) && (
                         <button onClick={() => dispatch(setCurrentId(listing._id))}>Edit listing </button>

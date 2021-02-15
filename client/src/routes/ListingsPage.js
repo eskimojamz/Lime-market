@@ -14,10 +14,10 @@ const ListingsPage = () => {
     
 
     return (
-        <div className="listing-wrapper">
-            
+       
+            <div className="listings-grid">
             {listings.map(listing => <Listing listing={listing} user={user}/>)}
-        </div>
+            </div>
     )
 }
 

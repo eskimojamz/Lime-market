@@ -14,14 +14,24 @@ const Profile = () => {
 
   return (
     isAuthenticated && ( 
-     <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        {userListings.map(userListing => 
-          <Listing listing={userListing} />
-        )}
+     <div className="grid-12">
+      <div className="profile-info">
+        <div className="profile-info-img">
+          <img src={user.picture} alt={user.nickname} />
+        </div>
+        <div className="profile-info-name">
+          <h2>{user.nickname}</h2>
+        </div>
+        <div className="profile-info-listings-label">
+          <h1>My Listings</h1>
+        </div>
+        <div className="profile-info-listings-cards">
+          {userListings.map(userListing => 
+            <Listing listing={userListing} />
+          )}
+        </div>
       </div>
+    </div>
     )
   )
 }

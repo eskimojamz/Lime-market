@@ -28,7 +28,7 @@ const ListingForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (currentId === null) {
-            dispatch(createListing({...listingData, creator: user?.sub}))
+            dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture}))
             clear()
         } else {
             dispatch(updateListing(currentId, { ...listingData }))

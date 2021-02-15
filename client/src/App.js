@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
+import ListingInfoPage from './routes/ListingInfoPage'
 import FormPage from './routes/FormPage'
 import Profile from './routes/ProfilePage'
 
@@ -23,14 +24,15 @@ const App = () => {
       <BrowserRouter>
         
           <Navbar />
-          
+          <div className="wrapper">
             <Switch>
               <Route path='/' exact={true} component={Home} />
-              <Route path='/listings' render={() => <ListingsPage />} />
-              <Route path='/form' render={() => <FormPage />} />
+              <Route path='/listings' component={ListingsPage} />
+              <Route path='/listings:id' component= {ListingInfoPage} />
+              <Route path='/form' component= {FormPage} />
               <Route path='/profile' component={Profile} />
             </Switch>
-          
+          </div>
         
       </BrowserRouter>
     

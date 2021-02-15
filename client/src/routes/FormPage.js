@@ -4,7 +4,7 @@ import ListingForm from '../components/ListingForm'
 const FormPage = () => {
     
     return (
-        <div className="form-wrapper">
+        <div className="grid-12">
             <ListingForm ></ListingForm>
         </div>
     )

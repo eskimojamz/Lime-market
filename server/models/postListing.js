@@ -5,6 +5,8 @@ const listingSchema = mongoose.Schema({
     description: String,
     price: String,
     creator: String,
+    creatorName: String,
+    creatorImg: String,
     selectedFile: [Object],
     createdAt: {
         type: Date, 
