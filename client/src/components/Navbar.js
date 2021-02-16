@@ -38,7 +38,8 @@ const Navbar = () => {
             </div>
 
             <div className="nav-right">
-                <Link to='/form'><button className="sell-btn">Sell Now</button></Link>
+                <Link to='/listings'><button className="listings-nav-btn">Listings</button></Link>
+                <Link to='/form'><button className="sell-nav-btn">Sell Now</button></Link>
                 
                 {isAuthenticated
                     ? (
