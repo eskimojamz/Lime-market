@@ -64,8 +64,23 @@ const ListingInfoPage = () => {
     }, []);
 
     return (
-        <div className="grid-12">
+        <div className="page-wrapper">
             <div className="listing-info">
+                { (listing.creator === user?.sub) &&
+                <div className="listing-info-edit-menu">
+                    <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
+                        <img src={menu} />
+                    </button>
+                    { menuOpen &&
+                    <div className="edit-menu">
+                        <button className="button-menu-edit"><h5 onClick={handleEdit}>Edit</h5></button>
+                        <button className="button-menu-delete"><h5>Delete</h5></button>
+                    </div>
+                    }
+                </div>
+                }
+                
+                { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
                     {listing.selectedFile.map(file => 
                         <img src={file.base64} />
@@ -77,42 +92,27 @@ const ListingInfoPage = () => {
                 <div className="listing-info-desc">
                     <p>{listing.description}</p>
                 </div>
-                <div className="listing-info-price">
-                    <h1>${listing.price}</h1>
-                </div>
-                <div className="listing-info-creator">
-                    <div className="listing-info-creator-img">
-                        
-                        <img src={listing.creatorImg} />
-                        
+                <div className="listing-info-bottom">
+                    <div className="listing-info-price">
+                        <h1>${listing.price}</h1>
                     </div>
-                    <div className="listing-info-creator-name">
-                        
-                        <h5>{listing.creatorName}</h5>
-                        <h4>Seller  ✓</h4>
+                    <div className="listing-info-creator">
+                        <div className="listing-info-creator-img">
+                            
+                            <img src={listing.creatorImg} />
+                            
+                        </div>
+                        <div className="listing-info-creator-name">
+                            
+                            <h5>{listing.creatorName}</h5>
+                            <h4>Seller  ✓</h4>
+                        </div>
                     </div>
                 </div>
-                {/* <div className="listing-info-creator-name">
-                    
-                    
-                </div> */}
                 <div className="listing-info-paypal" ref={paypal}>
-                    {/* <button className="button-primary">Buy Now</button> */}
+                    {/* Paypal Button */}
                 </div>
-                { (listing.creator === user.sub) &&
-                <div className="listing-info-edit-menu">
-                    <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
-                        <img src={menu} />
-                    </button>
-                </div>
-                }
-                { menuOpen &&
-                <div className="edit-menu">
-                    <button className="button-menu-edit"><h5 onClick={handleEdit}>Edit</h5></button>
-                    <button className="button-menu-delete"><h5>Delete</h5></button>
-                </div>
-                }
-                { edit && <Redirect to="/form" /> }
+                
             </div>
        </div>
     )

@@ -22,7 +22,6 @@ const App = () => {
   return (
     
       <BrowserRouter>
-        
           <Navbar />
           <div className="wrapper">
             <Switch>
@@ -33,7 +32,6 @@ const App = () => {
               <Route path='/profile' component={Profile} />
             </Switch>
           </div>
-        
       </BrowserRouter>
     
   )
