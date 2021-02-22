@@ -4,6 +4,8 @@ import Listing from '../components/Listing'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useSelector } from 'react-redux'
 
+import { motion, AnimateSharedLayout} from 'framer-motion'
+
 const ListingsPage = () => {
 
     
@@ -12,12 +14,33 @@ const ListingsPage = () => {
        
     const { user } = useAuth0()
     
+    const containerVariants = {
+        hidden: { 
+          opacity: 0, 
+          y: '100vw',
+        },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: { duration: 1 }
+        },
+        exit: {
+            x: "-100vh",
+            transition: { duration: 1, ease: 'easeInOut' }
+        }
+    };
 
     return (
-       
-            <div className="listings-grid">
+        
+            <motion.div className="listings-grid"
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+            >
             {listings.map(listing => <Listing listing={listing} user={user}/>)}
-            </div>
+            </motion.div>
+       
     )
 }
 

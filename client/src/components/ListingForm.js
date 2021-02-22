@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useAuth0 } from '@auth0/auth0-react'
@@ -40,6 +39,7 @@ const ListingForm = () => {
 
     return (
         <div className="form">
+        <h3>Create Listing</h3>
         <form onSubmit={handleSubmit}>
             <label>
                 <h4>Title:</h4>
@@ -56,7 +56,7 @@ const ListingForm = () => {
                 <textarea value={listingData.description} onChange={(e) => setListingData({ ...listingData, description: e.target.value })}/>
             </label>
 
-            <label>
+            <label className="file-input">
                 <h4>Images:</h4>
             <FileBase 
                 type="file" 

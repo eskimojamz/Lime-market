@@ -4,6 +4,8 @@ import Listing from '../components/Listing'
 
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { motion, AnimateSharedLayout} from 'framer-motion'
+
 const Profile = () => {
   const { user, isAuthenticated } = useAuth0();
   console.log(user)
@@ -12,9 +14,30 @@ const Profile = () => {
   const userListings = listings.filter(listing => listing.creator === user?.sub)
   console.log(userListings)
 
+  const containerVariants = {
+    hidden: { 
+      opacity: 0, 
+      x: '100vw',
+    },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1 }
+    },
+    exit: {
+        x: "-100vh",
+        transition: { duration: 1, ease: 'easeInOut' }
+    }
+  };
+
   return (
     isAuthenticated && ( 
-     <div className="grid-12">
+     <motion.div className="grid-12"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+     >
       <div className="profile-info">
         <div className="profile-info-img">
           <img src={user.picture} alt={user.nickname} />
@@ -31,7 +54,7 @@ const Profile = () => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
     )
   )
 }

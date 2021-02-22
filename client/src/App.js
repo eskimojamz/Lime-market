@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
@@ -12,6 +12,8 @@ import Profile from './routes/ProfilePage'
 import { useDispatch, useSelector } from 'react-redux'
 import { getListings } from './actions/listings'
 
+import { AnimatePresence } from 'framer-motion';
+
 
 const App = () => {
     const dispatch = useDispatch()
@@ -19,21 +21,27 @@ const App = () => {
     useEffect(() => {
         dispatch(getListings())
         }, [dispatch, currentId])
+    const location = useLocation()
   return (
     
-      <BrowserRouter>
+      <>
+        <div className="wrapper">
           <Navbar />
-          <div className="wrapper">
-            <Switch>
-              <Route path='/' exact={true} component={Home} />
-              <Route path='/listings' component={ListingsPage} />
+          <div className="container">
+          <AnimatePresence exitBeforeEnter>
+          
+            <Switch location={location} key={location.pathname}>
+              <Route path='/' exact><Home /></Route>
+              <Route path='/listings'><ListingsPage /></Route>
               <Route path='/listings:id' component= {ListingInfoPage} />
               <Route path='/form' component= {FormPage} />
               <Route path='/profile' component={Profile} />
             </Switch>
+          
+          </AnimatePresence>
           </div>
-      </BrowserRouter>
-    
+        </div>
+    </>
   )
 }
 

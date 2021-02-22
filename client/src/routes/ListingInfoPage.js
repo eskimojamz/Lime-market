@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentId } from '../actions/listings';
 import menu from '../assets/menu-v.svg';
 
-
+import { motion, AnimateSharedLayout} from 'framer-motion'
 
 const ListingInfoPage = () => {
     const { user, isAuthenticated } = useAuth0()
@@ -63,8 +63,29 @@ const ListingInfoPage = () => {
               .render(paypal.current);
     }, []);
 
+    const containerVariants = {
+        hidden: { 
+            opacity: 0,
+            y: '100vw', 
+        },
+        visible: { 
+            opacity: 1,
+            y: 0, 
+            transition: { duration: 1 }
+        },
+        exit: {
+            x: "-100vh",
+            transition: { duration: 1, ease: 'easeInOut' }
+        }
+    }
+
     return (
-        <div className="page-wrapper">
+        <motion.div className="page-wrapper"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit" 
+        >
             <div className="listing-info">
                 { (listing.creator === user?.sub) &&
                 <div className="listing-info-edit-menu">
@@ -114,7 +135,7 @@ const ListingInfoPage = () => {
                 </div>
                 
             </div>
-       </div>
+       </motion.div>
     )
 }
 
