@@ -32,27 +32,25 @@ const Profile = () => {
 
   return (
     isAuthenticated && ( 
-     <motion.div className="grid-12"
+     <motion.div className="profile-info"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         exit="exit"
      >
-      <div className="profile-info">
-        <div className="profile-info-img">
-          <img src={user.picture} alt={user.nickname} />
-        </div>
-        <div className="profile-info-name">
-          <h2>{user.nickname}</h2>
-        </div>
-        <div className="profile-info-listings-label">
-          <h1>My Listings</h1>
-        </div>
-        <div className="profile-info-listings-cards">
-          {userListings.map(userListing => 
-            <Listing listing={userListing} />
-          )}
-        </div>
+      <div className="profile-info-img">
+        <img src={user.picture} alt={user.nickname} />
+      </div>
+      <div className="profile-info-name">
+        <h2>{user.nickname}</h2>
+      </div>
+      <div className="profile-info-listings-label">
+        <h1>My Listings</h1>
+      </div>
+      <div className="profile-info-listings-cards">
+        {userListings.map(userListing => 
+          <Listing listing={userListing} />
+        )}
       </div>
     </motion.div>
     )

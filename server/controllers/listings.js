@@ -1,4 +1,5 @@
 import PostListing from '../models/postListing.js';
+import mongoose from 'mongoose';
 
 export const getListings = async(req, res) => {
     try {
@@ -30,7 +31,7 @@ export const updateListing = async (req, res) => {
     
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send(`No post with id: ${id}`);
 
-    const updatedListing = await PostListing.findByIdAndUpdate(_id, listing, { new: true });
+    const updatedListing = await PostListing.findByIdAndUpdate(_id, { ...listing, _id }, { new: true });
 
     res.json(updatedListing);
 }
@@ -40,7 +41,7 @@ export const deleteListing = async (req, res) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-    await PostMessage.findByIdAndRemove(id);
+    await PostListing.findByIdAndRemove(id);
 
     res.json({ message: "Post deleted successfully." });
 }

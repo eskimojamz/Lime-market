@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -35,7 +36,7 @@ const Navbar = () => {
         <>
         <Nav>
             <div className="nav-left">
-                <Link to='/'><img className="logo" src={logo} /></Link>
+                <Link to='/listings'><img className="logo" src={logo} /></Link>
                 <h1>Hoppang</h1>
             </div>
 

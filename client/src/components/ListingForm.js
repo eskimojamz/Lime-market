@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import FileBase from 'react-file-base64';
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -14,11 +15,15 @@ const ListingForm = () => {
     const currentId = useSelector(state => state.currentId)
     const currentListing = useSelector(state => currentId ? state.listings.find(listing => listing._id === currentId) : null)
     const dispatch = useDispatch()
-    console.log(currentId)
+    const [redirect, setRedirect] = useState(false)
+    const [redirectId, setRedirectId] = useState(null)
+    console.log(redirectId)
     useEffect(() => {
         if(currentListing) setListingData(currentListing)
     }, [currentListing])
-
+    useEffect(() => {
+        if(currentId) setRedirectId(currentId)
+    }, [])
     const clear = () => {
         dispatch(setCurrentId(null))
         setListingData({ title: '', description: '', price: '', selectedFile: '' })
@@ -26,20 +31,22 @@ const ListingForm = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault()
-        if (currentId === null) {
+        if (currentId) {
+            dispatch(updateListing(currentId, listingData))
+            clear()
+            console.log(redirectId)
+            setRedirect(true)
+        } else {
             dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture}))
             clear()
-        } else {
-            dispatch(updateListing(currentId, { ...listingData }))
-            clear()
+            setRedirect(true)
         }
-        
     }
-    console.log(listingData)
 
     return (
         <div className="form">
         <h3>Create Listing</h3>
+        { redirect && <Redirect to={`/listings`} /> }
         <form onSubmit={handleSubmit}>
             <label>
                 <h4>Title:</h4>

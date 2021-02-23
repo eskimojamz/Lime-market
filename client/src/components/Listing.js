@@ -19,7 +19,7 @@ const Listing = ({listing, user}) => {
                 </div>
                 
                     <div className="listing-price">
-                        <h3>{listing.price}</h3>
+                        <h3>${listing.price}</h3>
                     </div>
                     <div className="listing-btn">
                         <Link 

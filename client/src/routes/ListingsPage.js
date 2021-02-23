@@ -17,7 +17,7 @@ const ListingsPage = () => {
     const containerVariants = {
         hidden: { 
           opacity: 0, 
-          y: '100vw',
+          y: '100vh',
         },
         visible: { 
           opacity: 1, 
@@ -25,7 +25,7 @@ const ListingsPage = () => {
           transition: { duration: 1 }
         },
         exit: {
-            x: "-100vh",
+            x: "-100vw",
             transition: { duration: 1, ease: 'easeInOut' }
         }
     };

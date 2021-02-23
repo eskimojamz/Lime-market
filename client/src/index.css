@@ -31,13 +31,17 @@ body {
 
 .wrapper {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0;
   margin: 1rem 1rem;
 }
 
 .container {
   margin-top: 2rem;
-  max-width: 1440px;
+  width: 100%;
+  max-width: 1080px;
 }
 
 ul {
@@ -101,6 +105,7 @@ button:focus {
   align-items: center;
   flex-wrap: wrap;
   font-family: 'Sora';
+  width: 100%;
 }
 
 .nav-left {
@@ -206,11 +211,6 @@ button:focus {
   color:white;
 }
 
-.sell-nav-btn:hover {
-  transform: translateY(0.1rem);
-  transition: 0.5s;
-}
-
 .sell-nav-btn {
   background: rgba(116, 205, 151, 1);
   border: solid 0.15rem rgba(116, 205, 151, 1);
@@ -242,6 +242,16 @@ button:focus {
   font-size: 0.9rem;
   font-weight: 500;
   color:rgba(116, 205, 151, 1);
+}
+
+@media only screen and (min-width: 768px) {
+  .login-btn {
+    border-top: none;
+  }
+  .login-btn:hover {
+    transform: translateY(0.1rem);
+    transition: 0.5s;
+  }
 }
 
 .login-btn:hover {
@@ -393,6 +403,25 @@ button:focus {
 .hero-left h1 {
   margin: 0.5rem 0;
   font-size: 3rem;
+}
+
+.highlight {
+  color:rgba(116, 205, 151, 1);
+}
+
+.hero-bottom {
+  background:rgba(116, 205, 151, 1);
+  margin: 2rem -1rem 0 -1rem;
+  text-align: center;
+}
+
+.hero-bottom h2{
+  color: white;
+}
+
+.hero-bottom-img {
+  height: 50%;
+  width: 50%;
 }
 
 
@@ -786,43 +815,54 @@ button:focus {
 
 
 .profile-info {
-  grid-column: 3 / 11;
   padding: 1rem 1rem;
   background: white;
   border-radius: var(--border-radius);
   font: 'Sora';
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(6, 1fr);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
 }
 
 .profile-info-img {
-  grid-column: 1 / -1;
-  grid-row: 1 / 2;
-  justify-self: center;
-  align-self: center;
+  display: flex;
+  justify-content: center;
 }
 
 .profile-info-img img {
-  width: 100%;
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
 }
 
 .profile-info-name {
-  grid-column: 1 / -1;
-  grid-row: 2 / 3;
-  justify-self: center;
-  align-self: start;
+  display: flex;
+  justify-content: center;
 }
 
 .profile-info-listings-label {
-  grid-column: 2 / -1;
-  grid-row: 3 / 4;
+  
+}
+
+@media only screen and (max-width: 767px) {
+  .profile-info-listings-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-info-listings-cards > .listing{
+    margin: 1rem 0;
+  }
 }
 
 .profile-info-listings-cards {
-  grid-column: 2 / -2;
-  grid-row: 4 / -1;
-  justify-self: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.profile-info-listings-cards > .listing{
+  height: 375px;
+  width: 300px;
 }
