@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5000/listings'
+const url = 'https://hoppang.herokuapp.com/listings'
 
 export const fetchListings = () => axios.get(url)
 export const createListing = (newListing) => axios.post(url, newListing)
