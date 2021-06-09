@@ -37,7 +37,7 @@ const Navbar = () => {
         <Nav>
             <div className="nav-left">
                 <Link to='/'><img className="logo" src={logo} /></Link>
-                <h1>Hoppang</h1>
+                <h1>Usedo</h1>
             </div>
 
             <MenuButton menuOpen={menuOpen} toggle={() => setMenuOpen(!menuOpen)} />

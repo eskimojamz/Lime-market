@@ -398,11 +398,12 @@ button:focus {
 .hero-left {
   justify-self: end;
   align-self: center;
+  text-align: center;
 }
 
 .hero-left h1 {
-  margin: 0.5rem 0;
-  font-size: 3rem;
+  margin: 0;
+  font-size: 2rem;
 }
 
 .highlight {
@@ -410,18 +411,23 @@ button:focus {
 }
 
 .hero-bottom {
-  background:rgba(116, 205, 151, 1);
-  margin: 2rem -1rem 0 -1rem;
+  background: none;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 2rem;
+}
+
+.paypal-div {
   text-align: center;
 }
 
 .hero-bottom h2{
-  color: white;
+  color: black;
 }
 
 .hero-bottom-img {
-  height: 50%;
-  width: 50%;
+  height: 5rem;
+  width: 15rem;
 }
 
 
@@ -448,7 +454,7 @@ button:focus {
 .listings-grid {
   display: grid; 
   grid-template-columns: repeat(auto-fit, 325px);
-  grid-auto-rows: 375px;
+  grid-auto-rows: 475px;
   grid-row-gap: 5rem;
   grid-column-gap: 3rem;
   place-content: center;
@@ -457,14 +463,14 @@ button:focus {
 
 .listing {
   width: 90%;
-  height: 375px;
+  height: 475px;
   padding: 1rem 1rem;
   background: white;
   border-radius: var(--border-radius);
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   display: grid;
   place-content: center;
-  grid-template-rows: 200px 100px 75px;
+  grid-template-rows: 200px 200px 75px;
   grid-template-columns: repeat(4, 1fr);
 }
 
@@ -484,7 +490,6 @@ button:focus {
   grid-column: 1 / -1;
   grid-row: 2 / 3;
   text-overflow: ellipsis;
-  white-space: nowrap;
   overflow: hidden;
 }
 

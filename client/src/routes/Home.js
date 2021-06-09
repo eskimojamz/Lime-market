@@ -50,10 +50,8 @@ const Home = () => {
         >
             <div className="hero-left">
                 <h1>buy & sell</h1>
-                <h1 className="highlight">safely</h1>
-                <h1>with the</h1> 
-                <h1 className="highlight">community.</h1>
-                
+                <h1 className="highlight">safely & affordably</h1>
+                <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can list their items for sale and purchase items with confidence.</p>
                 <Link to='/listings'>
                     <button 
                         className="button-primary"
@@ -68,7 +66,8 @@ const Home = () => {
                 <img src={heroImg} className="hero-img" />
             </div>
         </motion.div>
-        <motion.div className="hero-bottom"
+        <div className="hero-bottom">
+        <motion.div className="paypal-div"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -88,6 +87,7 @@ const Home = () => {
                 src={paypal} 
                 className="hero-bottom-img" />
         </motion.div>
+        </div>
         </>
     )
 }
