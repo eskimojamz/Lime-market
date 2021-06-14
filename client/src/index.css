@@ -26,7 +26,9 @@ body {
   --speed: 500ms;
   --bar-width: 35px;
   --bar-height: 2px;
-  --bar-spacing: 10px; 
+  --bar-spacing: 10px;
+  --primary: rgba(116, 205, 151, 1);
+  --primary-light: rgba(180, 228, 199, 1);
 }
 
 .wrapper {
@@ -35,7 +37,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 0;
-  margin: 1rem 1rem;
+  margin: 1rem 0;
 }
 
 .container {
@@ -104,6 +106,7 @@ button:focus {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  padding: 0 1rem;
   font-family: 'Sora';
   width: 100%;
 }
@@ -393,11 +396,10 @@ button:focus {
     1fr 
     / 4fr 6fr;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
 .hero-left {
-  justify-self: end;
-  align-self: center;
   text-align: center;
 }
 
@@ -407,29 +409,28 @@ button:focus {
 }
 
 .highlight {
-  color:rgba(116, 205, 151, 1);
+  color: var(--primary);
 }
 
 .hero-bottom {
-  background: none;
   display: flex;
-  justify-content: center;
-  margin: 1rem 2rem;
-}
-
-.paypal-div {
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding-bottom: 0.5rem;
   text-align: center;
 }
 
 .hero-bottom h2{
   color: black;
+  font-style: italic;
+  margin-bottom: 0.5rem;
 }
 
 .hero-bottom-img {
   height: 5rem;
   width: 15rem;
 }
-
 
 @media only screen and (max-width: 767px) {
   .hero {
@@ -439,6 +440,18 @@ button:focus {
     display: none;
   }
 }
+
+@media only screen and (min-width: 768px) {
+  .hero-mobile {
+    display: none;
+  }
+}
+
+.hero-mobile {
+  position: relative;
+  margin: 1rem 0;
+}
+
 .hero-right {
   position: relative;
   justify-self: center;
@@ -449,6 +462,12 @@ button:focus {
   width: 100%;
   max-width: 779px;
   height: auto;
+}
+
+.arrow-div {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 }
 
 .listings-grid {

@@ -42,32 +42,26 @@ const Home = () => {
 
     return (
         <>
+        
         <motion.div className="hero"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
             exit="exit" 
         >
+            <div className="hero-mobile">
+                <img src={heroImg} className="hero-img" />
+            </div>
             <div className="hero-left">
                 <h1>buy & sell</h1>
                 <h1 className="highlight">safely & affordably</h1>
-                <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can list their items for sale and purchase items with confidence.</p>
-                <Link to='/listings'>
-                    <button 
-                        className="button-primary"
-                        
-                        
-                    >
-                        See Listings
-                    </button>
-                </Link>
+                <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can sell or purchase items with confidence.</p>
             </div>
             <div className="hero-right">
                 <img src={heroImg} className="hero-img" />
             </div>
         </motion.div>
-        <div className="hero-bottom">
-        <motion.div className="paypal-div"
+        <motion.div className="hero-bottom"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -87,7 +81,26 @@ const Home = () => {
                 src={paypal} 
                 className="hero-bottom-img" />
         </motion.div>
-        </div>
+        <motion.div className="arrow-div"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit" 
+        >
+            <motion.i 
+                variants={bottomVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit" 
+                className="fas fa-arrow-circle-down fa-3x">
+                    
+            </motion.i>                
+        </motion.div>
+        <Link to='/listings'>
+            <button className="button-primary">
+                See Listings
+            </button>
+        </Link>
         </>
     )
 }
