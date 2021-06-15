@@ -8,6 +8,8 @@ const listingsReducer = (state = [], action) => {
             return state.map((listing) => (listing._id === action.payload._id ? action.payload : listing));
         case 'DELETE':
             return state.filter((listing) => (listing._id !== action.payload))
+        case 'LIKE':
+            return state.map((listing) => (listing._id === action.payload._id ? action.payload : listing));
         default:
             return state
     }

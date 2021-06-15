@@ -14,7 +14,7 @@ export const getListings = async(req, res) => {
 export const createListing = async(req, res) => {
     const listing = req.body;
 
-    const newListing = new PostListing({...listing, createdAt: new Date().toISOString()});
+    const newListing = new PostListing({...listing, createdAt: new Date().toISOString(), likeCount:0});
     
     try {
         await newListing.save();
@@ -46,14 +46,14 @@ export const deleteListing = async (req, res) => {
     res.json({ message: "Post deleted successfully." });
 }
 
-// export const likePost = async (req, res) => {
-//     const { id } = req.params;
+export const likeListing = async (req, res) => {
+    const { id } = req.params;
 
-//     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
-//     const post = await PostMessage.findById(id);
+    const listing = await PostListing.findById(id);
 
-//     const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+    const updatedListing = await PostListing.findByIdAndUpdate(id, { likeCount: listing.likeCount + 1 }, { new: true });
     
-//     res.json(updatedPost);
-// }
+    res.json(updatedListing);
+}

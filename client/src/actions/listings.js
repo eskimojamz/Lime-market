@@ -50,6 +50,16 @@ export const deleteListing = (id) => async (dispatch) => {
     }
 };
 
+export const likeListing = (id) => async (dispatch) => {
+    try {
+        const { data } = await api.likeListing(id);
+
+        dispatch({ type: 'LIKE', payload: data });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 export const setCurrentId = (currentId) => {
     return { type: 'SET_ID', payload: currentId }
 };

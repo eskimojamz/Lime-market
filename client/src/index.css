@@ -464,17 +464,11 @@ button:focus {
   height: auto;
 }
 
-.arrow-div {
-  display: flex;
-  justify-content: center;
-  margin: 2rem 0;
-}
-
 .listings-grid {
   display: grid; 
   grid-template-columns: repeat(auto-fit, 325px);
-  grid-auto-rows: 475px;
-  grid-row-gap: 5rem;
+  grid-auto-rows: 21.5rem;
+  grid-row-gap: 3rem;
   grid-column-gap: 3rem;
   place-content: center;
   place-items: center;
@@ -482,14 +476,14 @@ button:focus {
 
 .listing {
   width: 90%;
-  height: 475px;
+  height: 21.5rem;
   padding: 1rem 1rem;
   background: white;
   border-radius: var(--border-radius);
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   display: grid;
   place-content: center;
-  grid-template-rows: 200px 200px 75px;
+  grid-template-rows: 12.5rem 2.5rem 2rem 4.5rem;
   grid-template-columns: repeat(4, 1fr);
 }
 
@@ -505,19 +499,46 @@ button:focus {
   border-radius: var(--border-radius);
 }
 
-.listing-body {
-  grid-column: 1 / -1;
+.listing-tooltip {
+  grid-column: 3 / -1;
   grid-row: 2 / 3;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.listing-tooltip button {
+  background: none;
+  border: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.listing-tooltip img {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 250ms;
+}
+
+.listing-tooltip img:hover{
+  transform: translateY(2px)
+}
+
+.listing-tooltip h5 {
+  font-weight: 500;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+.listing-title {
+  grid-column: 1 / -1;
+  grid-row: 3 / 4;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-.listing-body h3 {
-  
-}
-
-.listing-body p {
-  
+.listing-title h3 {
+  margin: 0 auto;
 }
 
 .listing-price {
@@ -525,19 +546,20 @@ button:focus {
   font-size: 24px;
   font-weight: 700;
   grid-column: 1/-1;
-  grid-row: 3 / -1;
+  grid-row: 4 / -1;
   justify-self: start;
   align-self: center;
 }
 
 .listing-btn {
   grid-column: 3 / -1;
-  grid-row: 3 / -1;
+  grid-row: 4 / -1;
   justify-self: end;
   align-self: center;
 }
 
 .page-wrapper {
+  margin: 0 0.5rem;
   display: flex; 
   justify-content: center;
   /* place-items: center; */

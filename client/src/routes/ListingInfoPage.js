@@ -15,6 +15,7 @@ const ListingInfoPage = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
+    const [liked, setLiked] =useState(false)
     const dispatch = useDispatch()
     
     const handleEdit = () => {
@@ -26,6 +27,10 @@ const ListingInfoPage = () => {
         dispatch(deleteListing(listing._id))
         setDeleted(true)
     }
+    console.log(listing.likeCount)
+    // const handleLike = () => {
+    //     dispatch
+    // }
 
     const paypal = useRef();
     
@@ -140,6 +145,9 @@ const ListingInfoPage = () => {
                     {/* Paypal Button */}
                 </div>
                 
+            </div>
+            <div className="like-menu">
+                <button className="button-like" onClick={handleEdit}>Like</button>
             </div>
        </motion.div>
     )

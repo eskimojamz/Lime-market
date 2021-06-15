@@ -11,13 +11,15 @@ const ListingForm = () => {
     const { user } = useAuth0()
     console.log(user)
     
-    const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '' })
+    const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0})
     const currentId = useSelector(state => state.currentId)
     const currentListing = useSelector(state => currentId ? state.listings.find(listing => listing._id === currentId) : null)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
     console.log(redirectId)
+    console.log(currentId)
+    console.log(currentListing)
     useEffect(() => {
         if(currentListing) setListingData(currentListing)
     }, [currentListing])
@@ -29,7 +31,7 @@ const ListingForm = () => {
         setListingData({ title: '', description: '', price: '', selectedFile: '' })
     }
     
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
         if (currentId) {
             dispatch(updateListing(currentId, listingData))
@@ -37,7 +39,7 @@ const ListingForm = () => {
             console.log(redirectId)
             setRedirect(true)
         } else {
-            dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture}))
+            dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture }))
             clear()
             setRedirect(true)
         }

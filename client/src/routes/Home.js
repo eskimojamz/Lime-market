@@ -81,21 +81,9 @@ const Home = () => {
                 src={paypal} 
                 className="hero-bottom-img" />
         </motion.div>
-        <motion.div className="arrow-div"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit" 
-        >
-            <motion.i 
-                variants={bottomVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit" 
-                className="fas fa-arrow-circle-down fa-3x">
-                    
-            </motion.i>                
-        </motion.div>
+
+        
+
         <Link to='/listings'>
             <button className="button-primary">
                 See Listings
