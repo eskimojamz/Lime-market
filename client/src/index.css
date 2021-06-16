@@ -10,7 +10,7 @@ html {
 body {
   background: rgba(247, 252, 248, 1);
   margin: 0;
-  font-family: 'Poppins',
+  font-family: 'Sora',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,6 +64,14 @@ input, select, textarea, button{
 button:focus {
   outline: none;
   transition: background var(--speed)
+}
+
+h3 {
+  font-weight: 400;
+}
+
+.p-1 {
+  padding: 0 1rem;
 }
 
 .button-primary {
@@ -401,6 +409,7 @@ button:focus {
 
 .hero-left {
   text-align: center;
+  place-self: center;
 }
 
 .hero-left h1 {
@@ -454,14 +463,18 @@ button:focus {
 
 .hero-right {
   position: relative;
-  justify-self: center;
-  align-self: center;
+  place-self: center;
 }
 
 .hero-img {
   width: 100%;
   max-width: 779px;
   height: auto;
+}
+
+.home-bottom {
+  display: flex; 
+  place-content: center;
 }
 
 .listings-grid {
@@ -500,11 +513,11 @@ button:focus {
 }
 
 .listing-tooltip {
-  grid-column: 3 / -1;
-  grid-row: 2 / 3;
+  grid-column: 1 / 3;
+  grid-row: 4 / -1;
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .listing-tooltip button {
@@ -532,7 +545,7 @@ button:focus {
 
 .listing-title {
   grid-column: 1 / -1;
-  grid-row: 3 / 4;
+  grid-row: 2 / 3;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -542,13 +555,15 @@ button:focus {
 }
 
 .listing-price {
-  color: rgba(116, 205, 151, 1);
-  font-size: 24px;
-  font-weight: 700;
-  grid-column: 1/-1;
-  grid-row: 4 / -1;
+  color: var(--primary);
+  grid-column: 1 / 3;
+  grid-row: 3 / 4;
   justify-self: start;
   align-self: center;
+}
+
+.listing-price h3 {
+  font-weight: 700;
 }
 
 .listing-btn {
@@ -556,6 +571,10 @@ button:focus {
   grid-row: 4 / -1;
   justify-self: end;
   align-self: center;
+}
+
+.comments-section {
+  height: 15rem;
 }
 
 .page-wrapper {
@@ -628,7 +647,7 @@ button:focus {
     max-width: 820px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(4, 105px) auto;
+    grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem;
   }
   .listing-info-edit-menu {
     grid-column: 12 / -1;
@@ -658,6 +677,11 @@ button:focus {
     grid-row: 4 / 5;
     display: grid;
     align-content: start;
+  }
+  .listing-info-desc p {
+    padding: 0;
+    margin-top: 0;
+    
   }
   .listing-info-bottom {
     grid-column: 2 / 7;
@@ -694,8 +718,12 @@ button:focus {
   .listing-info-paypal {
     grid-column: 8 / 12;
     grid-row: 4 / 6;
-    margin: 0;
+    margin-top: 0 !important;
   } 
+  .listing-info-tooltip {
+    grid-column: 1 / -1;
+    grid-row: 6 / 7;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -856,9 +884,45 @@ button:focus {
   margin-top: 0.7rem;
 }
 
+.listing-info-tooltip {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.listing-info-tooltip button {
+  background: none;
+  border: none;
+  width: 1.5rem;
+  height: 1.5rem;
+}
 
+.listing-info-tooltip img {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: transform 250ms;
+}
 
+.listing-info-tooltip img:hover{
+  transform: translateY(2px)
+}
+
+.listing-info-tooltip h5 {
+  font-weight: 500;
+  margin: 0;
+  padding-top: 0.5rem;
+}
+
+.like {
+  display: flex;
+  place-content: center;
+}
+
+.comment {
+  display: flex;
+  place-content: center;
+}
 
 .profile-info {
   padding: 1rem 1rem;

@@ -48,12 +48,21 @@ export const deleteListing = async (req, res) => {
 
 export const likeListing = async (req, res) => {
     const { id } = req.params;
-
+    const userId = Object.keys(req.body)[0];
+    console.log(userId)
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
     const listing = await PostListing.findById(id);
 
-    const updatedListing = await PostListing.findByIdAndUpdate(id, { likeCount: listing.likeCount + 1 }, { new: true });
+    const index = listing.likers.findIndex((i) => i === userId) 
+
+    if (index === -1) {
+        listing.likers.push(userId);
+    } else {
+        listing.likers = listing.likers.filter(i => i !== userId);
+    }
+
+    const updatedListing = await PostListing.findByIdAndUpdate(id, listing, { new: true });
     
     res.json(updatedListing);
 }

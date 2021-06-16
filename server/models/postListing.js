@@ -16,9 +16,9 @@ const listingSchema = mongoose.Schema({
         type: Date, 
         default: new Date().toISOString
     },
-    likeCount: {
-        type: Number,
-        default: 0
+    likers: {
+        type: [String],
+        default: []
     },
     commentCount: {
         type: Number,

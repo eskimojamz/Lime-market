@@ -3,8 +3,11 @@ import ReactDOM from "react-dom"
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteListing, setCurrentId } from '../actions/listings';
+import { deleteListing, likeListing, setCurrentId } from '../actions/listings';
+import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
+import comment from '../assets/comments.svg'
+import like from '../assets/like.svg'
 
 import { motion, AnimateSharedLayout} from 'framer-motion'
 
@@ -15,8 +18,10 @@ const ListingInfoPage = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const [liked, setLiked] =useState(false)
     const dispatch = useDispatch()
+    const id = listing._id
+    const userId = user?.sub
+    const [toggle, setToggle] = useState(false)
     
     const handleEdit = () => {
         dispatch(setCurrentId(listing._id))
@@ -27,10 +32,13 @@ const ListingInfoPage = () => {
         dispatch(deleteListing(listing._id))
         setDeleted(true)
     }
-    console.log(listing.likeCount)
-    // const handleLike = () => {
-    //     dispatch
-    // }
+    console.log(toggle)
+    console.log(user)
+    const handleLike = () => {
+        if (user === undefined) {
+            setToggle(true)
+        }
+    }
 
     const paypal = useRef();
     
@@ -84,12 +92,14 @@ const ListingInfoPage = () => {
             transition: { duration: 1 }
         },
         exit: {
-            x: "-100vw",
+            x: "100vw",
             transition: { duration: 1, ease: 'easeInOut' }
         }
     }
 
     return (
+        <>
+        
         <motion.div className="page-wrapper"
             variants={containerVariants}
             initial="hidden"
@@ -144,12 +154,27 @@ const ListingInfoPage = () => {
                 <div className="listing-info-paypal" ref={paypal}>
                     {/* Paypal Button */}
                 </div>
-                
-            </div>
-            <div className="like-menu">
-                <button className="button-like" onClick={handleEdit}>Like</button>
-            </div>
+                <div className="listing-info-tooltip">
+                    <div className="like">
+                        <button className="listing-tooltip-like p-1" onClick={handleLike}>
+                            <img src={like} />
+                        </button>
+                        <span><h5 className="p-1">{listing.likers.length}</h5></span>
+                        <Tooltip content="Please sign in to like and save items" toggle={toggle} setToggle={setToggle}/>
+                    </div>
+                    <div className="comment">
+                    <button className="listing-tooltip-comment p-1">
+                    <img src={comment} />
+                    </button>
+                    <span><h5 className="p-1">{listing.commentCount}</h5></span>
+                    </div>
+                </div>
+                <div className="comments-section">
+
+                </div>
+            </div>    
        </motion.div>
+       </>
     )
 }
 

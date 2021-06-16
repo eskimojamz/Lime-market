@@ -82,13 +82,19 @@ const Home = () => {
                 className="hero-bottom-img" />
         </motion.div>
 
-        
 
-        <Link to='/listings'>
-            <button className="button-primary">
-                See Listings
-            </button>
-        </Link>
+        <motion.div className="home-bottom"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit" 
+        >
+            <Link to='/listings'>
+                <button className="button-primary">
+                    See Listings
+                </button>
+            </Link>
+        </motion.div>
         </>
     )
 }
