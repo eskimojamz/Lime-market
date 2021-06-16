@@ -726,6 +726,32 @@ h3 {
   }
 }
 
+.like-svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.like-svg:hover{
+  fill: var(--primary-light);
+}
+
+.like-svg:active{
+  fill: var(--primary);
+}
+
+.comments-svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.comments-svg:hover{
+  fill: var(--primary-light);
+}
+
+.comments-svg:active{
+  fill: var(--primary);
+}
+
 @media only screen and (max-width: 768px) {
   .listing-info-edit-menu {
     position: relative;
@@ -892,10 +918,8 @@ h3 {
 }
 
 .listing-info-tooltip button {
-  background: none;
+  background: green;
   border: none;
-  width: 1.5rem;
-  height: 1.5rem;
 }
 
 .listing-info-tooltip img {

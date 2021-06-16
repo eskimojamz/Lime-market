@@ -49,7 +49,7 @@ export const deleteListing = async (req, res) => {
 export const likeListing = async (req, res) => {
     const { id } = req.params;
     const userId = Object.keys(req.body)[0];
-    console.log(userId)
+    console.log(id)
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     
     const listing = await PostListing.findById(id);

@@ -13,8 +13,15 @@ const Listing = ({listing, user}) => {
     const handleLike = () => {
         dispatch(likeListing(id, userId))
     }
-    console.log(listing)
-    console.log(user)
+
+    const handleDetails = () => {
+        dispatch(setCurrentId(id))
+    }
+    const currentid = useSelector(state => state.currentId)
+
+    console.log(id)
+    console.log(currentid)
+
     return (
         <div className="listing">
             <div className="listing-img-div">
@@ -41,13 +48,13 @@ const Listing = ({listing, user}) => {
                 <h3>${listing.price}</h3>
             </div>
             <div className="listing-btn">
-                <Link 
+                {/* <Link 
                     to={{
                         pathname: `/listings:${id}`,
                         state: {listing}
-                    }}>
-                    <button className="button-primary">Details</button>
-                </Link>
+                    }}> */}
+                    <button className="button-primary" onclick={ handleDetails }>Details</button>
+                {/* </Link> */}
             </div>
         </div>
     )

@@ -1,13 +1,13 @@
 .tooltip-content {
-    display: none;
     z-index: 1;
     top: 2.5rem;
     position: absolute;
     background: rgb(230, 230, 230);
     box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
-    height: 3.5rem;
+    height: 4rem;
     width: 7rem;
+    display: flex;
     text-align: center;
     place-items: center;
     transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -20,7 +20,6 @@
 }
 
 .tooltip-content:before {
-    display: none;
     position: absolute;
     content: "";
     height: 1rem;

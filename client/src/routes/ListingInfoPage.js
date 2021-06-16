@@ -3,11 +3,11 @@ import ReactDOM from "react-dom"
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteListing, likeListing, setCurrentId } from '../actions/listings';
+import { getListings, deleteListing, likeListing, setCurrentId } from '../actions/listings';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
-import comment from '../assets/comments.svg'
-import like from '../assets/like.svg'
+import { ReactComponent as Comment } from '../assets/comments.svg'
+import { ReactComponent as Like } from '../assets/like.svg'
 
 import { motion, AnimateSharedLayout} from 'framer-motion'
 
@@ -22,7 +22,12 @@ const ListingInfoPage = () => {
     const id = listing._id
     const userId = user?.sub
     const [toggle, setToggle] = useState(false)
-    
+    const listings = useSelector((state) => state.listings)
+    console.log(listings)
+
+    const currentId = useSelector(state => state.currentId)
+
+    // const likesvg = useRef()
     const handleEdit = () => {
         dispatch(setCurrentId(listing._id))
         setEdit(true)
@@ -32,12 +37,21 @@ const ListingInfoPage = () => {
         dispatch(deleteListing(listing._id))
         setDeleted(true)
     }
-    console.log(toggle)
-    console.log(user)
+    console.log(currentId)
     const handleLike = () => {
-        if (user === undefined) {
+        if (!isAuthenticated) {
             setToggle(true)
+            return
+        } else {
+        dispatch(likeListing(id, userId))
+        // // likesvg.current.fill = "green"
         }
+    }
+
+    const Likes = () => {
+        return ( 
+            <h5 className="p-1">{listing.likers.length}</h5>
+        )
     }
 
     const paypal = useRef();
@@ -156,17 +170,18 @@ const ListingInfoPage = () => {
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
-                        <button className="listing-tooltip-like p-1" onClick={handleLike}>
-                            <img src={like} />
+                        <button className="listing-tooltip-like" onClick={handleLike}>
+                            Like{/* <Like className="like-svg" ref={likesvg}/> */}
                         </button>
-                        <span><h5 className="p-1">{listing.likers.length}</h5></span>
+                        <span><Likes /></span>
                         <Tooltip content="Please sign in to like and save items" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
-                    <button className="listing-tooltip-comment p-1">
-                    <img src={comment} />
-                    </button>
-                    <span><h5 className="p-1">{listing.commentCount}</h5></span>
+                        <button className="listing-tooltip-comment">
+                            {/* <Comment className="comments-svg"/> */}
+                            button
+                        </button>
+                        <span><h5 className="p-1">{listing.commentCount}</h5></span>
                     </div>
                 </div>
                 <div className="comments-section">
