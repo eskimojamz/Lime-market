@@ -32,7 +32,7 @@ body {
 }
 
 .wrapper {
-  position: relative;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -510,6 +510,7 @@ h3 {
   height: 160px;
   width: 160px;
   border-radius: var(--border-radius);
+  object-fit: cover;
 }
 
 .listing-tooltip {
@@ -573,10 +574,6 @@ h3 {
   align-self: center;
 }
 
-.comments-section {
-  height: 15rem;
-}
-
 .page-wrapper {
   margin: 0 0.5rem;
   display: flex; 
@@ -635,7 +632,7 @@ h3 {
 .listing-info {
   position: relative;
   width: 100%;
-  padding: 1rem 2rem;
+  padding: 0;
   background: white;
   border-radius: var(--border-radius);
   font: 'Sora';
@@ -647,7 +644,7 @@ h3 {
     max-width: 820px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem;
+    grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem 5rem;
   }
   .listing-info-edit-menu {
     grid-column: 12 / -1;
@@ -724,11 +721,17 @@ h3 {
     grid-column: 1 / -1;
     grid-row: 6 / 7;
   }
+  .listing-info-comments {
+    grid-column: 1 / -1;
+    grid-row: 7 / 8;
+    text-align: center;
+  }
 }
 
 .like-svg {
   height: 1.5rem;
   width: 1.5rem;
+  fill: var(--primary);
 }
 
 .like-svg:hover{
@@ -838,16 +841,23 @@ h3 {
   background: rgba(255, 152, 152, 1);
 }
 
+.listing-info-info {
+  padding: 1rem 2rem;
+}
+
 .listing-info-img {
   position: relative;
+  height: 15rem;
+  width: 100%;
 }
 
 .listing-info-img img {
   display: block;
-  height: 200px;
-  width: 200px;
+  height: 100%;
+  width: 100%;
   border-radius: var(--border-radius);
   margin: 0 auto;
+  object-fit: cover;
 }
 
 .listing-info-desc p {
@@ -918,7 +928,7 @@ h3 {
 }
 
 .listing-info-tooltip button {
-  background: green;
+  background: none;
   border: none;
 }
 
@@ -936,6 +946,10 @@ h3 {
   font-weight: 500;
   margin: 0;
   padding-top: 0.5rem;
+}
+
+.listing-info-comments {
+  text-align: center; 
 }
 
 .like {

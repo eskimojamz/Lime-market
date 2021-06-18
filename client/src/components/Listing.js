@@ -48,13 +48,13 @@ const Listing = ({listing, user}) => {
                 <h3>${listing.price}</h3>
             </div>
             <div className="listing-btn">
-                {/* <Link 
+                <Link 
                     to={{
                         pathname: `/listings:${id}`,
                         state: {listing}
-                    }}> */}
+                    }}>
                     <button className="button-primary" onclick={ handleDetails }>Details</button>
-                {/* </Link> */}
+                </Link>
             </div>
         </div>
     )

@@ -22,12 +22,8 @@ const ListingInfoPage = () => {
     const id = listing._id
     const userId = user?.sub
     const [toggle, setToggle] = useState(false)
-    const listings = useSelector((state) => state.listings)
-    console.log(listings)
-
     const currentId = useSelector(state => state.currentId)
 
-    // const likesvg = useRef()
     const handleEdit = () => {
         dispatch(setCurrentId(listing._id))
         setEdit(true)
@@ -44,14 +40,7 @@ const ListingInfoPage = () => {
             return
         } else {
         dispatch(likeListing(id, userId))
-        // // likesvg.current.fill = "green"
         }
-    }
-
-    const Likes = () => {
-        return ( 
-            <h5 className="p-1">{listing.likers.length}</h5>
-        )
     }
 
     const paypal = useRef();
@@ -122,70 +111,70 @@ const ListingInfoPage = () => {
         >
             { deleted && <Redirect to="/listings" /> }
             <div className="listing-info">
-                { (listing.creator === user?.sub) &&
-                <div className="listing-info-edit-menu">
-                    <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
-                        <img src={menu} />
-                    </button>
-                    { menuOpen &&
-                    <div className="edit-menu">
-                        <button className="button-menu-edit"><h5 onClick={handleEdit}>Edit</h5></button>
-                        <button className="button-menu-delete"><h5 onClick={handleDelete}>Delete</h5></button>
-                    </div>
-                    }
-                </div>
-                }
-                
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
                     {listing.selectedFile.map(file => 
                         <img src={file.base64} />
                         )}
                 </div>
-                <div className="listing-info-title">
-                    <h1>{listing.title}</h1>
-                </div>
-                <div className="listing-info-desc">
-                    <p>{listing.description}</p>
-                </div>
-                <div className="listing-info-bottom">
-                    <div className="listing-info-price">
-                        <h1>${listing.price}</h1>
+                <div className="listing-info-info">
+                    <div className="listing-info-title">
+                        <h1>{listing.title}</h1>
                     </div>
-                    <div className="listing-info-creator">
-                        <div className="listing-info-creator-img">
-                            
-                            <img src={listing.creatorImg} />
-                            
+                    <div className="listing-info-desc">
+                        <p>{listing.description}</p>
+                    </div>
+                    <div className="listing-info-bottom">
+                        <div className="listing-info-price">
+                            <h1>${listing.price}</h1>
                         </div>
-                        <div className="listing-info-creator-name">
-                            
-                            <h5>{listing.creatorName}</h5>
-                            <h4>Seller  ✓</h4>
+                        <div className="listing-info-creator">
+                            <div className="listing-info-creator-img">
+                                
+                                <img src={listing.creatorImg} />
+                                
+                            </div>
+                            <div className="listing-info-creator-name">
+                                
+                                <h5>{listing.creatorName}</h5>
+                                <h4>Seller  ✓</h4>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="listing-info-paypal" ref={paypal}>
-                    {/* Paypal Button */}
-                </div>
-                <div className="listing-info-tooltip">
-                    <div className="like">
-                        <button className="listing-tooltip-like" onClick={handleLike}>
-                            Like{/* <Like className="like-svg" ref={likesvg}/> */}
-                        </button>
-                        <span><Likes /></span>
-                        <Tooltip content="Please sign in to like and save items" toggle={toggle} setToggle={setToggle}/>
+                    <div className="listing-info-paypal" ref={paypal}>
+                        {/* Paypal Button */}
                     </div>
-                    <div className="comment">
-                        <button className="listing-tooltip-comment">
-                            {/* <Comment className="comments-svg"/> */}
-                            button
-                        </button>
-                        <span><h5 className="p-1">{listing.commentCount}</h5></span>
+                    <div className="listing-info-tooltip">
+                        <div className="like">
+                            <button className="listing-tooltip-like" onClick={handleLike}>
+                                <Like className="like-svg" />
+                            </button>
+                            <span><h5 className="p-1">{listing.likers.length}</h5></span>
+                            <Tooltip content="Please sign in to like and save items" toggle={toggle} setToggle={setToggle}/>
+                        </div>
+                        <div className="comment">
+                            <button className="listing-tooltip-comment">
+                                <Comment className="comments-svg"/>
+                            </button>
+                            <span><h5 className="p-1">{listing.commentCount}</h5></span>
+                        </div>
                     </div>
-                </div>
-                <div className="comments-section">
-
+                    <div className="listing-info-comments">
+                            <h5>** Commenting Feature Coming Soon! **</h5>
+                    </div>
+                    { (listing.creator === user?.sub) &&
+                        <div className="listing-info-edit-menu">
+                            <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
+                                <img src={menu} />
+                            </button>
+                            { menuOpen &&
+                            <div className="edit-menu">
+                                <button className="button-menu-edit"><h5 onClick={handleEdit}>Edit</h5></button>
+                                <button className="button-menu-delete"><h5 onClick={handleDelete}>Delete</h5></button>
+                            </div>
+                            }
+                        </div>
+                    }
                 </div>
             </div>    
        </motion.div>
