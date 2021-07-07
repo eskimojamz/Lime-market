@@ -573,10 +573,6 @@ h3 {
   align-self: center;
 }
 
-.comments-section {
-  height: 15rem;
-}
-
 .page-wrapper {
   margin: 0 0.5rem;
   display: flex; 
@@ -647,7 +643,7 @@ h3 {
     max-width: 820px;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem;
+    grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem auto;
   }
   .listing-info-edit-menu {
     grid-column: 12 / -1;
@@ -724,6 +720,13 @@ h3 {
     grid-column: 1 / -1;
     grid-row: 6 / 7;
   }
+  .comments-section {
+    grid-column: 1 / -1;
+    grid-row: 7 / 8;
+    margin: 0 auto;
+    width: 70%;
+  }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -922,6 +925,93 @@ h3 {
 .comment {
   display: flex;
   place-content: center;
+}
+
+.comments-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.comments-show {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.comment-comment {
+  width: 100%;
+  padding: 1rem 1rem;
+  margin: 1rem 0;
+  background:rgba(235, 235, 235, 1);
+  border-radius: 0.5rem;
+}
+
+.comment-comment p {
+  padding: 0;
+  margin: 0;
+}
+
+.comment-comment h6 {
+  margin: 0;
+}
+
+.comment-comment img {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.comment-body {
+  margin-bottom: 1rem;
+}
+
+.comment-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-user {
+  display: flex;
+  align-items: center;
+}
+
+.comment-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-name h4 {
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 500;
+  margin: 0;
+  margin-top: 0.2rem;
+  color: rgba(247, 252, 248, 1);
+  background:rgba(116, 205, 151, 1);
+  border-radius: var(--border-radius);
+}
+
+.comment-date {
+  display: flex;
+  align-items: flex-end;
+}
+
+.comments-input {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.input-box {
+  height: 5rem;
+  width: 100%;
+  padding: 0.5rem;
 }
 
 .profile-info {

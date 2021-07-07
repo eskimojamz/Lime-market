@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import "../css/Tooltip.css";
 
-export default function Modal({ content, toggle, setToggle }) {
+export default function Tooltip({ content, toggle, setToggle }) {
     const toggleModal = () => {
         setToggle(!toggle);
     };
     return (
         <>
         {toggle && (
-            <div className="tooltip-content">
-                <p>{content}</p>
+            <div className="modal-backdrop" onClick={toggleModal}>
+                <div className="tooltip-content">
+                    <p>{content}</p>
+                </div>
             </div>
         )}
         </>

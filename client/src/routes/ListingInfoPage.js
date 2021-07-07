@@ -3,7 +3,8 @@ import ReactDOM from "react-dom"
 import { useAuth0 } from '@auth0/auth0-react';
 import { Redirect, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteListing, likeListing, setCurrentId } from '../actions/listings';
+import { updateListing, deleteListing, likeListing, setCurrentId, getComments, getCommentsFor, addComment } from '../actions/listings';
+import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
 import comment from '../assets/comments.svg'
@@ -14,14 +15,19 @@ import { motion, AnimateSharedLayout} from 'framer-motion'
 const ListingInfoPage = () => {
     const { user, isAuthenticated } = useAuth0()
     const location = useLocation()
-    const listing = location?.state?.listing
+    const listing = useSelector(state => state.listings.find(l => l._id === location?.state?.listing._id))
+    const listingLikers = listing.likers
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
     const dispatch = useDispatch()
-    const id = listing._id
+    const listingId = listing._id
     const userId = user?.sub
+    const userName = user?.nickname
+    const userPic = user?.picture
+    const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
     const [toggle, setToggle] = useState(false)
+    const [newComment, setNewComment] = useState("")
     
     const handleEdit = () => {
         dispatch(setCurrentId(listing._id))
@@ -32,12 +38,26 @@ const ListingInfoPage = () => {
         dispatch(deleteListing(listing._id))
         setDeleted(true)
     }
-    console.log(toggle)
-    console.log(user)
-    const handleLike = () => {
-        if (user === undefined) {
+    
+    const handleLike = (e) => {
+        e.preventDefault()
+        if (!isAuthenticated) {
             setToggle(true)
+        } else {
+            dispatch(likeListing(listingId, userId))
         }
+    }
+
+    const handleComment = (e) => {
+        e.preventDefault()
+        dispatch(addComment({  
+            listingId: listingId, 
+            creator: userId,
+            creatorName: userName,
+            creatorImg: userPic,
+            body: newComment,
+        }))
+        setNewComment("")
     }
 
     const paypal = useRef();
@@ -96,7 +116,9 @@ const ListingInfoPage = () => {
             transition: { duration: 1, ease: 'easeInOut' }
         }
     }
-
+    console.log(listing)
+    console.log(listingLikers)
+    
     return (
         <>
         
@@ -152,7 +174,7 @@ const ListingInfoPage = () => {
                     </div>
                 </div>
                 <div className="listing-info-paypal" ref={paypal}>
-                    {/* Paypal Button */}
+                   
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
@@ -160,17 +182,57 @@ const ListingInfoPage = () => {
                             <img src={like} />
                         </button>
                         <span><h5 className="p-1">{listing.likers.length}</h5></span>
-                        <Tooltip content="Please sign in to like and save items" toggle={toggle} setToggle={setToggle}/>
+                        <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
-                    <button className="listing-tooltip-comment p-1">
-                    <img src={comment} />
-                    </button>
-                    <span><h5 className="p-1">{listing.commentCount}</h5></span>
+                        <button className="listing-tooltip-comment p-1">
+                        <img src={comment} />
+                        </button>
+                        <span><h5 className="p-1">{listingComments.length}</h5></span>
                     </div>
                 </div>
                 <div className="comments-section">
-
+                    <div className="comments-show">
+                        {listingComments.map((comment, key) => {
+                            return (
+                                <div key={key} className="comment-comment">
+                                    <div className="comment-body"><p>{comment.body}</p></div>
+                                    <div className="comment-bottom">
+                                        <div className="comment-user">
+                                            <div className="comment-pic">
+                                                <img src={comment.creatorImg}/>
+                                            </div>
+                                            <div className="comment-name">
+                                                <h6>{comment.creatorName}</h6>
+                                                {(comment.creator === listing?.creator) && 
+                                                    <h4>Seller  ✓</h4>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className="comment-date"><p>{moment(`${comment.createdAt}`).format('lll')}</p></div>
+                                    </div>
+                                </div>
+                            );
+                            })}
+                    </div>
+                    <div className="comments-input">
+                        <form onSubmit={handleComment}>
+                            <textarea 
+                                className="input-box" 
+                                placeholder="Type your comment here" 
+                                value={newComment} 
+                                onChange={(event) => {
+                                    setNewComment(event.target.value)
+                                }} 
+                            />
+                            <button 
+                                className="button-primary"
+                                type="submit"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>    
        </motion.div>

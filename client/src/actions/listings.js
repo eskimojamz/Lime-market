@@ -10,6 +10,16 @@ export const getListings = () => async(dispatch) => {
     }  
 }
 
+export const getComments = () => async(dispatch) => {
+    try {
+        const { data } = await api.fetchComments()
+        
+        dispatch({ type: 'FETCH_COMMENTS', payload: data })
+    } catch (error) {
+        console.log(error.message)
+    }  
+}
+
 export const createListing = (listing) => async (dispatch) => {
     try {
         const { data } = await api.createListing(listing)
@@ -19,6 +29,26 @@ export const createListing = (listing) => async (dispatch) => {
         console.log(error.message)
     }
 }
+
+export const addComment = (comment) => async (dispatch) => {
+    try {
+        const { data } = await api.addComment(comment);
+    
+        dispatch({ type: 'COMMENT', payload: data });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+export const editComment = (id, comment) => async (dispatch) => {
+    try {
+      const { data } = await api.editComment(id, comment);
+  
+      dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+};
 
 export const updateListing = (id, listing) => async (dispatch) => {
     try {

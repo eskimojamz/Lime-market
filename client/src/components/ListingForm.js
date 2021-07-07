@@ -11,7 +11,7 @@ const ListingForm = () => {
     const { user } = useAuth0()
     console.log(user)
     
-    const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0})
+    const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0, comments: [] })
     const currentId = useSelector(state => state.currentId)
     const currentListing = useSelector(state => currentId ? state.listings.find(listing => listing._id === currentId) : null)
     const dispatch = useDispatch()

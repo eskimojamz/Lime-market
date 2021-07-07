@@ -10,7 +10,7 @@ import FormPage from './routes/FormPage'
 import Profile from './routes/ProfilePage'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getListings } from './actions/listings'
+import { getComments, getListings } from './actions/listings'
 
 import { AnimatePresence } from 'framer-motion';
 
@@ -20,6 +20,7 @@ const App = () => {
     const currentId = useSelector((state) => state.currentId)
     useEffect(() => {
         dispatch(getListings())
+        dispatch(getComments())
         }, [dispatch, currentId])
     const location = useLocation()
   return (
