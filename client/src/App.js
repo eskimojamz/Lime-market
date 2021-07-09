@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Route, Switch, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
@@ -21,24 +21,22 @@ const App = () => {
     useEffect(() => {
         dispatch(getListings())
         dispatch(getComments())
-        }, [dispatch, currentId])
-    const location = useLocation()
+    }, [dispatch, currentId])
   return (
-    
       <>
         <div className="wrapper">
           <Navbar />
           <div className="container">
           <AnimatePresence exitBeforeEnter>
-          
-            <Switch location={location} key={location.pathname}>
-              <Route path='/' exact><Home /></Route>
-              <Route path='/listings'><ListingsPage /></Route>
-              <Route path='/listings:id' component= {ListingInfoPage} />
-              <Route path='/form' component= {FormPage} />
-              <Route path='/profile' component={Profile} />
-            </Switch>
-          
+            <Router>
+              <Switch>
+                <Route path='/' exact component={Home} />
+                <Route path='/listings' exact component={ListingsPage} />
+                <Route path='/listings/:listingId' exact component={ListingInfoPage} />
+                <Route path='/form' exact component={FormPage} />
+                <Route path='/profile' exact component={Profile} />
+              </Switch>
+            </Router>
           </AnimatePresence>
           </div>
         </div>

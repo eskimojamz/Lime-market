@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from "react-dom"
 import { useAuth0 } from '@auth0/auth0-react';
-import { Redirect, useLocation } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateListing, deleteListing, likeListing, setCurrentId, getComments, getCommentsFor, addComment } from '../actions/listings';
+import { updateListing, deleteListing, likeListing, setCurrentId, addComment } from '../actions/listings';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
@@ -11,17 +10,16 @@ import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
 
 import { motion, AnimateSharedLayout} from 'framer-motion'
+import axios from 'axios';
 
 const ListingInfoPage = () => {
     const { user, isAuthenticated } = useAuth0()
-    const location = useLocation()
-    const listing = useSelector(state => state.listings.find(l => l._id === location?.state?.listing._id))
-    const listingLikers = listing.likers
+    const dispatch = useDispatch()
+    const { listingId } = useParams()
+    const [listing, setListing] = useState(null)
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const dispatch = useDispatch()
-    const listingId = listing._id
     const userId = user?.sub
     const userName = user?.nickname
     const userPic = user?.picture
@@ -30,19 +28,23 @@ const ListingInfoPage = () => {
     const [newComment, setNewComment] = useState("")
     
     const handleEdit = () => {
-        dispatch(setCurrentId(listing._id))
+        dispatch(setCurrentId(listingId))
         setEdit(true)
     }
 
     const handleDelete = () => {
-        dispatch(deleteListing(listing._id))
+        dispatch(deleteListing(listing.Id))
         setDeleted(true)
     }
     
     const handleLike = (e) => {
+        console.log('liked')
         e.preventDefault()
         if (!isAuthenticated) {
             setToggle(true)
+            setTimeout(() => {
+                setToggle(false)
+            }, 2500);
         } else {
             dispatch(likeListing(listingId, userId))
         }
@@ -60,14 +62,35 @@ const ListingInfoPage = () => {
         setNewComment("")
     }
 
+    // const handleEditComment = (e) => {
+    //     e.preventDefault()
+    //     dispatch(editComment(listingId, {
+    //         ...comment,
+    //         body: newComment,
+    //     }))
+    // }
+
     const paypal = useRef();
-    
-    const product = {
-        price: listing.price,
-        description: listing.description,
-    };
 
     useEffect(() => {
+        const getListing = async () => {
+            try {
+                await axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
+                    setListing(response.data)
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        getListing()
+    }, [])
+
+    useEffect(() => {
+        const product = {
+            price: listing?.price,
+            description: listing?.description,
+        };
+
         window.paypal
             .Buttons({
             style: {
@@ -99,7 +122,7 @@ const ListingInfoPage = () => {
             }
             })
             .render(paypal.current);
-    }, []);
+    }, [listing]);
 
     const containerVariants = {
         hidden: { 
@@ -116,12 +139,10 @@ const ListingInfoPage = () => {
             transition: { duration: 1, ease: 'easeInOut' }
         }
     }
-    console.log(listing)
-    console.log(listingLikers)
     
     return (
         <>
-        
+        { listing && 
         <motion.div className="page-wrapper"
             variants={containerVariants}
             initial="hidden"
@@ -178,7 +199,7 @@ const ListingInfoPage = () => {
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
-                        <button className="listing-tooltip-like p-1" onClick={handleLike}>
+                        <button className="listing-tooltip-like p-1" onClick={handleLike} >
                             <img src={like} />
                         </button>
                         <span><h5 className="p-1">{listing.likers.length}</h5></span>
@@ -186,7 +207,7 @@ const ListingInfoPage = () => {
                     </div>
                     <div className="comment">
                         <button className="listing-tooltip-comment p-1">
-                        <img src={comment} />
+                            <img src={comment} />
                         </button>
                         <span><h5 className="p-1">{listingComments.length}</h5></span>
                     </div>
@@ -235,7 +256,8 @@ const ListingInfoPage = () => {
                     </div>
                 </div>
             </div>    
-       </motion.div>
+        </motion.div>
+        }
        </>
     )
 }

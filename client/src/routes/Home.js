@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import heroImg from '../assets/hero-img.svg'
 import paypal from '../assets/paypal.svg'
 import { motion, AnimateSharedLayout} from 'framer-motion'
 
 const Home = () => {
-    
+    const history = useHistory()
     const containerVariants = {
         hidden: { 
             opacity: 0,
@@ -89,11 +89,11 @@ const Home = () => {
             animate="visible"
             exit="exit" 
         >
-            <Link to='/listings'>
-                <button className="button-primary">
-                    See Listings
-                </button>
-            </Link>
+            <button className="button-primary" onClick={() => {
+                history.push('/listings')
+            }}>
+                See Listings
+            </button>
         </motion.div>
         </>
     )

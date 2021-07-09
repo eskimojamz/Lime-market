@@ -4,6 +4,8 @@ const commentsReducer = (state = [], action) => {
             return action.payload
         case 'COMMENT': 
             return [...state, action.payload]
+        case 'EDIT_COMMENT':
+            return action.payload
         default:
             return state
     }

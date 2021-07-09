@@ -13,7 +13,8 @@ export default function Tooltip({ content, toggle, setToggle }) {
                     <p>{content}</p>
                 </div>
             </div>
-        )}
+        )
+        }
         </>
   );
 }

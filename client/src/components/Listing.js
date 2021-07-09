@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { setCurrentId, likeListing } from '../actions/listings'
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
 
 const Listing = ({listing, user}) => {
-    const id = listing._id
+    const listingId = listing._id
     const userId = user?.sub
     const dispatch = useDispatch()
+    const history = useHistory()
 
     const handleLike = () => {
-        dispatch(likeListing(id, userId))
+
+        dispatch(likeListing(listingId, userId))
     }
     console.log(listing)
     console.log(user)
@@ -41,13 +43,9 @@ const Listing = ({listing, user}) => {
                 <h3>${listing.price}</h3>
             </div>
             <div className="listing-btn">
-                <Link 
-                    to={{
-                        pathname: `/listings:${id}`,
-                        state: {listing}
-                    }}>
-                    <button className="button-primary">Details</button>
-                </Link>
+                <button className="button-primary" onClick={() => {
+                    history.push(`/listings/${listingId}`)
+                }}>Details</button>
             </div>
         </div>
     )

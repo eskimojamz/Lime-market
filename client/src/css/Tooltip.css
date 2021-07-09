@@ -1,21 +1,15 @@
 .tooltip-content {
     justify-self: center;
     z-index: 1;
-    top: 40rem;
+    top: 2.5rem;
     position: relative;
-    background: rgb(230, 230, 230);
-    box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
+    background: rgba(180, 228, 199, 1);
+    box-shadow: 0px 4px 30px 10px rgba(0, 0, 0, 0.25);
     border-radius: 0.5rem;
     height: 5.5rem;
     width: 7rem;
     text-align: center;
     transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-@media only screen and (min-width: 768px) {
-    .tooltip-content {
-        top: 32.5rem;
-    }
 }
 
 .tooltip-content:before {
@@ -24,7 +18,7 @@
     content: "";
     height: 1rem;
     width: 1rem;
-    background: rgb(230, 230, 230);
+    background: rgba(180, 228, 199, 1);
     top: -0.5rem;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
@@ -40,9 +34,7 @@ p {
 .modal-backdrop {
     z-index: 1;
     position: fixed;
-    inset: 0;
-    height: 100vh;
     display: flex;
     justify-content: center;
-    background: rgba(0, 0, 0, 0);
+    background: none;
 }

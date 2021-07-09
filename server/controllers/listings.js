@@ -11,6 +11,18 @@ export const getListings = async(req, res) => {
     }
 }
 
+export const getListing = async(req, res) => {
+    const { listingId } = req.params;
+
+    try {
+        const listing = await PostListing.findById(listingId);
+        
+        res.status(200).json(listing);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const createListing = async(req, res) => {
     const listing = req.body;
 
