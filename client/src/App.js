@@ -24,22 +24,23 @@ const App = () => {
     }, [dispatch, currentId])
   return (
       <>
+      <Router>
         <div className="wrapper">
           <Navbar />
           <div className="container">
           <AnimatePresence exitBeforeEnter>
-            <Router>
               <Switch>
                 <Route path='/' exact component={Home} />
-                <Route path='/listings' exact component={ListingsPage} />
+                <Route exact path='/listings' component={ListingsPage} />
                 <Route path='/listings/:listingId' exact component={ListingInfoPage} />
                 <Route path='/form' exact component={FormPage} />
-                <Route path='/profile' exact component={Profile} />
+                <Route exact path='/profile' component={Profile} />
+                <Route path='/profile/:userId' component={UserProfile} />
               </Switch>
-            </Router>
           </AnimatePresence>
           </div>
         </div>
+      </Router>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateListing, deleteListing, likeListing, setCurrentId, addComment } from '../actions/listings';
 import moment from 'moment';
@@ -15,6 +15,7 @@ import axios from 'axios';
 const ListingInfoPage = () => {
     const { user, isAuthenticated } = useAuth0()
     const dispatch = useDispatch()
+    const history = useHistory()
     const { listingId } = useParams()
     const [listing, setListing] = useState(null)
     const [menuOpen, setMenuOpen] = useState(false)
@@ -221,7 +222,13 @@ const ListingInfoPage = () => {
                                     <div className="comment-bottom">
                                         <div className="comment-user">
                                             <div className="comment-pic">
-                                                <img src={comment.creatorImg}/>
+                                                {/* <button onClick={() => {
+                                                    history.push(`/profile/${userId}`)
+                                                }}> */}
+                                                <Link to={`/profile/${userId}`}>
+                                                    <img src={comment.creatorImg}/>
+                                                </Link>
+                                                {/* </button> */}
                                             </div>
                                             <div className="comment-name">
                                                 <h6>{comment.creatorName}</h6>

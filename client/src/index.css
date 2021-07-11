@@ -29,6 +29,9 @@ body {
   --bar-spacing: 10px;
   --primary: rgba(116, 205, 151, 1);
   --primary-light: rgba(180, 228, 199, 1);
+  --primary-dark: rgba(89, 172, 122, 1);
+  --secondary: rgba(235, 235, 235, 1);
+  --secondary-dark: rgba(204, 204, 204, 1);
 }
 
 .wrapper {
@@ -61,6 +64,10 @@ input, select, textarea, button{
   font-family: inherit;
 }
 
+button {
+  border: none;
+}
+
 button:focus {
   outline: none;
   transition: background var(--speed)
@@ -75,7 +82,7 @@ h3 {
 }
 
 .button-primary {
-  background: rgba(116, 205, 151, 1);
+  background: var(--primary);
   padding: 0.75rem 0.75rem;
   margin: 1rem 0;
   border-radius: var(--border-radius);
@@ -91,8 +98,12 @@ h3 {
   transition: 0.5s;
 }
 
+.button-primary:active {
+  background: var(--primary-dark);
+}
+
 .button-secondary {
-  background: rgba(238, 242, 243, 1);
+  background: var(--secondary);
   padding: 0.75rem 0.75rem;
   margin: 1rem 0;
   border-radius: var(--border-radius);
@@ -105,6 +116,10 @@ h3 {
 .button-secondary:hover {
   transform: translateY(0.1rem);
   transition: 0.5s;
+}
+
+.button-secondary:active {
+  background: var(--secondary-dark);
 }
 
 /* <nav> */
@@ -133,7 +148,7 @@ h3 {
 @media only screen and (min-width: 768px) {
   .nav-right-desktop {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
   }
 }
@@ -195,7 +210,6 @@ h3 {
   background: none;
   border: none;
   border-radius: var(--border-radius);
-  margin: 0 0.5rem;
   padding: 0.5rem 0.5rem;
   width: 6rem;
   font-size: 0.9rem;
@@ -211,10 +225,14 @@ h3 {
   color:rgba(116, 205, 151, 1);
 }
 
+.listings-nav-btn:active {
+  color: var(--primary-dark)
+}
+
 .sell-nav-btn-mobile {
   width: 100%;
-  background: rgba(116, 205, 151, 1);
-  border: solid 0.15rem rgba(116, 205, 151, 1);
+  background: var(--primary);
+  /* border: solid 0.15rem rgba(116, 205, 151, 1); */
   border-top-right-radius: var(--border-radius);
   padding: 0.5rem 0.5rem;
   font-size: 0.9rem;
@@ -223,11 +241,11 @@ h3 {
 }
 
 .sell-nav-btn {
-  background: rgba(116, 205, 151, 1);
-  border: solid 0.15rem rgba(116, 205, 151, 1);
+  background: var(--primary);
+  /* border: solid 0.15rem rgba(116, 205, 151, 1); */
   border-radius: var(--border-radius);
-  margin: 0 0.5rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.75rem 0.75rem;
+  margin: 0 1rem;
   width: 6rem;
   font-size: 0.9rem;
   font-weight: 500;
@@ -236,38 +254,21 @@ h3 {
 
 .sell-nav-btn:hover {
   transform: translateY(0.1rem);
-  transition: 0.5s;
+  transition: 0.25s;
 }
 
 .login-btn {
-  width: 100%;
-  background: white;
-  border-top: solid 0.05rem rgba(238, 242, 243, 1);
-  border-left: solid 0.15rem white;
-  border-right: solid 0.15rem white;
-  border-bottom: solid 0.15rem white;
-  border-bottom-left-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  margin: 0 1rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.75rem 0.75rem;
   font-size: 0.9rem;
   font-weight: 500;
-  color:rgba(116, 205, 151, 1);
+  border-radius: var(--border-radius);
 }
 
 @media only screen and (min-width: 768px) {
-  .login-btn {
-    border-top: none;
-  }
   .login-btn:hover {
     transform: translateY(0.1rem);
-    transition: 0.5s;
+    transition: 0.25s;
   }
-}
-
-.login-btn:hover {
-  opacity: 50%;
-  transition: opacity var(--speed);
 }
 
 .logout-btn {
@@ -353,6 +354,11 @@ h3 {
 
 .logo:hover {
   transform: rotate(15deg);
+  transition: 0.5s;
+}
+
+.logo:active {
+  transform: rotate(-15deg);
   transition: 0.5s;
 }
 
@@ -945,7 +951,7 @@ h3 {
   width: 100%;
   padding: 1rem 1rem;
   margin: 1rem 0;
-  background:rgba(235, 235, 235, 1);
+  background: var(--secondary);
   border-radius: 0.5rem;
 }
 
