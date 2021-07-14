@@ -10,18 +10,25 @@ import FormPage from './routes/FormPage'
 import Profile from './routes/ProfilePage'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getComments, getListings } from './actions/listings'
+import { getComments, getListings, setCurrentUser } from './actions/listings'
 
 import { AnimatePresence } from 'framer-motion';
 
 
 const App = () => {
     const dispatch = useDispatch()
-    const currentId = useSelector((state) => state.currentId)
+    const currentListing = useSelector((state) => state.currentListing)
+
     useEffect(() => {
-        dispatch(getListings())
-        dispatch(getComments())
-    }, [dispatch, currentId])
+      dispatch(getListings())
+      dispatch(getComments())
+    }, [dispatch, currentListing])
+
+    // useEffect(() => {
+    //   const data = localStorage.getItem('currentUser')
+    //   data && dispatch(setCurrentUser(JSON.parse(data)))
+    // }, [currentUser])
+
   return (
       <>
       <Router>
@@ -34,8 +41,7 @@ const App = () => {
                 <Route exact path='/listings' component={ListingsPage} />
                 <Route path='/listings/:listingId' exact component={ListingInfoPage} />
                 <Route path='/form' exact component={FormPage} />
-                <Route exact path='/profile' component={Profile} />
-                <Route path='/profile/:userId' component={UserProfile} />
+                <Route path='/profile/:userId' component={Profile} />
               </Switch>
           </AnimatePresence>
           </div>

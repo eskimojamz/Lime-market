@@ -1,6 +1,6 @@
 const currentListingReducer = (state = [], action) => {
     switch (action.type) {
-        case 'FETCH_LISTING':
+        case 'SET_LISTING':
             return action.payload
         default:
             return state
@@ -8,3 +8,4 @@ const currentListingReducer = (state = [], action) => {
 }
 
 export default currentListingReducer
+

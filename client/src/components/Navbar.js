@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
@@ -8,11 +8,20 @@ import logo from '../assets/HoppangLogo.svg'
 import MenuButton from './MenuButton'
 
 const Navbar = () => {
-    const[menuOpen, setMenuOpen] = useState(false)
-    const[profileOpen, setProfileOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [profileOpen, setProfileOpen] = useState(false)
     const { user, isAuthenticated } = useAuth0()
-    console.log(user)
+    const [userData, setUserData] = useState()
 
+    useEffect(() => {
+        user &&
+        sessionStorage.setItem('userData', JSON.stringify(user))
+    }, [user])
+    
+    useEffect(() => {
+        setUserData(JSON.parse(sessionStorage.getItem('userData')))
+    }, [])
+    console.log(user)
     const Nav = (props) => {
         return (
         <nav className="nav">
@@ -25,9 +34,9 @@ const Navbar = () => {
         return (
         <div className="profile-menu">
             <h5>Signed in as: </h5>
-            <h5>{user.nickname}</h5>
+            <h5>{userData?.nickname}</h5>
             <Link to="/profile"><button className="profile-btn">My Profile</button></Link>
-            <LogoutButton />
+            <LogoutButton setUserData={setUserData} />
         </div>
         )
     }
@@ -48,16 +57,16 @@ const Navbar = () => {
                 <Link to='/listings'><button className="listings-nav-btn-mobile">Listings</button></Link>
                 <Link to='/form'><button className="sell-nav-btn-mobile">Sell Now</button></Link>
                 </div>
-                {isAuthenticated
+                {userData
                     ? (
                     <>
                     <div className="mobile-menu-profile">
                         <div className="mobile-menu-profile-left">
-                            <img className="profile-mobile" src={user?.picture} />
+                            <img className="profile-mobile" src={userData?.picture} />
                         </div>
                         <div className="mobile-menu-profile-right">
                             <h5>Signed in as: </h5>
-                            <h4>{user.nickname}</h4>
+                            <h4>{userData.nickname}</h4>
                         </div>
                     </div>
                     <div className="mobile-menu-bottom-logout">
@@ -76,10 +85,10 @@ const Navbar = () => {
                 <Link to='/listings'><button className="listings-nav-btn">Listings</button></Link>
                 <Link to='/form'><button className="sell-nav-btn button-primary">Sell Now</button></Link>
                 
-                {isAuthenticated
+                {userData
                     ? (
                     <>
-                    <img className="profile" src={user?.picture} onClick={() => setProfileOpen(!profileOpen)} />
+                    <img className="profile" src={userData?.picture} onClick={() => setProfileOpen(!profileOpen)} />
                     {profileOpen && (
                     <ProfileMenu>
                     </ProfileMenu>)}

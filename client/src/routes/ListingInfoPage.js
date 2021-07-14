@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateListing, deleteListing, likeListing, setCurrentId, addComment } from '../actions/listings';
+import { deleteListing, likeListing, setCurrentListing, setCurrentUser, addComment } from '../actions/listings';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
@@ -11,6 +11,7 @@ import like from '../assets/like.svg'
 
 import { motion, AnimateSharedLayout} from 'framer-motion'
 import axios from 'axios';
+import commentsReducer from '../reducers/comments';
 
 const ListingInfoPage = () => {
     const { user, isAuthenticated } = useAuth0()
@@ -24,17 +25,18 @@ const ListingInfoPage = () => {
     const userId = user?.sub
     const userName = user?.nickname
     const userPic = user?.picture
+    const currentUser = useSelector(state => state.currentUser)
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     
     const handleEdit = () => {
-        dispatch(setCurrentId(listingId))
+        dispatch(setCurrentListing(listingId))
         setEdit(true)
     }
 
     const handleDelete = () => {
-        dispatch(deleteListing(listing.Id))
+        dispatch(deleteListing(listingId))
         setDeleted(true)
     }
     
@@ -216,18 +218,27 @@ const ListingInfoPage = () => {
                 <div className="comments-section">
                     <div className="comments-show">
                         {listingComments.map((comment, key) => {
+                            const currentUserData = {
+                                id: comment.creator,
+                                name: comment.creatorName,
+                                img: comment.creatorImg,
+                            }
                             return (
                                 <div key={key} className="comment-comment">
                                     <div className="comment-body"><p>{comment.body}</p></div>
                                     <div className="comment-bottom">
                                         <div className="comment-user">
                                             <div className="comment-pic">
-                                                {/* <button onClick={() => {
-                                                    history.push(`/profile/${userId}`)
-                                                }}> */}
-                                                <Link to={`/profile/${userId}`}>
-                                                    <img src={comment.creatorImg}/>
+                                                <Link to={`/profile/${comment.creator}`}>
+                                                    <img 
+                                                        src={comment.creatorImg} 
+                                                        onClick={() => {
+                                                            // dispatch(setCurrentUser(currentUserData))
+                                                            localStorage.setItem('currentUser', JSON.stringify(currentUserData))
+                                                        }}
+                                                    />
                                                 </Link>
+                                                
                                                 {/* </button> */}
                                             </div>
                                             <div className="comment-name">

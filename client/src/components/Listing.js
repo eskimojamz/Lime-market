@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { setCurrentId, likeListing } from '../actions/listings'
+import { likeListing } from '../actions/listings'
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
 

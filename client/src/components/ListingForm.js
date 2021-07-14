@@ -5,36 +5,35 @@ import FileBase from 'react-file-base64';
 import { useAuth0 } from '@auth0/auth0-react'
 
 
-import { createListing, updateListing, setCurrentId } from '../actions/listings';
+import { createListing, updateListing, setCurrentListing } from '../actions/listings';
 
 const ListingForm = () => {
     const { user } = useAuth0()
     console.log(user)
     
     const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0, comments: [] })
-    const currentId = useSelector(state => state.currentId)
-    const currentListing = useSelector(state => currentId ? state.listings.find(listing => listing._id === currentId) : null)
+    const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
-    console.log(redirectId)
-    console.log(currentId)
+    const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
+    console.log(listing)
     console.log(currentListing)
+    console.log(listingData)
     useEffect(() => {
-        if(currentListing) setListingData(currentListing)
+        currentListing && 
+        setRedirectId(currentListing)
+        setListingData({ ...listingData, title: listing.title, description: listing.description, price: listing.price, selectedFile: listing.selectedFile })
     }, [currentListing])
-    useEffect(() => {
-        if(currentId) setRedirectId(currentId)
-    }, [])
     const clear = () => {
-        dispatch(setCurrentId(null))
+        dispatch(setCurrentListing(null))
         setListingData({ title: '', description: '', price: '', selectedFile: '' })
     }
     
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (currentId) {
-            dispatch(updateListing(currentId, listingData))
+        if (currentListing) {
+            dispatch(updateListing(currentListing, listingData))
             clear()
             console.log(redirectId)
             setRedirect(true)

@@ -1,4 +1,4 @@
-const currentIdReducer = (state = [], action) => {
+const currentUserReducer = (state = [], action) => {
     switch (action.type) {
         case 'SET_ID':
             return action.payload
@@ -7,4 +7,4 @@ const currentIdReducer = (state = [], action) => {
     }
 }
 
-export default currentIdReducer
+export default currentUserReducer
