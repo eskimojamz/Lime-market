@@ -7,7 +7,7 @@ import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
 import ListingInfoPage from './routes/ListingInfoPage'
 import FormPage from './routes/FormPage'
-import Profile from './routes/ProfilePage'
+import ProfilePage from './routes/ProfilePage'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getComments, getListings, setCurrentUser } from './actions/listings'
@@ -41,7 +41,7 @@ const App = () => {
                 <Route exact path='/listings' component={ListingsPage} />
                 <Route path='/listings/:listingId' exact component={ListingInfoPage} />
                 <Route path='/form' exact component={FormPage} />
-                <Route path='/profile/:userId' component={Profile} />
+                <Route path='/profile/' component={ProfilePage} />
               </Switch>
           </AnimatePresence>
           </div>

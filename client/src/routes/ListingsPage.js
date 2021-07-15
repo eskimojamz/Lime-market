@@ -1,5 +1,6 @@
 // import { useSelector } from 'react-redux'
 import Listing from '../components/Listing'
+import Loading from '../components/Loading'
 
 import { useAuth0 } from '@auth0/auth0-react'
 import { useSelector } from 'react-redux'
@@ -28,16 +29,18 @@ const ListingsPage = () => {
   };
 
   return (
-      
-          <motion.div className="listings-grid"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-          >
-          {listings.map(listing => <Listing listing={listing} user={user}/>)}
-          </motion.div>
-      
+      listings ?
+        (
+        <motion.div className="listings-grid"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+        >
+        {listings.map(listing => <Listing listing={listing} user={user}/>)}
+        </motion.div>
+        ) :
+      <Loading />   
   )
 }
 

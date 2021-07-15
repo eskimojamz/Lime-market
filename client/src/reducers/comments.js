@@ -6,6 +6,8 @@ const commentsReducer = (state = [], action) => {
             return [...state, action.payload]
         case 'EDIT_COMMENT':
             return action.payload
+        case 'DELETE_COMMENT':
+            return [...state, state.filter((comment) => (comment._id !== action.payload))]
         default:
             return state
     }

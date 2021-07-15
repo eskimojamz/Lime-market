@@ -50,6 +50,16 @@ export const editComment = (id, comment) => async (dispatch) => {
     }
 };
 
+export const deleteComment = (id) => async (dispatch) => {
+    try {
+        await api.deleteComment(id);
+
+        dispatch({ type: 'DELETE_COMMENT', payload: id});
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 export const updateListing = (id, listing) => async (dispatch) => {
     try {
       const { data } = await api.updateListing(id, listing);

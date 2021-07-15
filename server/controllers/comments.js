@@ -24,3 +24,24 @@ export const addComments = async (req, res) => {
         res.status(409).json({ message: error.message });
     }
 }
+
+export const editComment = async (req, res) => {
+    const { id } = req.params;
+    const editedComment = req.body;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await PostComment.findByIdAndUpdate(id, editedComment, { new: true });
+
+    res.json(editedComment);
+}
+
+export const deleteComment = async (req, res) => {
+    const { id } = req.params;
+
+    // if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    await PostComment.findByIdAndRemove(id);
+
+    res.json({ message: "Comment deleted successfully." });
+}

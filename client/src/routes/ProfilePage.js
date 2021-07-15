@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useParams, useSelector } from 'react-redux'
 
 import Listing from '../components/Listing'
 
@@ -11,7 +11,7 @@ import { setCurrentUser } from '../actions/listings';
 const Profile = () => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'))
   const listings = useSelector((state) => state.listings)
-  const userListings = listings.filter(listing => listing.creator === currentUser.id)
+  const userListings = listings.filter(listing => listing.creator === currentUser.sub)
   console.log(currentUser)
 
   const containerVariants = {
@@ -31,27 +31,29 @@ const Profile = () => {
   };
 
   return (
-    <motion.div className="profile-info"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-    >
-    <div className="profile-info-img">
-      <img src={currentUser.img} alt={currentUser.name} />
+    <div className="profile-info-container">
+      <motion.div className="profile-info"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
+        <div className="profile-info-img">
+          <img src={currentUser.picture} alt={currentUser.nickname} />
+        </div>
+        <div className="profile-info-name">
+          <h2>{currentUser.nickname}</h2>
+        </div>
+        <div className="profile-info-listings-label">
+          <h1>User Listings</h1>
+        </div>
+        <div className="profile-info-listings-cards">
+          {userListings.map(userListing => 
+            <Listing listing={userListing} />
+          )}
+        </div>
+      </motion.div>
     </div>
-    <div className="profile-info-name">
-      <h2>{currentUser.name}</h2>
-    </div>
-    <div className="profile-info-listings-label">
-      <h1>User Listings</h1>
-    </div>
-    <div className="profile-info-listings-cards">
-      {userListings.map(userListing => 
-        <Listing listing={userListing} />
-      )}
-    </div>
-  </motion.div>
   )
 }
 

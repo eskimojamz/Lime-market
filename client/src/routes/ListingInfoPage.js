@@ -2,34 +2,34 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteListing, likeListing, setCurrentListing, setCurrentUser, addComment } from '../actions/listings';
+import { deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments } from '../actions/listings';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
-
-import { motion, AnimateSharedLayout} from 'framer-motion'
+import { motion } from 'framer-motion'
 import axios from 'axios';
-import commentsReducer from '../reducers/comments';
 
 const ListingInfoPage = () => {
-    const { user, isAuthenticated } = useAuth0()
+    const { user } = useAuth0()
     const dispatch = useDispatch()
-    const history = useHistory()
     const { listingId } = useParams()
-    const [listing, setListing] = useState(null)
+    // const [listing, setListing] = useState(null)
+    const listing = useSelector(state => state.listings.find(listing => listing._id === listingId))
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const userId = user?.sub
-    const userName = user?.nickname
-    const userPic = user?.picture
-    const currentUser = useSelector(state => state.currentUser)
+    const [likes, setLikes] = useState()
+    const userData = JSON.parse(sessionStorage.getItem('userData'))
+    const userId = userData?.sub
+    const userName = userData?.nickname
+    const userPic = userData?.picture
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
-    
+    const [deleteModalOn, setDeleteModal] = useState(false)
+    console.log(deleteModalOn)
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))
         setEdit(true)
@@ -40,16 +40,15 @@ const ListingInfoPage = () => {
         setDeleted(true)
     }
     
-    const handleLike = (e) => {
-        console.log('liked')
-        e.preventDefault()
-        if (!isAuthenticated) {
+    const handleLike = () => {
+        if (userData) { 
+            dispatch(likeListing(listingId, userId)) 
+            setLikes(listing?.likers.length)
+        } else {
             setToggle(true)
             setTimeout(() => {
                 setToggle(false)
-            }, 2500);
-        } else {
-            dispatch(likeListing(listingId, userId))
+            }, 2500)
         }
     }
 
@@ -65,28 +64,29 @@ const ListingInfoPage = () => {
         setNewComment("")
     }
 
-    // const handleEditComment = (e) => {
-    //     e.preventDefault()
-    //     dispatch(editComment(listingId, {
-    //         ...comment,
-    //         body: newComment,
-    //     }))
-    // }
+    const handleCommentDelete = (commentId) => {
+        dispatch(deleteComment(commentId))
+        window.location.reload()
+    }
 
     const paypal = useRef();
 
+    // useEffect(() => {
+    //     const getListing = async () => {
+    //         try {
+    //             await axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
+    //                 setListing(response.data)
+    //             })
+    //         } catch (e) {
+    //             console.log(e)
+    //         }
+    //     }
+    //     getListing()
+    // }, [])
+
     useEffect(() => {
-        const getListing = async () => {
-            try {
-                await axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
-                    setListing(response.data)
-                })
-            } catch (e) {
-                console.log(e)
-            }
-        }
-        getListing()
-    }, [])
+        setLikes(listing?.likers.length)
+    }, [listing, dispatch])
 
     useEffect(() => {
         const product = {
@@ -125,7 +125,7 @@ const ListingInfoPage = () => {
             }
             })
             .render(paypal.current);
-    }, [listing]);
+    }, []);
 
     const containerVariants = {
         hidden: { 
@@ -198,14 +198,14 @@ const ListingInfoPage = () => {
                     </div>
                 </div>
                 <div className="listing-info-paypal" ref={paypal}>
-                   
+                   {/* Paypal */}
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
                         <button className="listing-tooltip-like p-1" onClick={handleLike} >
                             <img src={like} />
                         </button>
-                        <span><h5 className="p-1">{listing.likers.length}</h5></span>
+                        <span><h5 className="p-1">{likes}</h5></span>
                         <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
@@ -219,27 +219,40 @@ const ListingInfoPage = () => {
                     <div className="comments-show">
                         {listingComments.map((comment, key) => {
                             const currentUserData = {
-                                id: comment.creator,
-                                name: comment.creatorName,
-                                img: comment.creatorImg,
+                                sub: comment.creator,
+                                nickname: comment.creatorName,
+                                picture: comment.creatorImg,
                             }
+                            const commentId = comment._id
                             return (
                                 <div key={key} className="comment-comment">
-                                    <div className="comment-body"><p>{comment.body}</p></div>
+                                    {/* Delete Modal */}
+                                    <div className={deleteModalOn ? "delete-modal-backdrop" : "display-none"}>
+                                        <div className="delete-modal-overlay">
+                                            <div>
+                                                <h3>Are you sure you want to delete this comment?</h3>
+                                            </div>
+                                            <div className="delete-modal-overlay-bottom">
+                                                <button className="delete-modal-yes" onClick={() => handleCommentDelete(commentId)} >Yes</button>
+                                                <button className="button-secondary" onClick={() => setDeleteModal(false)}>No</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* ------------ */}
+                                    <div className="comment-body">
+                                        <p>{comment.body}</p>
+                                    </div>
                                     <div className="comment-bottom">
                                         <div className="comment-user">
                                             <div className="comment-pic">
-                                                <Link to={`/profile/${comment.creator}`}>
+                                                <Link to={'/profile/'}>
                                                     <img 
                                                         src={comment.creatorImg} 
                                                         onClick={() => {
-                                                            // dispatch(setCurrentUser(currentUserData))
                                                             localStorage.setItem('currentUser', JSON.stringify(currentUserData))
                                                         }}
                                                     />
                                                 </Link>
-                                                
-                                                {/* </button> */}
                                             </div>
                                             <div className="comment-name">
                                                 <h6>{comment.creatorName}</h6>
@@ -250,6 +263,17 @@ const ListingInfoPage = () => {
                                         </div>
                                         <div className="comment-date"><p>{moment(`${comment.createdAt}`).format('lll')}</p></div>
                                     </div>
+                                    {(comment.creator === userId) &&
+                                    <div className="comment-bottom-delete">
+                                        <button 
+                                            className="comment-delete-button"
+                                            onClick={ () =>
+                                                setDeleteModal(true)
+                                            }>
+                                            Delete
+                                        </button>
+                                    </div>
+                                    }
                                 </div>
                             );
                             })}

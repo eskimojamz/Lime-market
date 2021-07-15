@@ -21,7 +21,7 @@ const FormPage = () => {
     };
 
     return (
-        <motion.div className="grid-12"
+        <motion.div className="form-grid"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

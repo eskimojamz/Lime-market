@@ -23,7 +23,7 @@ const ListingForm = () => {
     useEffect(() => {
         currentListing && 
         setRedirectId(currentListing)
-        setListingData({ ...listingData, title: listing.title, description: listing.description, price: listing.price, selectedFile: listing.selectedFile })
+        setListingData({ ...listingData, title: listing?.title, description: listing?.description, price: listing?.price, selectedFile: listing?.selectedFile })
     }, [currentListing])
     const clear = () => {
         dispatch(setCurrentListing(null))
