@@ -1181,10 +1181,6 @@ h3 {
   justify-content: center;
 }
 
-.profile-info-listings-label {
-  
-}
-
 @media only screen and (max-width: 767px) {
   .profile-info-listings-cards {
     display: flex;
@@ -1194,15 +1190,24 @@ h3 {
 
   .profile-info-listings-cards > .listing{
     margin: 1rem 0;
+    width: 100% !important;
+    background: rgb(240, 255, 243);
   }
 }
 
-.profile-info-listings-cards {
-  display: flex;
-  justify-content: space-around;
-}
+@media only screen and (min-width: 768px) {
+  .profile-info-listings-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-row-gap: 3rem;
+    grid-column-gap: 3rem;
+    place-content: center;
+    place-items: center;
+  }
 
-.profile-info-listings-cards > .listing{
-  height: 375px;
-  width: 300px;
+  .profile-info-listings-cards > .listing{
+    height: 375px;
+    width: 300px;
+    background: rgb(240, 255, 243);
+  }
 }

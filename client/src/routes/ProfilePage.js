@@ -51,6 +51,9 @@ const Profile = () => {
           {userListings.map(userListing => 
             <Listing listing={userListing} />
           )}
+          { (userListings.length === 0) && 
+            <p>No listings yet!</p>
+          }
         </div>
       </motion.div>
     </div>

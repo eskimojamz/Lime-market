@@ -66,8 +66,14 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className="mobile-menu-bottom-logout">
-                        <Link to="/profile"><button className="profile-btn-mobile">My Profile</button></Link>
-                        <LogoutButton />
+                        <Link to="/profile">
+                            <button 
+                                className="profile-btn-mobile" 
+                                onClick={localStorage.setItem('currentUser', JSON.stringify(userData))}
+                                >My Profile
+                            </button>
+                        </Link>
+                        <LogoutButton logoutAll={logoutAll} />
                     </div>
                     </>
                     )
