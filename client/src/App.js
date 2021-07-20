@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
@@ -16,6 +16,7 @@ import { AnimatePresence } from 'framer-motion';
 
 
 const App = () => {
+    const location = useLocation()
     const dispatch = useDispatch()
     const currentListing = useSelector((state) => state.currentListing)
 
@@ -31,12 +32,12 @@ const App = () => {
 
   return (
       <>
-      <Router>
+      {/* <Router> */}
         <div className="wrapper">
           <Navbar />
           <div className="container">
           <AnimatePresence exitBeforeEnter>
-              <Switch>
+              <Switch location={location} key={location.pathname}>
                 <Route path='/' exact component={Home} />
                 <Route exact path='/listings' component={ListingsPage} />
                 <Route path='/listings/:listingId' exact component={ListingInfoPage} />
@@ -46,7 +47,7 @@ const App = () => {
           </AnimatePresence>
           </div>
         </div>
-      </Router>
+      {/* </Router> */}
     </>
   )
 }
