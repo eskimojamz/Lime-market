@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const listings = 'http://localhost:5000/listings';
-const comments = 'http://localhost:5000/comments';
+const listings = 'https://hoppang-server.herokuapp.com/listings';
+const comments = 'https://hoppang-server.herokuapp.com/comments';
 
 export const fetchListings = () => axios.get(listings)
 export const fetchComments = () => axios.get(comments)
