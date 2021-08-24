@@ -28,7 +28,8 @@ const Navbar = () => {
 
     return (
         <>
-        <motion.nav 
+        <nav className="nav-container">
+        <motion.div 
             className="nav"
             variants={RightLeft}
             initial="hidden"
@@ -75,6 +76,10 @@ const Navbar = () => {
                         </Link>
                         <LogoutButton logoutAll={logoutAll} />
                     </div>
+                    <div className="mobile-menu-liked">
+                        <h2>Liked Items</h2>
+
+                    </div>
                     </>
                     )
                     : <LoginButton />
@@ -91,25 +96,40 @@ const Navbar = () => {
                     <>
                     <img className="profile" src={userData?.picture || user?.picture} onClick={() => setProfileOpen(!profileOpen)} />
                     {profileOpen && (
-                        <div className="profile-menu">
-                            <h5>Signed in as: </h5>
-                            <h5>{userData?.nickname}</h5>
-                            <Link to="/profile">
-                                <button 
-                                    className="profile-btn" 
-                                    onClick={localStorage.setItem('currentUser', JSON.stringify(userData))}>
-                                    My Profile
-                                </button>
-                            </Link>
-                            <LogoutButton logoutAll={logoutAll} />
-                        </div>
+                        <motion.div 
+                            className="profile-menu"
+                            variants={RightLeft}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                            >
+                            <div className="profile-menu-user-top">
+                                <h5>Signed in as:</h5>
+                                <h5 className="bold">{userData?.nickname}</h5>
+                            </div>
+                            <div className="profile-menu-user-bottom">
+                                <Link to="/profile">
+                                    <button 
+                                        className="profile-btn" 
+                                        onClick={localStorage.setItem('currentUser', JSON.stringify(userData))}>
+                                        My Profile
+                                    </button>
+                                </Link>
+                                <LogoutButton logoutAll={logoutAll} />
+                            </div>
+                            <div className="profile-menu-liked">
+                                <h2>Liked Items</h2>
+
+                            </div>
+                        </motion.div>
                     )}
                     </>
                     )
                     : <LoginButton />
                 }
             </div>
-        </motion.nav>
+        </motion.div>
+        </nav>
         </>
 
     )

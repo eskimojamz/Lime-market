@@ -6,11 +6,12 @@ const RightLeft = {
     visible: { 
         opacity: 1,
         x: 0, 
-        transition: { duration: 1.5 }
+        transition: { duration: 0.5, ease: 'easeInOut' }
     },
     exit: {
-        x: "-100vw",
-        transition: { duration: 1, ease: 'easeInOut' }
+        opacity: 0,
+        x: "100vw",
+        transition: { duration: 0.5, ease: 'easeInOut' }
         
     }
 }
