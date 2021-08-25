@@ -15,53 +15,38 @@ const Home = () => {
         <div className="hero">
             <motion.div 
                 className="hero-mobile"
-                variants={RightLeftSlower}
-                initial="hidden"
-                animate="visible"
-                exit="exit" 
             >
                 <img src={heroImg} className="hero-img" />
             </motion.div>
             
-            <motion.div 
-                className="hero-left"
-                variants={DownUp}
-                initial="hidden"
-                animate="visible"
-                exit="exit" 
-            >
-                <h1>buy & sell</h1>
-                <h1 className="highlight">safely & affordably</h1>
-                <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can sell or purchase items with confidence.</p>
-                {/* <motion.h2 
-                    variants={bottomVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit" 
-                >Powered by</motion.h2>
-                <motion.img 
-                    variants={bottomVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit" 
-                    src={paypal} 
-                    className="hero-bottom-img" /> */}
-                <button 
+            <div className="hero-left">
+                <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 0.25 }}
+                >
+                    <h1>buy & sell</h1>
+                    <h1 className="highlight">safely & affordably</h1>
+                    <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can sell or purchase items with confidence.</p>
+                </motion.div>
+                <motion.button 
                     className="button-primary" 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 1.75, duration: 0.25 }}
                     onClick={() => {
                         history.push('/listings')
                     }}>
                         See Listings
-                </button>
-            </motion.div>
+                </motion.button>
+            </div>
 
             <motion.div 
                 className="hero-right"
-                variants={RightLeftSlower}
-                initial="hidden"
-                animate="visible"
-                exit="exit" 
-            >
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 2, duration: 0.25 }}
+                >
                 <img src={heroImg} className="hero-img" />
             </motion.div>
         </div>

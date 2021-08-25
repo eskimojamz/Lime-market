@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { likeListing } from '../actions/listings'
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
+import { Link } from 'react-router-dom'
 
 const Listing = ({listing, user}) => {
     const listingId = listing._id
@@ -15,8 +16,7 @@ const Listing = ({listing, user}) => {
 
         dispatch(likeListing(listingId, userId))
     }
-    console.log(listing)
-    console.log(user)
+    
     return (
         <div className="listing">
             <div className="listing-img-div">
@@ -43,9 +43,13 @@ const Listing = ({listing, user}) => {
                 <h3>${listing.price}</h3>
             </div>
             <div className="listing-btn">
-                <button className="button-primary" onClick={() => {
-                    history.push(`/listings/${listingId}`)
-                }}>Details</button>
+                {/* <Link to={`listings/${listingId}`}> */}
+                    <button className="button-primary" 
+                        onClick={() => {
+                        history.push(`/listings/${listingId}`)
+                        }}
+                    >Details</button>
+                {/* </Link> */}
             </div>
         </div>
     )

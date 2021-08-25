@@ -147,10 +147,9 @@ const ListingInfoPage = () => {
         <>
         { listing && 
         <motion.div className="page-wrapper"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit" 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.25 }}
         >
             { deleted && <Redirect to="/listings" /> }
             <div className="listing-info">

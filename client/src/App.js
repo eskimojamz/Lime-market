@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Router, Route, Switch, useLocation } from 'react-router-dom'
+import { Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
@@ -11,9 +11,6 @@ import ProfilePage from './routes/ProfilePage'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { getComments, getListings, setCurrentUser } from './actions/listings'
-
-import { AnimatePresence } from 'framer-motion';
-
 
 const App = () => {
     const location = useLocation()
@@ -25,29 +22,20 @@ const App = () => {
       dispatch(getComments())
     }, [dispatch, currentListing])
 
-    // useEffect(() => {
-    //   const data = localStorage.getItem('currentUser')
-    //   data && dispatch(setCurrentUser(JSON.parse(data)))
-    // }, [currentUser])
-
   return (
       <>
-      {/* <Router> */}
         <div className="wrapper">
           <Navbar />
           <div className="container">
-          <AnimatePresence exitBeforeEnter>
-              <Switch location={location} key={location.pathname}>
-                <Route path='/' exact component={Home} />
-                <Route exact path='/listings' component={ListingsPage} />
-                <Route path='/listings/:listingId' exact component={ListingInfoPage} />
-                <Route path='/form' exact component={FormPage} />
-                <Route path='/profile/' component={ProfilePage} />
-              </Switch>
-          </AnimatePresence>
+            <Switch location={location} key={location.pathname}>
+              <Route path='/' exact component={Home} />
+              <Route exact path='/listings' component={ListingsPage} />
+              <Route path='/listings/:listingId' exact component={ListingInfoPage} />
+              <Route path='/form' exact component={FormPage} />
+              <Route path='/profile/' component={ProfilePage} />
+            </Switch>
           </div>
         </div>
-      {/* </Router> */}
     </>
   )
 }
