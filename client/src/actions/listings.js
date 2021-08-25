@@ -90,15 +90,16 @@ export const deleteListing = (id) => async (dispatch) => {
     }
 };
 
-export const likeListing = (id, userId) => async (dispatch) => {
-    try {
-        const { data } = await api.likeListing(id, userId);
+// export const likeListing = (id, userId) => async (dispatch) => {
+//     try {
+//         const { data } = await api.likeListing(id, userId);
 
-        dispatch({ type: 'LIKE', payload: data });
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+//         dispatch({ type: 'LIKE', payload: data });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// }
+
 
 export const setCurrentListing = (currentListing) => {
     return { type: 'SET_LISTING', payload: currentListing }

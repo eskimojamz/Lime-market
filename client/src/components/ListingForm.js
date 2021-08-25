@@ -9,7 +9,6 @@ import { createListing, updateListing, setCurrentListing } from '../actions/list
 
 const ListingForm = () => {
     const { user } = useAuth0()
-    console.log(user)
     
     const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0, comments: [] })
     const currentListing = useSelector(state => state.currentListing)
@@ -17,14 +16,13 @@ const ListingForm = () => {
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
     const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
-    console.log(listing)
-    console.log(currentListing)
-    console.log(listingData)
+    
     useEffect(() => {
         currentListing && 
         setRedirectId(currentListing)
         setListingData({ ...listingData, title: listing?.title, description: listing?.description, price: listing?.price, selectedFile: listing?.selectedFile })
     }, [currentListing])
+
     const clear = () => {
         dispatch(setCurrentListing(null))
         setListingData({ title: '', description: '', price: '', selectedFile: '' })

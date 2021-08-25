@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments } from '../actions/listings';
+import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments } from '../actions/listings';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
@@ -15,12 +15,18 @@ const ListingInfoPage = () => {
     const { user } = useAuth0()
     const dispatch = useDispatch()
     const { listingId } = useParams()
-    // const [listing, setListing] = useState(null)
-    const listing = useSelector(state => state.listings.find(listing => listing._id === listingId))
+    const [listingData, setListingData] = useState()
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
+            setListingData(response.data)
+            console.log('Listing state initialized')
+        })
+    }, [])
+    
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const [likes, setLikes] = useState()
     const userData = JSON.parse(sessionStorage.getItem('userData'))
     const userId = userData?.sub
     const userName = userData?.nickname
@@ -29,7 +35,7 @@ const ListingInfoPage = () => {
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
-    console.log(deleteModalOn)
+    
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))
         setEdit(true)
@@ -42,8 +48,17 @@ const ListingInfoPage = () => {
     
     const handleLike = () => {
         if (userData) { 
-            dispatch(likeListing(listingId, userId)) 
-            setLikes(listing?.likers.length)
+            axios
+                .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
+                .then((response) => {
+                    setListingData(response.data)
+                    console.log('liked & listing data updated')
+                })
+            axios   
+                .patch(`http://localhost:5000/listings/${listingId}/saveListing`, userId)
+                // .then((response) => {
+                //     listing saved
+                // })
         } else {
             setToggle(true)
             setTimeout(() => {
@@ -71,27 +86,10 @@ const ListingInfoPage = () => {
 
     const paypal = useRef();
 
-    // useEffect(() => {
-    //     const getListing = async () => {
-    //         try {
-    //             await axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
-    //                 setListing(response.data)
-    //             })
-    //         } catch (e) {
-    //             console.log(e)
-    //         }
-    //     }
-    //     getListing()
-    // }, [])
-
-    useEffect(() => {
-        setLikes(listing?.likers.length)
-    }, [listing, dispatch])
-
     useEffect(() => {
         const product = {
-            price: listing?.price,
-            description: listing?.description,
+            price: listingData?.price,
+            description: listingData?.description,
         };
 
         window.paypal
@@ -126,26 +124,10 @@ const ListingInfoPage = () => {
             })
             .render(paypal.current);
     }, []);
-
-    const containerVariants = {
-        hidden: { 
-            opacity: 0,
-            y: '100vh', 
-        },
-        visible: { 
-            opacity: 1,
-            y: 0, 
-            transition: { duration: 1 }
-        },
-        exit: {
-            x: "100vw",
-            transition: { duration: 1, ease: 'easeInOut' }
-        }
-    }
     
     return (
         <>
-        { listing && 
+        { listingData && 
         <motion.div className="page-wrapper"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -153,7 +135,7 @@ const ListingInfoPage = () => {
         >
             { deleted && <Redirect to="/listings" /> }
             <div className="listing-info">
-                { (listing.creator === user?.sub) &&
+                { (listingData.creator === user?.sub) &&
                 <div className="listing-info-edit-menu">
                     <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
                         <img src={menu} />
@@ -169,29 +151,29 @@ const ListingInfoPage = () => {
                 
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
-                    {listing.selectedFile.map(file => 
+                    {listingData.selectedFile.map(file => 
                         <img src={file.base64} />
                         )}
                 </div>
                 <div className="listing-info-title">
-                    <h1>{listing.title}</h1>
+                    <h1>{listingData.title}</h1>
                 </div>
                 <div className="listing-info-desc">
-                    <p>{listing.description}</p>
+                    <p>{listingData.description}</p>
                 </div>
                 <div className="listing-info-bottom">
                     <div className="listing-info-price">
-                        <h1>${listing.price}</h1>
+                        <h1>${listingData.price}</h1>
                     </div>
                     <div className="listing-info-creator">
                         <div className="listing-info-creator-img">
                             
-                            <img src={listing.creatorImg} />
+                            <img src={listingData.creatorImg} />
                             
                         </div>
                         <div className="listing-info-creator-name">
                             
-                            <h5>{listing.creatorName}</h5>
+                            <h5>{listingData.creatorName}</h5>
                             <h4>Seller  ✓</h4>
                         </div>
                     </div>
@@ -204,7 +186,7 @@ const ListingInfoPage = () => {
                         <button className="listing-tooltip-like p-1" onClick={handleLike} >
                             <img src={like} />
                         </button>
-                        <span><h5 className="p-1">{likes}</h5></span>
+                        <span><h5 className="p-1">{listingData?.likers.length}</h5></span>
                         <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
@@ -255,7 +237,7 @@ const ListingInfoPage = () => {
                                             </div>
                                             <div className="comment-name">
                                                 <h6>{comment.creatorName}</h6>
-                                                {(comment.creator === listing?.creator) && 
+                                                {(comment.creator === listingData?.creator) && 
                                                     <h4>Seller  ✓</h4>
                                                 }
                                             </div>

@@ -5,17 +5,35 @@ import { likeListing } from '../actions/listings'
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import Tooltip from '../components/Tooltip.js';
 
 const Listing = ({listing, user}) => {
     const listingId = listing._id
-    const userId = user?.sub
-    const dispatch = useDispatch()
+    const userData = JSON.parse(sessionStorage.getItem('userData'))
+    const userId = userData?.sub
+    const [listingData, setListingData] = useState(listing)
     const history = useHistory()
+    const [toggle, setToggle] = useState(false)
 
     const handleLike = () => {
-
-        dispatch(likeListing(listingId, userId))
+        if (userData) { 
+            axios
+                .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
+                .then((response) => {
+                    setListingData(response.data)
+                    console.log('(un)liked & listing data updated')
+                })
+        } else {
+            setToggle(true)
+            setTimeout(() => {
+                setToggle(false)
+            }, 2500)
+        }
     }
+
+    
     
     return (
         <div className="listing">
@@ -27,14 +45,14 @@ const Listing = ({listing, user}) => {
                     <button className="listing-tooltip-like p-1" onClick={handleLike}>
                         <img src={like} />
                     </button>
-                    <span><h5 className="p-1">{listing.likers.length}</h5></span>
+                    <span><h5 className="p-1">{listingData.likers.length}</h5></span>
                 
                 
                     <button className="listing-tooltip-comment p-1">
                     <img src={comment} />
                     </button>
                     <span><h5 className="p-1">{listing.commentCount}</h5></span>
-                
+                    <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
             </div>
             <div className="listing-title">
                 <h3>{listing.title}</h3>

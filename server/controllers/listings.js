@@ -1,4 +1,5 @@
 import PostListing from '../models/postListing.js';
+import User from '../models/user.js';
 import mongoose from 'mongoose';
 
 export const getListings = async(req, res) => {
@@ -61,20 +62,56 @@ export const deleteListing = async (req, res) => {
 export const likeListing = async (req, res) => {
     const { id } = req.params;
     const userId = Object.keys(req.body)[0];
-    console.log(userId)
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Invalid id: ${id}`);
     
     const listing = await PostListing.findById(id);
 
-    const index = listing.likers.findIndex((i) => i === userId) 
+    const indexLikers = listing.likers.findIndex(i => i === userId) 
 
-    if (index === -1) {
+    // const user = await User.findById(userId)
+
+    // if (!user) {
+    //     new User({ userId: userId, likedListings: [id] })
+    // }
+
+    if (indexLikers === -1) {
         listing.likers.push(userId);
     } else {
         listing.likers = listing.likers.filter(i => i !== userId);
     }
 
     const updatedListing = await PostListing.findByIdAndUpdate(id, listing, { new: true });
-    
+
     res.json(updatedListing);
+    console.log(res.json)
+}
+
+export const saveListing = async (req, res) => {
+    const { id } = req.params;
+    const userId = Object.keys(req.body)[0];
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Invalid id: ${id}`);
+
+    const listing = await PostListing.findById(id);
+
+    const user = await User.findById(userId);
+    const newUser = new User({ userId: userId, likedListings: [id] });
+
+    const indexLikers = listing.likers.findIndex(i => i === userId) ;
+
+    if (!user) {
+        await newUser.save();
+    }
+
+    if (indexLikers === -1) {
+        user.likedListings.push(id);
+    } else {
+        user.likedListings.filter(i => i !== id);
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
+
+    res.json(updatedUser);
+    console.log(res.json)
 }

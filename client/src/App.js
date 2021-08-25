@@ -15,12 +15,11 @@ import { getComments, getListings, setCurrentUser } from './actions/listings'
 const App = () => {
     const location = useLocation()
     const dispatch = useDispatch()
-    const currentListing = useSelector((state) => state.currentListing)
 
     useEffect(() => {
       dispatch(getListings())
       dispatch(getComments())
-    }, [dispatch, currentListing])
+    }, [dispatch])
 
   return (
       <>
