@@ -52,13 +52,7 @@ const ListingInfoPage = () => {
                 .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
                 .then((response) => {
                     setListingData(response.data)
-                    console.log('liked & listing data updated')
                 })
-            axios   
-                .patch(`http://localhost:5000/listings/${listingId}/saveListing`, userId)
-                // .then((response) => {
-                //     listing saved
-                // })
         } else {
             setToggle(true)
             setTimeout(() => {

@@ -87,31 +87,14 @@ export const likeListing = async (req, res) => {
     console.log(res.json)
 }
 
-export const saveListing = async (req, res) => {
-    const { id } = req.params;
-    const userId = Object.keys(req.body)[0];
+// export const saveListing = async (req, res) => {
+//     const { id } = req.params;
+//     const userId = Object.keys(req.body)[0];
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Invalid id: ${id}`);
+//     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`Invalid id: ${id}`);
 
-    const listing = await PostListing.findById(id);
+//     const newUser = new User({ userId: userId, likedListings: [id] });
 
-    const user = await User.findById(userId);
-    const newUser = new User({ userId: userId, likedListings: [id] });
-
-    const indexLikers = listing.likers.findIndex(i => i === userId) ;
-
-    if (!user) {
-        await newUser.save();
-    }
-
-    if (indexLikers === -1) {
-        user.likedListings.push(id);
-    } else {
-        user.likedListings.filter(i => i !== id);
-    }
-
-    const updatedUser = await User.findByIdAndUpdate(userId, user, { new: true });
-
-    res.json(updatedUser);
-    console.log(res.json)
-}
+//     await newUser.save();
+//     res.json(newUser)
+// }

@@ -49,18 +49,25 @@ const ListingForm = () => {
         <form onSubmit={handleSubmit}>
             <label>
                 <h4>Title:</h4>
-                <input type="text" value={listingData.title} onChange={(e) => setListingData({ ...listingData, title: e.target.value })} />
             </label>
-
+            <div className="form-input">
+                <input className="form-title-input" type="text" value={listingData.title} onChange={(e) => setListingData({ ...listingData, title: e.target.value })} />
+            </div>
+            
             <label>
                 <h4>Price:</h4>
-                <input type="text" placeholder="$" value={listingData.price} onChange={(e) => setListingData({ ...listingData, price: e.target.value })} />
             </label>
+            <div className="form-input">
+                <h2>$</h2>
+                <input type="text" value={listingData.price} onChange={(e) => setListingData({ ...listingData, price: e.target.value })} />
+            </div>
+            
 
             <label>
                 <h4>Description:</h4>
-                <textarea value={listingData.description} onChange={(e) => setListingData({ ...listingData, description: e.target.value })}/>
             </label>
+            <textarea className="form-desc-textarea" value={listingData.description} onChange={(e) => setListingData({ ...listingData, description: e.target.value })}/>
+            
 
             <label className="file-input">
                 <h4>Images:</h4>
