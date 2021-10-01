@@ -5,7 +5,7 @@ import FileBase from 'react-file-base64';
 import { useAuth0 } from '@auth0/auth0-react'
 
 
-import { createListing, updateListing, setCurrentListing } from '../actions/listings';
+import { createListing, updateListing, setCurrentListing } from '../actions/actions';
 
 const ListingForm = () => {
     const { user } = useAuth0()

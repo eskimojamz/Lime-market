@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments } from '../actions/listings';
+import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
@@ -15,13 +15,11 @@ const ListingInfoPage = () => {
     const { user } = useAuth0()
     const dispatch = useDispatch()
     const { listingId } = useParams()
-    const [listingData, setListingData] = useState()
+    const listing = useSelector((state) => state.listing)
+    // const [listingData, setListingData] = useState()
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/listings/${listingId}`).then((response) => {
-            setListingData(response.data)
-            console.log('Listing state initialized')
-        })
+        dispatch(getListing(listingId))
     }, [])
     
     const [menuOpen, setMenuOpen] = useState(false)
@@ -46,20 +44,20 @@ const ListingInfoPage = () => {
         setDeleted(true)
     }
     
-    const handleLike = () => {
-        if (userData) { 
-            axios
-                .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
-                .then((response) => {
-                    setListingData(response.data)
-                })
-        } else {
-            setToggle(true)
-            setTimeout(() => {
-                setToggle(false)
-            }, 2500)
-        }
-    }
+    // const handleLike = () => {
+    //     if (userData) { 
+    //         axios
+    //             .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
+    //             .then((response) => {
+    //                 setListingData(response.data)
+    //             })
+    //     } else {
+    //         setToggle(true)
+    //         setTimeout(() => {
+    //             setToggle(false)
+    //         }, 2500)
+    //     }
+    // }
 
     const handleComment = (e) => {
         e.preventDefault()
@@ -82,8 +80,8 @@ const ListingInfoPage = () => {
 
     useEffect(() => {
         const product = {
-            price: listingData?.price,
-            description: listingData?.description,
+            price: listing?.price,
+            description: listing?.description,
         };
 
         window.paypal
@@ -121,7 +119,7 @@ const ListingInfoPage = () => {
     
     return (
         <>
-        { listingData && 
+        { listing && 
         <motion.div className="page-wrapper"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -129,7 +127,7 @@ const ListingInfoPage = () => {
         >
             { deleted && <Redirect to="/listings" /> }
             <div className="listing-info">
-                { (listingData.creator === user?.sub) &&
+                { (listing.creator === user?.sub) &&
                 <div className="listing-info-edit-menu">
                     <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
                         <img src={menu} />
@@ -145,29 +143,27 @@ const ListingInfoPage = () => {
                 
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
-                    {listingData.selectedFile.map(file => 
-                        <img src={file.base64} />
-                        )}
+                    <img src={listing.image1} />
                 </div>
                 <div className="listing-info-title">
-                    <h1>{listingData.title}</h1>
+                    <h1>{listing.title}</h1>
                 </div>
                 <div className="listing-info-desc">
-                    <p>{listingData.description}</p>
+                    <p>{listing.description}</p>
                 </div>
                 <div className="listing-info-bottom">
                     <div className="listing-info-price">
-                        <h1>${listingData.price}</h1>
+                        <h1>${listing.price}</h1>
                     </div>
                     <div className="listing-info-creator">
                         <div className="listing-info-creator-img">
                             
-                            <img src={listingData.creatorImg} />
+                            <img src={listing.creatorImg} />
                             
                         </div>
                         <div className="listing-info-creator-name">
                             
-                            <h5>{listingData.creatorName}</h5>
+                            <h5>{listing.creatorName}</h5>
                             <h4>Seller  ✓</h4>
                         </div>
                     </div>
@@ -177,10 +173,10 @@ const ListingInfoPage = () => {
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
-                        <button className="listing-tooltip-like p-1" onClick={handleLike} >
+                        {/* <button className="listing-tooltip-like p-1" onClick={handleLike} >
                             <img src={like} />
-                        </button>
-                        <span><h5 className="p-1">{listingData?.likers.length}</h5></span>
+                        </button> */}
+                        {/* <span><h5 className="p-1">{listing?.likers.length}</h5></span> */}
                         <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
@@ -231,7 +227,7 @@ const ListingInfoPage = () => {
                                             </div>
                                             <div className="comment-name">
                                                 <h6>{comment.creatorName}</h6>
-                                                {(comment.creator === listingData?.creator) && 
+                                                {(comment.creator === listing?.creator) && 
                                                     <h4>Seller  ✓</h4>
                                                 }
                                             </div>

@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const listings = 'http://localhost:5000/listings';
-const comments = 'http://localhost:5000/comments';
+const listings = 'http://localhost:8000/listings/';
+const comments = 'http://localhost:8000/comments/';
 
 export const fetchListings = () => axios.get(listings)
+export const fetchListing = (id) => axios.get(`${listings}${id}`)
 export const fetchComments = () => axios.get(comments)
 export const createListing = (newListing) => axios.post(listings, newListing)
 export const updateListing = (id, updatedListing) => axios.patch(`${listings}/${id}`, updatedListing)

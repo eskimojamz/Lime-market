@@ -10,6 +10,16 @@ export const getListings = () => async(dispatch) => {
     }  
 }
 
+export const getListing = (id) => async(dispatch) => {
+    try {
+        const { data } = await api.fetchListing(id)
+        
+        dispatch({ type: 'FETCH_LISTING', payload: data })
+    } catch (error) {
+        console.log(error.message)
+    }  
+}
+
 export const getComments = () => async(dispatch) => {
     try {
         const { data } = await api.fetchComments()
@@ -108,3 +118,13 @@ export const setCurrentListing = (currentListing) => {
 export const setCurrentUser = (currentUser) => {
     return { type: 'SET_ID', payload: currentUser }
 };
+
+// export const loginUser = (loginCredentials) => async (dispatch) => {
+//     try {
+//         const { data } = await api.loginUser(loginCredentials)
+
+//         dispatch({ type: 'LOGIN', payload: data })
+//     } catch (error) {
+//         console.log(error.message)
+//     }
+// }

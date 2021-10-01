@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { likeListing } from '../actions/listings'
+import { likeListing } from '../actions/actions'
 import comment from '../assets/comments.svg'
 import like from '../assets/like.svg'
 import { Link } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react'
 import Tooltip from '../components/Tooltip.js';
 
 const Listing = ({listing, user}) => {
-    const listingId = listing._id
+    const listingId = listing.id
     const userData = JSON.parse(sessionStorage.getItem('userData'))
     const userId = userData?.sub
     const [listingData, setListingData] = useState(listing)
@@ -37,9 +37,11 @@ const Listing = ({listing, user}) => {
     
     return (
         <div className="listing">
+            {/* listing image */}
             <div className="listing-img-div">
-                <img src={listing.selectedFile[0].base64} />
+                <img src={listing.image1} />
             </div>
+            {/* listing tooltip for like and comment */}
             <div className="listing-tooltip">
                 
                     <button className="listing-tooltip-like p-1" onClick={handleLike}>
@@ -54,6 +56,7 @@ const Listing = ({listing, user}) => {
                     <span><h5 className="p-1">{listing.commentCount}</h5></span>
                     <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
             </div>
+            {/* title, price, details btn */}
             <div className="listing-title">
                 <h3>{listing.title}</h3>
             </div>

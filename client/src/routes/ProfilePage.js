@@ -6,7 +6,7 @@ import Listing from '../components/Listing'
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { motion, AnimateSharedLayout} from 'framer-motion'
-import { setCurrentUser } from '../actions/listings';
+import { setCurrentUser } from '../actions/actions';
 
 const Profile = () => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'))

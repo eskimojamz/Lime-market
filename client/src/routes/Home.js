@@ -1,10 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import heroImg from '../assets/hero-img.svg'
-import paypal from '../assets/paypal.svg'
 import { motion } from 'framer-motion'
-import DownUp from '../motionParams/DownUp'
-import RightLeftSlower from '../motionParams/RightLeftSlower'
 
 const Home = () => {
     const history = useHistory()
@@ -52,10 +49,8 @@ const Home = () => {
         </div>
 
         <motion.div className="hero-bottom"
-            variants={DownUp}
-            initial="hidden"
-            animate="visible"
-            exit="exit" 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
         >
             {/* Popular Listings */}
         </motion.div>

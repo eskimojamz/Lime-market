@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import RightLeft from '../motionParams/RightLeft'
-import RightLeftFast from '../motionParams/RightLeftFast'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
-import logo from '../assets/HoppangLogo.svg'
+import logo from '../assets/logo.svg'
 import MenuButton from './MenuButton'
 
 const Navbar = () => {
@@ -14,7 +12,7 @@ const Navbar = () => {
     const [profileOpen, setProfileOpen] = useState(false)
     const { user, logout } = useAuth0()
     const userData = JSON.parse(sessionStorage.getItem('userData'))
-
+    console.log(sessionStorage.getItem('token'))
     useEffect(() => {
         user &&
         sessionStorage.setItem('userData', JSON.stringify(user))
@@ -48,7 +46,7 @@ const Navbar = () => {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.25 }}
                     >
-                    Hoppang
+                    Lime Market
                 </motion.h1>
             </div>
 
@@ -57,10 +55,10 @@ const Navbar = () => {
             {menuOpen && 
             <motion.div 
                 className="mobile-menu"
-                variants={RightLeftFast}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
+                // variants={RightLeftFast}
+                // initial="hidden"
+                // animate="visible"
+                // exit="exit"
             >
                 <div className="mobile-menu-top">
                 <Link to='/listings'><button className="listings-nav-btn-mobile">Listings</button></Link>
@@ -134,10 +132,10 @@ const Navbar = () => {
                     {profileOpen && (
                         <motion.div 
                             className="profile-menu"
-                            variants={RightLeft}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
+                            // variants={RightLeft}
+                            // initial="hidden"
+                            // animate="visible"
+                            // exit="exit"
                             >
                             <div className="profile-menu-user-top">
                                 <h5>Signed in as:</h5>
