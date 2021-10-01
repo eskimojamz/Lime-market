@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom' 
+import ClipLoader from 'react-spinners/ClipLoader'
 
 function LoginPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    // const [fixPassword, setFixPassword] = useState(false)
+    const [invalidLogin, setInvalidLogin] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
     const loginCredentials = {
         username: username,
@@ -12,14 +18,27 @@ function LoginPage() {
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault()
+        setLoading(true)
         axios.post('http://localhost:8000/auth/', {
             username: `${loginCredentials.username}`,
             password: `${loginCredentials.password}`
         })
-        .then(response => {
+        .then((response) => {
             sessionStorage.setItem('token', response.data.token)
             console.log(response.data.token)
+            setLoading(false)
+            history.goBack()
         })
+        .catch((error) => {
+            if (error) {
+                console.log(error.response)
+                setInvalidLogin(true)
+                console.log(invalidLogin)
+                setLoading(false)
+                return
+            }
+        });
         // Prevent default refresh for testing
         // e.preventDefault()
     }
@@ -35,12 +54,32 @@ function LoginPage() {
                 <form onSubmit={handleSubmit}>
                     <label>
                         Username:
-                        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input 
+                            type="text" 
+                            value={username} 
+                            onChange={e => 
+                                setUsername(e.target.value)
+                            } 
+                        />
                     </label>
+                    <ClipLoader color='green' loading={loading} size={15} />
+                    <br/>
                     <label>
                         Password:
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input 
+                            type="password" 
+                            value={password} 
+                            onChange={e =>
+                                setPassword(e.target.value)
+                            } 
+                        />
                     </label>
+                    <ClipLoader color='green' loading={loading} size={15} />
+                    <br />
+                    {invalidLogin 
+                        ? (<p>There is no account with those credentials</p>)
+                        : null
+                    }<br/>
                         <input type="submit" value="Submit" />
                 </form>
             </div>
