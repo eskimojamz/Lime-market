@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import SignupPage from './routes/SignupPage'
 import LoginPage from './routes/LoginPage'
 import Home from './routes/Home'
 import ListingsPage from './routes/ListingsPage'
@@ -29,6 +30,7 @@ const App = () => {
           <div className="container">
             <Switch location={location} key={location.pathname}>
               <Route path='/' exact component={Home} />
+              <Route path='/register/' component={SignupPage} />
               <Route path='/login/' component={LoginPage} />
               <Route exact path='/listings' component={ListingsPage} />
               <Route path='/listings/:listingId' exact component={ListingInfoPage} />

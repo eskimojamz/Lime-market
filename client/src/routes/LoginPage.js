@@ -26,15 +26,15 @@ function LoginPage() {
         })
         .then((response) => {
             sessionStorage.setItem('token', response.data.token)
-            console.log(response.data.token)
+            // console.log(response.data.token)
             setLoading(false)
             history.goBack()
         })
         .catch((error) => {
             if (error) {
-                console.log(error.response)
+                // console.log(error.response)
                 setInvalidLogin(true)
-                console.log(invalidLogin)
+                // console.log(invalidLogin)
                 setLoading(false)
                 return
             }
