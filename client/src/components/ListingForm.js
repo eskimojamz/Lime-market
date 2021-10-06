@@ -10,13 +10,30 @@ import { createListing, updateListing, setCurrentListing } from '../actions/acti
 const ListingForm = () => {
     const { user } = useAuth0()
     
-    const [listingData, setListingData] = useState({ title: '', description: '', price: '', selectedFile: '', likeCount: 0, commentCount: 0, comments: [] })
+    const [listingData, setListingData] = useState({ 
+        title: '', 
+        description: '', 
+        price: '', 
+        // image1: null,
+        // image2: null,
+        // image3: null,
+        // image4: null,
+    })
+    console.log(listingData)
+    const [files, setFiles] = useState({
+        // file1: null,
+        // file2: null,
+        // file3: null,
+        // file4: null
+    })
+    console.log(files)
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
     const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
-    
+    const reader = new FileReader()
+
     useEffect(() => {
         currentListing && 
         setRedirectId(currentListing)
@@ -68,15 +85,33 @@ const ListingForm = () => {
             </label>
             <textarea className="form-desc-textarea" value={listingData.description} onChange={(e) => setListingData({ ...listingData, description: e.target.value })}/>
             
-
-            <label className="file-input">
+            <label for="files">
                 <h4>Images:</h4>
-            <FileBase 
-                type="file" 
-                multiple={true} 
-                onDone={base64 => setListingData({ ...listingData, selectedFile: base64 })}
-            />
             </label>
+            <input className="file-input" 
+                type="file"
+                id="files" name="files"
+                accept="image/png, image/jpeg"
+                multiple
+                onChange={(event) => {
+                    setListingData({ ...listingData, 
+                        image1: event.target.files[0],
+                        image2: event.target.files[1],
+                        image3: event.target.files[2],
+                        image4: event.target.files[3],
+                    })
+                    setFiles({
+                        // file1: reader.readAsDataURL(event.target.files[0]),
+                        // file2: reader.readAsDataURL(event.target.files[1]),
+                        // file3: reader.readAsDataURL(event.target.files[2]),
+                        // file4: reader.readAsDataURL(event.target.files[3]),
+                    })
+                }}       
+            />
+            <img src={files.file1} />
+            <img src={files.file2} />
+            <img src={files.file3} />
+            <img src={files.file4} />
             {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
             <br />
             <br />
