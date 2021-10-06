@@ -13,7 +13,7 @@ const ListingForm = () => {
     const [listingData, setListingData] = useState({ 
         title: '', 
         description: '', 
-        price: '', 
+        price: '0', 
         // image1: null,
         // image2: null,
         // image3: null,
@@ -21,36 +21,76 @@ const ListingForm = () => {
     })
     console.log(listingData)
     const [files, setFiles] = useState([])
-    console.log(files)
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState(null)
     const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
-    const reader = new FileReader()
-
-    useEffect(() => {
-        currentListing && 
-        setRedirectId(currentListing)
-        setListingData({ ...listingData, title: listing?.title, description: listing?.description, price: listing?.price, selectedFile: listing?.selectedFile })
-    }, [currentListing])
+    const [errors, setErrors] = useState({
+        title: '',
+        price: '',
+        description: '',
+        image: ''
+    })
+    console.log(errors)
+    // useEffect(() => {
+    //     currentListing && 
+    //     setRedirectId(currentListing)
+    //     setListingData({ ...listingData, title: listing?.title, description: listing?.description, price: listing?.price, selectedFile: listing?.selectedFile })
+    // }, [currentListing])
 
     const clear = () => {
         dispatch(setCurrentListing(null))
         setListingData({ title: '', description: '', price: '', selectedFile: '' })
     }
     
+    const validate = () => {
+        // Error checks
+        let titleError = null
+        let priceError = null
+        let descriptionError = null
+        let imageError = null
+
+        if (listingData.title.length < 5) {
+            titleError = 'Title must be at least 5 characters long'
+        }
+        if (parseInt(listingData.price) < 1) {
+            priceError = 'Price must be at least $1 (dollar)'
+        }
+        if (listingData.description.length < 10 | listingData.description.length > 100) {
+            descriptionError = 'Description must be between 10 and 100 characters long'
+        }
+        if (!listingData.image1) {
+            imageError = 'At least one image must be uploaded'
+        }
+        if (titleError || priceError || descriptionError || imageError) {
+            setErrors({
+                title: titleError,
+                price: priceError,
+                description: descriptionError, 
+                image: imageError
+            })
+            return false
+        }
+
+        return true
+    }
+
     const handleSubmit = (e) => {
-        e.preventDefault()
-        if (currentListing) {
-            dispatch(updateListing(currentListing, listingData))
-            clear()
-            console.log(redirectId)
-            setRedirect(true)
+        const isValid = validate()
+        console.log(validate())
+        if (isValid === true){
+            if (currentListing) {
+                dispatch(updateListing(currentListing, listingData))
+                clear()
+                setRedirect(true)
+            } else {
+                dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture }))
+                clear()
+                setRedirect(true)
+            }
         } else {
-            dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture }))
-            clear()
-            setRedirect(true)
+            e.preventDefault()
         }
     }
 
@@ -72,6 +112,9 @@ const ListingForm = () => {
                             title: e.target.value 
                         })} 
                 />
+                <div>
+                    {<p className="error">{errors.title}</p>}
+                </div>
 
                 {/* Price */}
                 <label for="price">
@@ -88,6 +131,9 @@ const ListingForm = () => {
                         })} 
                     />
                 </div>
+                <div>
+                    {<p className="error">{errors.price}</p>}
+                </div>
             
                 {/* Description */}
                 <label for="description">
@@ -100,6 +146,9 @@ const ListingForm = () => {
                         description: e.target.value 
                     })}
                 />
+                <div>
+                    {<p className="error">{errors.description}</p>}
+                </div>
                 
                 {/* Image File Upload */}
                 <label for="files">
@@ -130,6 +179,9 @@ const ListingForm = () => {
                         
                     }}       
                 />
+                <div>
+                    {<p className="error">{errors.image}</p>}
+                </div>
                 
                 {/* Files Preview Div */}
                 { files.length > 0 && (
@@ -153,10 +205,12 @@ const ListingForm = () => {
                 )}
                 
                 {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
-               
+                
                 <button className="button-primary" type="submit" style={{marginTop: 25}}>
                 Submit
                 </button>
+                   
+                
             </form> 
         </div>
     )

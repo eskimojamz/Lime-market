@@ -113,10 +113,12 @@ h3 {
   color: white;
 }
 
-.button-primary:hover {
-  background: var(--primary-light);
-  transform: translateY(0.1rem);
-  transition: 0.5s;
+@media only screen and (min-width: 768px) {
+  .button-primary:hover {
+    background: var(--primary-light);
+    transform: translateY(0.1rem);
+    transition: 0.5s;
+  }
 }
 
 .button-primary:active {
@@ -795,6 +797,10 @@ input[type=file]::file-selector-button {
 .file-input input{
   border: none;
   width: 100%;
+}
+
+.error {
+  color: red;
 }
 
 .listing-info {
