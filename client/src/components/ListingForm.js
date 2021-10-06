@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import FileBase from 'react-file-base64';
 import { useAuth0 } from '@auth0/auth0-react'
 
 
@@ -85,6 +84,7 @@ const ListingForm = () => {
                 clear()
                 setRedirect(true)
             } else {
+                // Get user profile data for dispatch createListing
                 dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture }))
                 clear()
                 setRedirect(true)

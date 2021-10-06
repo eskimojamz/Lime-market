@@ -5,24 +5,28 @@ import axios from 'axios'
 function SignupPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
+    const defaultImgURL = 'https://limemarketstatic.s3.amazonaws.com/download.png?AWSAccessKeyId=AKIAX44APJ4HG6T7AWMG&Signature=s2lUhApCWF3ri4CqgDlHmn0EXgU%3D&Expires=1633515112'
+    
     const handleSubmit = (e) => {
         axios.post('http://localhost:8000/users/create', {
             username: `${username}`,
-            password: `${password}`
+            password: `${password}`,
+            profile_img: defaultImgURL
         })
-        .then(response => {
+        .then((response) => {
             console.log(response)
             return axios.post('http://localhost:8000/auth/', {
                 username: `${username}`,
                 password: `${password}`
             })
         })
-        .then(response => {
+        .then((response) => {
             console.log(response)
             sessionStorage.setItem('token', response.data.token)
             console.log(sessionStorage.getItem('token'))
         })
+
+
         // Prevent default refresh for testing
         e.preventDefault()
     }
