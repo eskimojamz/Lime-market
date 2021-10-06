@@ -20,12 +20,7 @@ const ListingForm = () => {
         // image4: null,
     })
     console.log(listingData)
-    const [files, setFiles] = useState({
-        // file1: null,
-        // file2: null,
-        // file3: null,
-        // file4: null
-    })
+    const [files, setFiles] = useState([])
     console.log(files)
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
@@ -61,64 +56,108 @@ const ListingForm = () => {
 
     return (
         <div className="form">
-        <h3>Create Listing</h3>
-        { redirect && <Redirect to={`/listings`} /> }
-        <form onSubmit={handleSubmit}>
-            <label>
-                <h4>Title:</h4>
-            </label>
-            <div className="form-input">
-                <input className="form-title-input" type="text" value={listingData.title} onChange={(e) => setListingData({ ...listingData, title: e.target.value })} />
-            </div>
-            
-            <label>
-                <h4>Price:</h4>
-            </label>
-            <div className="form-input">
-                <h2>$</h2>
-                <input type="text" value={listingData.price} onChange={(e) => setListingData({ ...listingData, price: e.target.value })} />
-            </div>
-            
+            <h3>Create Listing</h3>
+            { redirect && <Redirect to={`/listings`} /> }
+            <form onSubmit={handleSubmit}>
+                {/* Title */}
+                <label for="title">
+                    <h4>Title:</h4>
+                </label>
+                <input className="form-title-input" 
+                    id="title" name="title"
+                    type="text" 
+                    value={listingData.title} 
+                    onChange={(e) => 
+                        setListingData({ ...listingData, 
+                            title: e.target.value 
+                        })} 
+                />
 
-            <label>
-                <h4>Description:</h4>
-            </label>
-            <textarea className="form-desc-textarea" value={listingData.description} onChange={(e) => setListingData({ ...listingData, description: e.target.value })}/>
+                {/* Price */}
+                <label for="price">
+                    <h4>Price:</h4>
+                </label>
+                <div className="form-input">
+                    <h2>$</h2>
+                    <input className="form-price-input"
+                        id="price" name="price"
+                        type="text" 
+                        value={listingData.price} 
+                        onChange={(e) => setListingData({ ...listingData, 
+                            price: e.target.value 
+                        })} 
+                    />
+                </div>
             
-            <label for="files">
-                <h4>Images:</h4>
-            </label>
-            <input className="file-input" 
-                type="file"
-                id="files" name="files"
-                accept="image/png, image/jpeg"
-                multiple
-                onChange={(event) => {
-                    setListingData({ ...listingData, 
-                        image1: event.target.files[0],
-                        image2: event.target.files[1],
-                        image3: event.target.files[2],
-                        image4: event.target.files[3],
-                    })
-                    setFiles({
-                        // file1: reader.readAsDataURL(event.target.files[0]),
-                        // file2: reader.readAsDataURL(event.target.files[1]),
-                        // file3: reader.readAsDataURL(event.target.files[2]),
-                        // file4: reader.readAsDataURL(event.target.files[3]),
-                    })
-                }}       
-            />
-            <img src={files.file1} />
-            <img src={files.file2} />
-            <img src={files.file3} />
-            <img src={files.file4} />
-            {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
-            <br />
-            <br />
-            <button className="button-primary" type="submit" >
-            Submit
-            </button>
-        </form> 
+                {/* Description */}
+                <label for="description">
+                    <h4>Description:</h4>
+                </label>
+                <textarea className="form-desc-textarea" 
+                    id="description" name="description"
+                    value={listingData.description} 
+                    onChange={(e) => setListingData({ ...listingData, 
+                        description: e.target.value 
+                    })}
+                />
+                
+                {/* Image File Upload */}
+                <label for="files">
+                    <h4>Images:</h4>
+                </label>
+                <input className="file-input" 
+                    type="file"
+                    id="files" name="files"
+                    accept="image/png, image/jpeg"
+                    multiple
+                    onChange={(event) => {
+                        if (event.target.files) {
+                            setListingData({ ...listingData, 
+                                image1: event.target.files[0],
+                                image2: event.target.files[1],
+                                image3: event.target.files[2],
+                                image4: event.target.files[3],
+                            })
+
+                            // Empty array to remove previous files onchange
+                            files.length = 0
+                            
+                            // For every file, create & push the img url to files array state
+                            for (let file of event.target.files) {
+                                files.push(URL.createObjectURL(file))
+                            }
+                        }
+                        
+                    }}       
+                />
+                
+                {/* Files Preview Div */}
+                { files.length > 0 && (
+                <>
+                <h4>Image Preview:</h4>
+                <div className="form-files">
+                    {files[0] 
+                        ? <img className="files-img" src={files[0]} /> 
+                        : null}
+                    {files[1] 
+                        ? <img className="files-img" src={files[1]} /> 
+                        : null}
+                    {files[2] 
+                        ? <img className="files-img" src={files[2]} /> 
+                        : null}
+                    {files[3] 
+                        ? <img className="files-img" src={files[3]} /> 
+                        : null}
+                </div> 
+                </>
+                )}
+                
+                {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
+               
+                <button className="button-primary" type="submit" style={{marginTop: 25}}>
+                Submit
+                </button>
+            </form> 
         </div>
     )
 }
