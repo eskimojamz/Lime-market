@@ -11,16 +11,12 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     const { user, logout } = useAuth0()
-    const userData = JSON.parse(sessionStorage.getItem('userData'))
+    const username = sessionStorage.getItem('username')
     console.log(sessionStorage.getItem('token'))
-    useEffect(() => {
-        user &&
-        sessionStorage.setItem('userData', JSON.stringify(user))
-    }, [user])
-    console.log(userData)
 
     const logoutAll = () => {
-        sessionStorage.removeItem('userData')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('username')
         logout()
     }
 
@@ -64,7 +60,7 @@ const Navbar = () => {
                 <Link to='/listings'><button className="listings-nav-btn-mobile">Listings</button></Link>
                 <Link to='/form'><button className="sell-nav-btn-mobile">Sell Now</button></Link>
                 </div>
-                {user || userData
+                {username || userData
                     ? (
                     <>
                     <div className="mobile-menu-profile">
@@ -99,22 +95,14 @@ const Navbar = () => {
 
             <div className="nav-right-desktop">
                 <Link to='/listings'>
-                    <motion.button 
-                        className="listings-nav-btn"
-                        initial={{ y: -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.75, duration: 0.25 }}
-                        >Listings
-                    </motion.button>
+                    <button className="listings-nav-btn">
+                        Listings
+                    </button>
                 </Link>
                 <Link to='/form'>
-                    <motion.button 
-                        className="sell-nav-btn button-primary"
-                        initial={{ y: -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 1, duration: 0.25 }}
-                        >Sell Now
-                    </motion.button>
+                    <button className="sell-nav-btn">
+                        Sell Now
+                    </button>
                 </Link>
                 
                 {user || userData
