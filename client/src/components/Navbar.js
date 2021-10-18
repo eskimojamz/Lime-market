@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../App'
+import axios from 'axios'
 import { motion } from 'framer-motion'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
-import { useAuth0 } from '@auth0/auth0-react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import MenuButton from './MenuButton'
@@ -10,14 +11,15 @@ import MenuButton from './MenuButton'
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
-    const { user, logout } = useAuth0()
-    const username = sessionStorage.getItem('username')
-    console.log(sessionStorage.getItem('token'))
+    const {user, setUser} = useContext(UserContext)
+    console.log(user)
 
     const logoutAll = () => {
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('username')
-        logout()
+        sessionStorage.removeItem('user')
+        setUser(null)
+        window.location.reload()
     }
 
     return (
@@ -60,23 +62,23 @@ const Navbar = () => {
                 <Link to='/listings'><button className="listings-nav-btn-mobile">Listings</button></Link>
                 <Link to='/form'><button className="sell-nav-btn-mobile">Sell Now</button></Link>
                 </div>
-                {username || userData
+                {user
                     ? (
                     <>
                     <div className="mobile-menu-profile">
                         <div className="mobile-menu-profile-left">
-                            <img className="profile-mobile" src={userData?.picture || user?.picture} />
+                            <img className="profile-mobile" src={user?.profile_img} />
                         </div>
                         <div className="mobile-menu-profile-right">
                             <h5>Signed in as: </h5>
-                            <h4>{userData.nickname}</h4>
+                            <h4>{user?.username}</h4>
                         </div>
                     </div>
                     <div className="mobile-menu-bottom-logout">
                         <Link to="/profile">
                             <button 
                                 className="profile-btn-mobile" 
-                                onClick={localStorage.setItem('currentUser', JSON.stringify(userData))}
+                                onClick={localStorage.setItem('currentUser', JSON.stringify(user))}
                                 >My Profile
                             </button>
                         </Link>
@@ -105,12 +107,12 @@ const Navbar = () => {
                     </button>
                 </Link>
                 
-                {user || userData
+                {user
                     ? (
                     <>
                     <motion.img 
                         className="profile" 
-                        src={userData?.picture || user?.picture} 
+                        src={user?.profile_img} 
                         onClick={() => setProfileOpen(!profileOpen)} 
                         initial={{ y: -20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -127,13 +129,13 @@ const Navbar = () => {
                             >
                             <div className="profile-menu-user-top">
                                 <h5>Signed in as:</h5>
-                                <h5 className="bold">{userData?.nickname}</h5>
+                                <h5 className="bold">{user?.username}</h5>
                             </div>
                             <div className="profile-menu-user-bottom">
                                 <Link to="/profile">
                                     <button 
                                         className="profile-btn" 
-                                        onClick={localStorage.setItem('currentUser', JSON.stringify(userData))}>
+                                        onClick={localStorage.setItem('currentUser', JSON.stringify(user))}>
                                         My Profile
                                     </button>
                                 </Link>

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
+import { UserContext } from '../App'
 import { Link, useHistory } from 'react-router-dom' 
 import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
 
 function LoginPage() {
+    const {user, setUser} = useContext(UserContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     // const [fixPassword, setFixPassword] = useState(false)
@@ -18,16 +20,29 @@ function LoginPage() {
         password: password,
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         setLoading(true)
-        axios.post('http://localhost:8000/auth/', {
+        await axios.post('http://localhost:8000/auth/', {
             username: `${loginCredentials.username}`,
             password: `${loginCredentials.password}`
         })
         .then((response) => {
             sessionStorage.setItem('token', response.data.token)
             sessionStorage.setItem('username', username)
+            axios.get(`http://localhost:8000/users/view/${username}`, {
+                Authorization: `Token ${response.data.token}`
+            })
+            .then((response) => {
+                sessionStorage.setItem('user', JSON.stringify(response.data))
+                console.log(response)
+                setUser(response.data)
+            })
+            .catch((error) => {
+                if (error) {
+                sessionStorage.removeItem('user')
+                }
+            })
             // console.log(response.data.token)
             setLoading(false)
             history.goBack()

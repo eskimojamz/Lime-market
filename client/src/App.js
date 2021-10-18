@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, createContext } from 'react'
+import axios from 'axios'
 import styled from 'styled-components'
 
 import { Route, Switch, useLocation } from 'react-router-dom'
@@ -14,9 +15,17 @@ import ProfilePage from './routes/ProfilePage'
 import { useDispatch, useSelector } from 'react-redux'
 import { getComments, getListings, setCurrentUser } from './actions/actions.js'
 
+export const UserContext = createContext(null)
+
 const App = () => {
     const location = useLocation()
     const dispatch = useDispatch()
+    const [user, setUser] = useState()
+
+    useEffect(() => {
+      const userData = JSON.parse(sessionStorage.getItem('user'))
+      setUser(userData)
+    }, [user])
 
     useEffect(() => {
       dispatch(getListings())
@@ -26,6 +35,7 @@ const App = () => {
   return (
       <>
         <div className="wrapper">
+          <UserContext.Provider value={{user, setUser}}>
           <Navbar />
           <div className="container">
             <Switch location={location} key={location.pathname}>
@@ -38,6 +48,7 @@ const App = () => {
               <Route path='/profile/' component={ProfilePage} />
             </Switch>
           </div>
+          </UserContext.Provider>
         </div>
     </>
   )
