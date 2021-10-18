@@ -1,18 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
 import moment from 'moment';
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
-import comment from '../assets/comments.svg'
-import like from '../assets/like.svg'
+import comment from '../assets/comment.svg'
+import like from '../assets/star.svg'
 import { motion } from 'framer-motion'
 import axios from 'axios';
+import { UserContext } from '../App';
 
 const ListingInfoPage = () => {
-    const { user } = useAuth0()
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
@@ -25,10 +24,10 @@ const ListingInfoPage = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
-    const userData = JSON.parse(sessionStorage.getItem('userData'))
-    const userId = userData?.sub
-    const userName = userData?.nickname
-    const userPic = userData?.picture
+
+    const {user, setUser} = useContext(UserContext)
+    
+    const [liked, setLiked] = useState()
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
@@ -63,9 +62,8 @@ const ListingInfoPage = () => {
         e.preventDefault()
         dispatch(addComment({  
             listingId: listingId, 
-            creator: userId,
-            creatorName: userName,
-            creatorImg: userPic,
+            creator: user.username,
+            creatorImg: user.profile_img,
             body: newComment,
         }))
         setNewComment("")
@@ -77,6 +75,14 @@ const ListingInfoPage = () => {
     }
 
     const paypal = useRef();
+
+    useEffect(() => {
+        if (user !== (null || undefined)) {
+            if (Object.values(user.watchlist).contains(listingId)) {
+                setLiked(true)
+            }
+        }
+    }, [])
 
     useEffect(() => {
         const product = {
@@ -127,7 +133,7 @@ const ListingInfoPage = () => {
         >
             { deleted && <Redirect to="/listings" /> }
             <div className="listing-info">
-                { (listing.creator === user?.sub) &&
+                { (listing.creator === user?.username) &&
                 <div className="listing-info-edit-menu">
                     <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
                         <img src={menu} />
@@ -173,10 +179,10 @@ const ListingInfoPage = () => {
                 </div>
                 <div className="listing-info-tooltip">
                     <div className="like">
-                        {/* <button className="listing-tooltip-like p-1" onClick={handleLike} >
+                        <button className="listing-tooltip-like p-1" >
                             <img src={like} />
-                        </button> */}
-                        {/* <span><h5 className="p-1">{listing?.likers.length}</h5></span> */}
+                        </button>
+                        <span><h5 className="p-1"></h5></span>
                         <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                     </div>
                     <div className="comment">
@@ -234,7 +240,7 @@ const ListingInfoPage = () => {
                                         </div>
                                         <div className="comment-date"><p>{moment(`${comment.createdAt}`).format('lll')}</p></div>
                                     </div>
-                                    {(comment.creator === userId) &&
+                                    {(comment.creator === user.username) &&
                                     <div className="comment-bottom-delete">
                                         <button 
                                             className="comment-delete-button"
