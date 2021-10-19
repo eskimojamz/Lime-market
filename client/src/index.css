@@ -25,7 +25,7 @@ body {
   --text-color: #dadce1;
   --nav-size: 60px;
   --border: 1px solid #474a4d;
-  --border-radius: 8px;
+  --border-radius: 3px;
   --speed: 500ms;
   --bar-width: 35px;
   --bar-height: 2px;
@@ -97,8 +97,8 @@ button {
 
 @media only screen and (min-width: 768px) {
   button:hover {
-    opacity: 50%;
-    transition: 0.5s;
+    filter: brightness(0.95);
+    transition: all 0.2s ease;
   }
 }
 
@@ -747,7 +747,7 @@ iframe {
   border-radius: var(--border-radius);
 }
 
-.listing-tooltip {
+.listing-actions {
   grid-column: 1 / 3;
   grid-row: 4 / -1;
   display: flex;
@@ -755,24 +755,24 @@ iframe {
   align-items: center;
 }
 
-.listing-tooltip button {
+.listing-actions button {
   background: none;
   border: none;
   width: 1.5rem;
   height: 1.5rem;
 }
 
-.listing-tooltip img {
+.listing-actions img {
   width: 1.5rem;
   height: 1.5rem;
   transition: transform 250ms;
 }
 
-.listing-tooltip img:hover{
+.listing-actions img:hover{
   transform: translateY(2px)
 }
 
-.listing-tooltip h5 {
+.listing-actions h5 {
   font-weight: 500;
   margin: 0;
   padding-top: 0.5rem;
@@ -1058,9 +1058,10 @@ input[type=file]::file-selector-button {
     grid-row: 4 / 6;
     margin-top: 0 !important;
   } 
-  .listing-info-tooltip {
-    grid-column: 1 / -1;
+  .listing-info-like {
+    grid-column: 2 / 4;
     grid-row: 6 / 7;
+    height: 100%;
   }
   .comments-section {
     grid-column: 1 / -1;
@@ -1229,39 +1230,41 @@ input[type=file]::file-selector-button {
   margin-top: 0.7rem;
 }
 
-.listing-info-tooltip {
-  position: relative;
+.listing-info-like {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.listing-info-like-button {
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5rem;
+  padding-right: 10px;
+  margin: 0 auto;
+}
+
+.listing-info-like-button:hover {
+  filter: none !important;
+}
+
+.liked {
+  background: white;
+  border: 2px var(--primary);
+  transition: all 0.2s ease;
+}
+
+.listing-info-like-text {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.listing-info-tooltip button {
-  background: none;
-  border: none;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.listing-info-tooltip img {
-  width: 1.5rem;
-  height: 1.5rem;
-  transition: transform 250ms;
-}
-
-.listing-info-tooltip img:hover{
-  transform: translateY(2px)
-}
-
-.listing-info-tooltip h5 {
+.listing-info-like h5 {
   font-weight: 500;
-  margin: 0;
-  padding-top: 0.5rem;
-}
-
-.like {
-  display: flex;
-  place-content: center;
 }
 
 .comment {

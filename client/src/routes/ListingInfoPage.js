@@ -3,10 +3,11 @@ import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
 import moment from 'moment';
+import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
 import comment from '../assets/comment.svg'
-import like from '../assets/star.svg'
+import like from '../assets/like.json'
 import { motion } from 'framer-motion'
 import axios from 'axios';
 import { UserContext } from '../App';
@@ -28,11 +29,17 @@ const ListingInfoPage = () => {
     const {user, setUser} = useContext(UserContext)
     
     const [liked, setLiked] = useState()
+    const [isStopped, setIsStopped] = useState(true)
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
     
+    const toggleLike = () => {
+        setIsStopped(!isStopped)
+        setLiked(!liked)
+    }
+
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))
         setEdit(true)
@@ -177,20 +184,27 @@ const ListingInfoPage = () => {
                 <div className="listing-info-paypal" ref={paypal}>
                    {/* Paypal */}
                 </div>
-                <div className="listing-info-tooltip">
-                    <div className="like">
-                        <button className="listing-tooltip-like p-1" >
-                            <img src={like} />
-                        </button>
-                        <span><h5 className="p-1"></h5></span>
-                        <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
-                    </div>
-                    <div className="comment">
-                        <button className="listing-tooltip-comment p-1">
-                            <img src={comment} />
-                        </button>
-                        <span><h5 className="p-1">{listingComments.length}</h5></span>
-                    </div>
+                <div className="listing-info-like">
+                    <button 
+                        className={liked ? "listing-info-like-button liked" : "listing-info-like-button"}
+                        onClick={toggleLike}
+                    >
+                        <Lottie
+                            options={{
+                                loop: false,
+                                autoplay: false,
+                                animationData: like,
+                                rendererSettings: {
+                                    preserveAspectRatio: 'xMidYMid slice'
+                                }
+                            }}
+                            height="35px"
+                            width="35px"
+                            isStopped={isStopped}
+                        />
+                        <span className="listing-info-like-text"><h5>10 Likes</h5></span>
+                    </button>
+                    <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                 </div>
                 <div className="comments-section">
                     <div className="comments-show">
