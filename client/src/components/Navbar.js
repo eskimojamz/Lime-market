@@ -11,14 +11,12 @@ import MenuButton from './MenuButton'
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
-    const {user, setUser} = useContext(UserContext)
+    const user = JSON.parse(sessionStorage.getItem('user'))
     console.log(user)
 
     const logoutAll = () => {
         sessionStorage.removeItem('token')
-        sessionStorage.removeItem('username')
         sessionStorage.removeItem('user')
-        setUser(null)
         window.location.reload()
     }
 

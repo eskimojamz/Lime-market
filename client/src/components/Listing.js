@@ -47,7 +47,7 @@ const Listing = ({listing, user}) => {
                     <button className="listing-tooltip-like p-1" onClick={handleLike}>
                         <img src={like} />
                     </button>
-                    <span><h5 className="p-1">{listingData.likers.length}</h5></span>
+                    <span><h5 className="p-1">{parseInt(listingData.like_count)}</h5></span>
                 
                 
                     <button className="listing-tooltip-comment p-1">

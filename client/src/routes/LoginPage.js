@@ -7,7 +7,6 @@ import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
 
 function LoginPage() {
-    const {user, setUser} = useContext(UserContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     // const [fixPassword, setFixPassword] = useState(false)
@@ -29,14 +28,12 @@ function LoginPage() {
         })
         .then((response) => {
             sessionStorage.setItem('token', response.data.token)
-            sessionStorage.setItem('username', username)
             axios.get(`http://localhost:8000/users/view/${username}`, {
                 Authorization: `Token ${response.data.token}`
             })
             .then((response) => {
                 sessionStorage.setItem('user', JSON.stringify(response.data))
                 console.log(response)
-                setUser(response.data)
             })
             .catch((error) => {
                 if (error) {

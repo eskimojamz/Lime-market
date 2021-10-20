@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListings, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
+import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
 import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
@@ -26,8 +26,8 @@ const ListingInfoPage = () => {
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
 
-    const {user, setUser} = useContext(UserContext)
-    
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    console.log(user?.watchlist)
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
@@ -36,6 +36,17 @@ const ListingInfoPage = () => {
     const [deleteModalOn, setDeleteModal] = useState(false)
     
     const toggleLike = () => {
+        if (!liked) {
+            dispatch(updateListing(listingId, 
+                {
+                    likers: listing.likers + 1
+                }
+            ))
+            const key = parseInt(Object.values(user.watchlist).length)
+            const watchlist = user.watchlist
+            watchlist[key] = listingId
+            dispatch(likeListing(user.username, watchlist))
+        }
         setIsStopped(!isStopped)
         setLiked(!liked)
     }
@@ -83,13 +94,13 @@ const ListingInfoPage = () => {
 
     const paypal = useRef();
 
-    useEffect(() => {
-        if (user !== (null || undefined)) {
-            if (Object.values(user.watchlist).contains(listingId)) {
-                setLiked(true)
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (user !== (null || undefined)) {
+    //         if (Object.values(user?.watchlist).contains(listingId)) {
+    //             setLiked(true)
+    //         }
+    //     }
+    // }, [])
 
     useEffect(() => {
         const product = {

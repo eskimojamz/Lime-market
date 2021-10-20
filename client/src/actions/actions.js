@@ -1,4 +1,4 @@
-import * as api from '../api'
+import * as api from '../api/api'
 
 export const getListings = () => async(dispatch) => {
     try {
@@ -15,6 +15,16 @@ export const getListing = (id) => async(dispatch) => {
         const { data } = await api.fetchListing(id)
         
         dispatch({ type: 'FETCH_LISTING', payload: data })
+    } catch (error) {
+        console.log(error.message)
+    }  
+}
+
+export const getUser = (userId) => async(dispatch) => {
+    try {
+        const { data } = await api.fetchUser(userId)
+        
+        dispatch({ type: 'FETCH_USER', payload: data })
     } catch (error) {
         console.log(error.message)
     }  
@@ -80,15 +90,13 @@ export const updateListing = (id, listing) => async (dispatch) => {
     }
 };
   
-// export const followListing = (id) => async (dispatch) => {
-//     try {
-//         const { data } = await api.followListing(id);
-
-//         dispatch({ type: LIKE, payload: data });
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// };
+export const likeListing = (userId, watchlist) => async () => {
+    try {
+        await api.likeListing(userId, watchlist);
+    } catch (error) {
+        console.log(error.message);
+    }
+};
   
 export const deleteListing = (id) => async (dispatch) => {
     try {

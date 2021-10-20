@@ -13,19 +13,20 @@ import FormPage from './routes/FormPage'
 import ProfilePage from './routes/ProfilePage'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getComments, getListings, setCurrentUser } from './actions/actions.js'
+import { getUser, getComments, getListings, setCurrentUser } from './actions/actions.js'
 
 export const UserContext = createContext(null)
 
 const App = () => {
     const location = useLocation()
     const dispatch = useDispatch()
-    const [user, setUser] = useState()
+    // const [user, setUser] = useState()
 
     useEffect(() => {
-      const userData = JSON.parse(sessionStorage.getItem('user'))
-      setUser(userData)
-    }, [user])
+      const user = JSON.parse(sessionStorage.getItem('user'))
+      const userData = dispatch(getUser(user?.username))
+      sessionStorage.setItem('user', JSON.stringify(userData))
+    }, [])
 
     useEffect(() => {
       dispatch(getListings())
@@ -35,7 +36,7 @@ const App = () => {
   return (
       <>
         <div className="wrapper">
-          <UserContext.Provider value={{user, setUser}}>
+          {/* <UserContext.Provider value={{user, setUser}}> */}
           <Navbar />
           <div className="container">
             <Switch location={location} key={location.pathname}>
@@ -48,7 +49,7 @@ const App = () => {
               <Route path='/profile/' component={ProfilePage} />
             </Switch>
           </div>
-          </UserContext.Provider>
+          {/* </UserContext.Provider> */}
         </div>
     </>
   )
