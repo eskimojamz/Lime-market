@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const auth = 'http://localhost:8000/auth/'
 const users = 'http://localhost:8000/users'
-const listings = 'http://localhost:8000/listings/';
+const listings = 'http://localhost:8000/listings';
 const comments = 'http://localhost:8000/comments/';
 
 // Authorization Token Call
@@ -17,10 +17,12 @@ export const fetchUsers = () => axios.get(users)
 
 // Listings
 export const fetchListings = () => axios.get(listings)
-export const fetchListing = (id) => axios.get(`${listings}${id}`)
+export const fetchListing = (listingId) => axios.get(`${listings}/${listingId}`)
 export const createListing = (newListing) => axios.post(listings, newListing)
-export const updateListing = (id, updatedListing) => axios.patch(`${listings}/${id}`, updatedListing)
+export const updateListing = (listingId, updatedListing) => axios.patch(`${listings}/update/${listingId}`, updatedListing)
 export const deleteListing = (id) => axios.delete(`${listings}/${id}`)
+export const fetchLikes = (listingId) => axios.get(`${listings}/${listingId}/likeCount`)
+export const likeCount = (listingId, updatedCount, auth) => axios.patch(`${listings}/${listingId}/like`, updatedCount, auth)
 export const likeListing = (userId, watchlist) => axios.patch(`${users}/update/${userId}/`, watchlist)
 
 // Comments

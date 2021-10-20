@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing } from '../actions/actions';
+import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing, likeCount, getLikes } from '../actions/actions';
 import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
@@ -13,21 +13,23 @@ import { UserContext } from '../App';
 
 const ListingInfoPage = () => {
     const {user, setUser} = useContext(UserContext)
+    const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
-    // const [listingData, setListingData] = useState()
+    const likes = useSelector((state) => state.likes)
+
+    console.log(likes.like_count + 1)
 
     useEffect(() => {
         dispatch(getListing(listingId))
+        dispatch(getLikes(listingId))
     }, [])
     
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
 
-    
-    console.log(user)
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
@@ -37,15 +39,21 @@ const ListingInfoPage = () => {
     
     const toggleLike = () => {
         if (!liked) {
-            dispatch(updateListing(listingId, 
+            dispatch(likeCount(listingId, 
                 {
-                    like_count: listing.like_count + 1
+                    like_count: likes.like_count + 1
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
                 }
             ))
-            const key = parseInt(Object.values(user?.watchlist).length)
-            const watchlist = user.watchlist
-            watchlist[key] = listingId
-            dispatch(likeListing(user.username, watchlist))
+            console.log('dispatched')
+            // const key = parseInt(Object.values(user?.watchlist).length)
+            // const watchlist = user.watchlist
+            // watchlist[key] = listingId
+            // dispatch(likeListing(user.username, watchlist))
         }
         setIsStopped(!isStopped)
         setLiked(!liked)
@@ -150,6 +158,8 @@ const ListingInfoPage = () => {
             transition={{ delay: 0.5, duration: 0.25 }}
         >
             { deleted && <Redirect to="/listings" /> }
+
+            {/* Listing Info */}
             <div className="listing-info">
                 { (listing.creator === user?.username) &&
                 <div className="listing-info-edit-menu">
@@ -195,6 +205,7 @@ const ListingInfoPage = () => {
                 <div className="listing-info-paypal" ref={paypal}>
                    {/* Paypal */}
                 </div>
+
                 <div className="listing-info-like">
                     <button 
                         className={liked ? "listing-info-like-button liked" : "listing-info-like-button"}
@@ -217,6 +228,8 @@ const ListingInfoPage = () => {
                     </button>
                     <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                 </div>
+
+                {/* Comments */}
                 <div className="comments-section">
                     <div className="comments-show">
                         {listingComments.map((comment, key) => {

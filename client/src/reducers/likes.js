@@ -1,10 +1,10 @@
-const listingReducer = (state = [], action) => {
+const likesReducer = (state = [], action) => {
     switch (action.type) {
-        case 'FETCH_LISTING':
+        case 'FETCH_LIKES':
             return action.payload   
         default:
             return state
     }
 };
 
-export default listingReducer
+export default likesReducer

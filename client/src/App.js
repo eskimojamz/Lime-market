@@ -24,10 +24,10 @@ const App = () => {
 
     useEffect(() => {
       const userStorage = JSON.parse(sessionStorage.getItem('user'))
-      if (userStorage) {
-        const userData = dispatch(getUser(userStorage?.username))
-        sessionStorage.setItem('user', JSON.stringify(userData))
-      }
+      // if (userStorage) {
+      //   const userData = dispatch(getUser(userStorage?.username))
+      //   sessionStorage.setItem('user', JSON.stringify(userData))
+      // }
       setUser(userStorage)
     }, [])
 

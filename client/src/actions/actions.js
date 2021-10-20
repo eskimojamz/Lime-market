@@ -10,9 +10,9 @@ export const getListings = () => async(dispatch) => {
     }  
 }
 
-export const getListing = (id) => async(dispatch) => {
+export const getListing = (listingId) => async(dispatch) => {
     try {
-        const { data } = await api.fetchListing(id)
+        const { data } = await api.fetchListing(listingId)
         
         dispatch({ type: 'FETCH_LISTING', payload: data })
     } catch (error) {
@@ -80,16 +80,34 @@ export const deleteComment = (id) => async (dispatch) => {
     }
 };
 
-export const updateListing = (id, listing) => async (dispatch) => {
+export const updateListing = (listingId, updatedListing) => async (dispatch) => {
     try {
-      const { data } = await api.updateListing(id, listing);
+      const { data } = await api.updateListing(listingId, updatedListing);
   
       dispatch({ type: 'UPDATE', payload: data });
     } catch (error) {
       console.log(error);
     }
 };
-  
+
+export const getLikes = (listingId) => async (dispatch) => {
+    try {
+      const {data} = await api.fetchLikes(listingId);
+
+      dispatch({ type: 'FETCH_LIKES', payload: data });
+    } catch (error) {
+      console.log(error);
+    }
+};
+
+export const likeCount = (listingId, updatedCount, auth) => async () => {
+    try {
+      await api.likeCount(listingId, updatedCount, auth);
+    } catch (error) {
+      console.log(error);
+    }
+};
+
 export const likeListing = (userId, watchlist) => async () => {
     try {
         await api.likeListing(userId, watchlist);
