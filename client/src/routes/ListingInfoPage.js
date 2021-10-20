@@ -19,8 +19,6 @@ const ListingInfoPage = () => {
     const listing = useSelector((state) => state.listing)
     const likes = useSelector((state) => state.likes)
 
-    console.log(likes.like_count + 1)
-
     useEffect(() => {
         dispatch(getListing(listingId))
         dispatch(getLikes(listingId))
@@ -38,7 +36,7 @@ const ListingInfoPage = () => {
     const [deleteModalOn, setDeleteModal] = useState(false)
     
     const toggleLike = () => {
-        if (!liked) {
+        if (!liked && user) {
             dispatch(likeCount(listingId, 
                 {
                     like_count: likes.like_count + 1
@@ -50,11 +48,22 @@ const ListingInfoPage = () => {
                 }
             ))
             console.log('dispatched')
-            // const key = parseInt(Object.values(user?.watchlist).length)
-            // const watchlist = user.watchlist
-            // watchlist[key] = listingId
-            // dispatch(likeListing(user.username, watchlist))
-        }
+            
+            const key = Object.values(user?.watchlist).length
+            let newWatchlist = user?.watchlist
+            newWatchlist[key] = listingId
+            dispatch(likeListing(user.username, 
+                {
+                    watchlist: newWatchlist
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }    
+            ))
+            
+        } else
         setIsStopped(!isStopped)
         setLiked(!liked)
     }

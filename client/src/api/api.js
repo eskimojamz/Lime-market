@@ -23,7 +23,7 @@ export const updateListing = (listingId, updatedListing) => axios.patch(`${listi
 export const deleteListing = (id) => axios.delete(`${listings}/${id}`)
 export const fetchLikes = (listingId) => axios.get(`${listings}/${listingId}/likeCount`)
 export const likeCount = (listingId, updatedCount, auth) => axios.patch(`${listings}/${listingId}/like`, updatedCount, auth)
-export const likeListing = (userId, watchlist) => axios.patch(`${users}/update/${userId}/`, watchlist)
+export const likeListing = (userId, watchlist, auth) => axios.patch(`${users}/update/${userId}`, watchlist, auth)
 
 // Comments
 export const fetchComments = () => axios.get(comments)

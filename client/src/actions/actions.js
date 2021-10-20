@@ -108,9 +108,9 @@ export const likeCount = (listingId, updatedCount, auth) => async () => {
     }
 };
 
-export const likeListing = (userId, watchlist) => async () => {
+export const likeListing = (userId, watchlist, auth) => async () => {
     try {
-        await api.likeListing(userId, watchlist);
+        await api.likeListing(userId, watchlist, auth);
     } catch (error) {
         console.log(error.message);
     }
