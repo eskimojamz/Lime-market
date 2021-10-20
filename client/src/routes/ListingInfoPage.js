@@ -9,10 +9,10 @@ import menu from '../assets/menu-v.svg';
 import comment from '../assets/comment.svg'
 import like from '../assets/like.json'
 import { motion } from 'framer-motion'
-import axios from 'axios';
 import { UserContext } from '../App';
 
 const ListingInfoPage = () => {
+    const {user, setUser} = useContext(UserContext)
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
@@ -26,8 +26,8 @@ const ListingInfoPage = () => {
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
 
-    const user = JSON.parse(sessionStorage.getItem('user'))
-    console.log(user?.watchlist)
+    
+    console.log(user)
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
     const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
@@ -39,10 +39,10 @@ const ListingInfoPage = () => {
         if (!liked) {
             dispatch(updateListing(listingId, 
                 {
-                    likers: listing.likers + 1
+                    like_count: listing.like_count + 1
                 }
             ))
-            const key = parseInt(Object.values(user.watchlist).length)
+            const key = parseInt(Object.values(user?.watchlist).length)
             const watchlist = user.watchlist
             watchlist[key] = listingId
             dispatch(likeListing(user.username, watchlist))
