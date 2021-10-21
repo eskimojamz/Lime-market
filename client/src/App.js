@@ -32,11 +32,11 @@ const App = () => {
     //   setUser(updatedUserSession)
     // }, [])
 
-    useEffect(() => {
-      user && (
-        dispatch(getUser(user))
-      )
-    }, [])
+    // useEffect(() => {
+    //   user && (
+    //     dispatch(getUser(user))
+    //   )
+    // }, [])
 
   return (
       <>

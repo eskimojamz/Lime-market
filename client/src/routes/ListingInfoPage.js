@@ -97,9 +97,7 @@ const ListingInfoPage = () => {
     useEffect(() => {
         dispatch(getListing(listingId))
         dispatch(getLikes(listingId))
-        let updatedUser = dispatch(getUser(user?.username))
-        sessionStorage.setItem('user', updatedUser)
-    }, [toggleLike])
+    }, [])
 
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))

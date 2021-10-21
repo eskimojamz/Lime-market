@@ -8,7 +8,7 @@ import MenuButton from './MenuButton'
 import { useSelector } from 'react-redux'
 
 const Navbar = () => {
-    const user = useSelector(state => state.user)
+    const user = JSON.parse(sessionStorage.getItem('user'))
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     
@@ -105,7 +105,7 @@ const Navbar = () => {
                     </button>
                 </Link>
                 
-                {user.length > 0
+                {user 
                     ? (
                     <>
                     <motion.img 

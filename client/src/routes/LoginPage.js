@@ -1,22 +1,17 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
-import { UserContext } from '../App'
 import { Link, useHistory } from 'react-router-dom' 
 import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
-import { getUser } from '../actions/actions'
-import { useDispatch, useSelector } from 'react-redux'
 
 function LoginPage() {
-    const user = useSelector(state => state.user)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     // const [fixPassword, setFixPassword] = useState(false)
     const [invalidLogin, setInvalidLogin] = useState(false)
     const [loading, setLoading] = useState(false)
     const history = useHistory()
-    const dispatch = useDispatch()
 
     const loginCredentials = {
         username: username,
@@ -33,9 +28,16 @@ function LoginPage() {
                 password: `${loginCredentials.password}`
             })
             .then((response) => {
+                console.log(response.data.token)
                 sessionStorage.setItem('token', response.data.token)
-                dispatch(getUser(username))
-                sessionStorage.setItem('user', JSON.stringify(user))
+
+                axios
+                    .get(`http://localhost:8000/users/view/${username}`)
+                    .then((response) => {
+                        console.log(response)
+                        sessionStorage.setItem('user', JSON.stringify(response.data))
+                    })
+                
                 setLoading(false)
                 history.goBack()
             })
