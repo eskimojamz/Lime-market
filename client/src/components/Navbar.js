@@ -1,23 +1,22 @@
 import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../App'
-import axios from 'axios'
 import { motion } from 'framer-motion'
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import MenuButton from './MenuButton'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
+    const user = useSelector(state => state.user)
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
-    const {user, setUser} = useContext(UserContext)
+    
     console.log(user)
 
     const logoutAll = () => {
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('user')
-        setUser(null)
         window.location.reload()
     }
 
@@ -106,7 +105,7 @@ const Navbar = () => {
                     </button>
                 </Link>
                 
-                {user
+                {user.length > 0
                     ? (
                     <>
                     <motion.img 

@@ -5,15 +5,18 @@ import { UserContext } from '../App'
 import { Link, useHistory } from 'react-router-dom' 
 import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { getUser } from '../actions/actions'
+import { useDispatch, useSelector } from 'react-redux'
 
 function LoginPage() {
-    const {user, setUser} = useContext(UserContext)
+    const user = useSelector(state => state.user)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     // const [fixPassword, setFixPassword] = useState(false)
     const [invalidLogin, setInvalidLogin] = useState(false)
     const [loading, setLoading] = useState(false)
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const loginCredentials = {
         username: username,
@@ -23,43 +26,29 @@ function LoginPage() {
     const handleSubmit = async(e) => {
         e.preventDefault()
         setLoading(true)
-        await axios.post('http://localhost:8000/auth/', {
-            username: `${loginCredentials.username}`,
-            password: `${loginCredentials.password}`
-        })
-        .then((response) => {
-            sessionStorage.setItem('token', response.data.token)
-            axios.get(`http://localhost:8000/users/view/${username}`, {
-                Authorization: `Token ${response.data.token}`
+        
+        await axios
+            .post('http://localhost:8000/auth/', {
+                username: `${loginCredentials.username}`,
+                password: `${loginCredentials.password}`
             })
             .then((response) => {
-                sessionStorage.setItem('user', JSON.stringify(response.data))
-                setUser(response.data)
-                console.log(response)
+                sessionStorage.setItem('token', response.data.token)
+                dispatch(getUser(username))
+                sessionStorage.setItem('user', JSON.stringify(user))
+                setLoading(false)
+                history.goBack()
             })
             .catch((error) => {
-                if (error) {
-                sessionStorage.removeItem('user')
-                }
-            })
-            // console.log(response.data.token)
-            setLoading(false)
-            history.goBack()
-        })
-        .catch((error) => {
-            if (error) {
-                // console.log(error.response)
+                console.log(error)
                 setInvalidLogin(true)
                 // console.log(invalidLogin)
                 setLoading(false)
                 return
-            }
-        });
-        // Prevent default refresh for testing
-        // e.preventDefault()
+            })
     }
 
-    return (
+    return(
         <>
         <motion.div className="page-wrapper"
             initial={{ y: 20, opacity: 0 }}

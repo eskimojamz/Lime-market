@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing, likeCount, getLikes } from '../actions/actions';
+import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing, likeCount, getLikes, getUser } from '../actions/actions';
 import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
@@ -12,17 +12,14 @@ import { motion } from 'framer-motion'
 import { UserContext } from '../App';
 
 const ListingInfoPage = () => {
-    const {user, setUser} = useContext(UserContext)
+    const user = useSelector(state => state.user)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
     const likes = useSelector((state) => state.likes)
 
-    useEffect(() => {
-        dispatch(getListing(listingId))
-        dispatch(getLikes(listingId))
-    }, [])
+    
     
     const [menuOpen, setMenuOpen] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -36,7 +33,7 @@ const ListingInfoPage = () => {
     const [deleteModalOn, setDeleteModal] = useState(false)
     
     const toggleLike = () => {
-        if (!liked && user) {
+        if (!liked) {
             dispatch(likeCount(listingId, 
                 {
                     like_count: likes.like_count + 1
@@ -47,8 +44,7 @@ const ListingInfoPage = () => {
                     }
                 }
             ))
-            console.log('dispatched')
-            
+            console.log(user?.watchlist)
             const key = Object.values(user?.watchlist).length
             let newWatchlist = user?.watchlist
             newWatchlist[key] = listingId
@@ -62,11 +58,48 @@ const ListingInfoPage = () => {
                     }
                 }    
             ))
-            
-        } else
+            console.log(user)
+        } else if (liked) {
+            dispatch(likeCount(listingId, 
+                {
+                    like_count: likes.like_count - 1
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            ))
+            console.log(user?.watchlist)
+            let arr = Object.values(user?.watchlist)
+            let index = arr.indexOf(listingId)
+            if (index > -1) {
+                arr.splice(index, 1)
+            }
+            const newWatchlist = {...arr}
+
+            dispatch(likeListing(user.username, 
+                {
+                    watchlist: newWatchlist
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }    
+            ))
+            console.log(user?.watchlist)
+        }
         setIsStopped(!isStopped)
         setLiked(!liked)
     }
+
+    useEffect(() => {
+        dispatch(getListing(listingId))
+        dispatch(getLikes(listingId))
+        let updatedUser = dispatch(getUser(user?.username))
+        sessionStorage.setItem('user', updatedUser)
+    }, [toggleLike])
 
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))

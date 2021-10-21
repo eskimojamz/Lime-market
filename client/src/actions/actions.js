@@ -20,6 +20,16 @@ export const getListing = (listingId) => async(dispatch) => {
     }  
 }
 
+export const authUser = (userCredentials) => async(dispatch) => {
+    try {
+        const { data } = await api.authUser(userCredentials)
+        
+        dispatch({ type: 'AUTH_USER', payload: data })
+    } catch (error) {
+        console.log(error.message)
+    }  
+}
+
 export const getUser = (userId) => async(dispatch) => {
     try {
         const { data } = await api.fetchUser(userId)

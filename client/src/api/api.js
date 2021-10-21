@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-const auth = 'http://localhost:8000/auth/'
+const auth = 'http://localhost:8000/auth'
 const users = 'http://localhost:8000/users'
 const listings = 'http://localhost:8000/listings';
-const comments = 'http://localhost:8000/comments/';
+const comments = 'http://localhost:8000/comments';
 
 // Authorization Token Call
 export const authUser = (userCredentials) => axios.post(auth, userCredentials)
 
 // User Profiles
-export const createUser = (userCredentials, auth) => axios.post(`${users}/create/`, userCredentials, auth)
-export const deleteUser = (userId, auth) => axios.delete(`${users}/create/${userId}/`, auth)
-export const updateUser = (userId, auth) => axios.patch(`${users}/update/${userId}/`, auth)
-export const fetchUser = (userId) => axios.get(`${users}/view/${userId}/`)
+export const createUser = (userCredentials, auth) => axios.post(`${users}/create`, userCredentials, auth)
+export const deleteUser = (userId, auth) => axios.delete(`${users}/create/${userId}`, auth)
+export const updateUser = (userId, auth) => axios.patch(`${users}/update/${userId}`, auth)
+export const fetchUser = (userId) => axios.get(`${users}/view/${userId}`)
 export const fetchUsers = () => axios.get(users)
 
 // Listings

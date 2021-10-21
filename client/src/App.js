@@ -20,26 +20,28 @@ export const UserContext = createContext(null)
 const App = () => {
     const location = useLocation()
     const dispatch = useDispatch()
-    const [user, setUser] = useState(null)
+    const user = sessionStorage.getItem('user')
+    // const [user, setUser] = useState(null)
+
+    // useEffect(() => {
+    //   const updatedUserSession = JSON.parse(sessionStorage.getItem('user'))
+    //   // if (userStorage) {
+    //   //   const userData = dispatch(getUser(userStorage?.username))
+    //   //   sessionStorage.setItem('user', JSON.stringify(userData))
+    //   // }
+    //   setUser(updatedUserSession)
+    // }, [])
 
     useEffect(() => {
-      const userStorage = JSON.parse(sessionStorage.getItem('user'))
-      // if (userStorage) {
-      //   const userData = dispatch(getUser(userStorage?.username))
-      //   sessionStorage.setItem('user', JSON.stringify(userData))
-      // }
-      setUser(userStorage)
+      user && (
+        dispatch(getUser(user))
+      )
     }, [])
-
-    useEffect(() => {
-      dispatch(getListings())
-      dispatch(getComments())
-    }, [dispatch])
 
   return (
       <>
         <div className="wrapper">
-          <UserContext.Provider value={{user, setUser}}>
+          {/* <UserContext.Provider value={{user, setUser}}> */}
           <Navbar />
           <div className="container">
             <Switch location={location} key={location.pathname}>
@@ -52,7 +54,7 @@ const App = () => {
               <Route path='/profile/' component={ProfilePage} />
             </Switch>
           </div>
-          </UserContext.Provider>
+          {/* </UserContext.Provider> */}
         </div>
     </>
   )

@@ -1,16 +1,22 @@
-// import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import Listing from '../components/Listing'
 import Loading from '../components/Loading'
 
 import { useAuth0 } from '@auth0/auth0-react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { motion} from 'framer-motion'
+import { getListings } from '../actions/actions'
+
 
 const ListingsPage = () => {
+  const dispatch = useDispatch()
   const listings = useSelector((state) => state.listings)
-      
-  const { user } = useAuth0()
+  const user = useSelector(state => state.user)
+
+  useEffect(() => {
+    dispatch(getListings)
+  }, [])
 
   return (
       listings ?
