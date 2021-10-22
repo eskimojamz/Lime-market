@@ -12,31 +12,10 @@ import ListingInfoPage from './routes/ListingInfoPage'
 import FormPage from './routes/FormPage'
 import ProfilePage from './routes/ProfilePage'
 
-import { useDispatch } from 'react-redux'
-import { getUser, getComments, getListings } from './actions/actions.js'
-
 export const UserContext = createContext(null)
 
 const App = () => {
     const location = useLocation()
-    const dispatch = useDispatch()
-    const user = sessionStorage.getItem('user')
-    // const [user, setUser] = useState(null)
-
-    // useEffect(() => {
-    //   const updatedUserSession = JSON.parse(sessionStorage.getItem('user'))
-    //   // if (userStorage) {
-    //   //   const userData = dispatch(getUser(userStorage?.username))
-    //   //   sessionStorage.setItem('user', JSON.stringify(userData))
-    //   // }
-    //   setUser(updatedUserSession)
-    // }, [])
-
-    // useEffect(() => {
-    //   user && (
-    //     dispatch(getUser(user))
-    //   )
-    // }, [])
 
   return (
       <>

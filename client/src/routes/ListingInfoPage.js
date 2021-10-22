@@ -10,9 +10,11 @@ import comment from '../assets/comment.svg'
 import like from '../assets/like.json'
 import { motion } from 'framer-motion'
 import { UserContext } from '../App';
+import axios from 'axios'
 
 const ListingInfoPage = () => {
-    const user = useSelector(state => state.user)
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    console.log(user)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
@@ -32,7 +34,7 @@ const ListingInfoPage = () => {
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
     
-    const toggleLike = () => {
+    const toggleLike = async() => {
         if (!liked) {
             dispatch(likeCount(listingId, 
                 {
@@ -46,6 +48,7 @@ const ListingInfoPage = () => {
             ))
             console.log(user?.watchlist)
             const key = Object.values(user?.watchlist).length
+            console.log(key)
             let newWatchlist = user?.watchlist
             newWatchlist[key] = listingId
             dispatch(likeListing(user.username, 
@@ -58,6 +61,13 @@ const ListingInfoPage = () => {
                     }
                 }    
             ))
+
+            await axios
+                .get(`http://localhost:8000/users/view/${user.username}`)
+                .then((response) => {
+                    console.log(response)
+                    sessionStorage.setItem('user', JSON.stringify(response.data))
+                })
             console.log(user)
         } else if (liked) {
             dispatch(likeCount(listingId, 
@@ -88,6 +98,13 @@ const ListingInfoPage = () => {
                     }
                 }    
             ))
+
+            await axios
+                .get(`http://localhost:8000/users/view/${user.username}`)
+                .then((response) => {
+                    console.log(response)
+                    sessionStorage.setItem('user', JSON.stringify(response.data))
+                })
             console.log(user?.watchlist)
         }
         setIsStopped(!isStopped)
