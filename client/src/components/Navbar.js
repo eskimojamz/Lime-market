@@ -12,7 +12,7 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     
-    console.log(user)
+    console.log('user', user)
 
     const logoutAll = () => {
         sessionStorage.removeItem('token')

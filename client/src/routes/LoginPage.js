@@ -36,6 +36,7 @@ function LoginPage() {
                     .then((response) => {
                         console.log(response)
                         sessionStorage.setItem('user', JSON.stringify(response.data))
+                        console.log(sessionStorage.getItem('user'))
                     })
                 
                 setLoading(false)

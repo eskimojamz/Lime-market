@@ -11,10 +11,11 @@ import like from '../assets/like.json'
 import { motion } from 'framer-motion'
 import { UserContext } from '../App';
 import axios from 'axios'
+import LoginButton from '../components/LoginButton';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
-    console.log(user)
+    console.log('user', user)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
@@ -214,6 +215,9 @@ const ListingInfoPage = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.25 }}
         >
+
+        <Tooltip content="Please sign in to like and save listings" toggle={toggle} setToggle={setToggle}/>
+            
             { deleted && <Redirect to="/listings" /> }
 
             {/* Listing Info */}
@@ -266,7 +270,7 @@ const ListingInfoPage = () => {
                 <div className="listing-info-like">
                     <button 
                         className={liked ? "listing-info-like-button liked" : "listing-info-like-button"}
-                        onClick={toggleLike}
+                        onClick={user ? toggleLike : setToggle}
                     >
                         <Lottie
                             options={{
@@ -281,9 +285,8 @@ const ListingInfoPage = () => {
                             width="35px"
                             isStopped={isStopped}
                         />
-                        <span className="listing-info-like-text"><h5>10 Likes</h5></span>
+                        <span className="listing-info-like-text"><h5>{likes.like_count} Likes</h5></span>
                     </button>
-                    <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
                 </div>
 
                 {/* Comments */}
@@ -354,18 +357,29 @@ const ListingInfoPage = () => {
                         <form onSubmit={handleComment}>
                             <textarea 
                                 className="input-box" 
-                                placeholder="Type your comment here" 
+                                placeholder={ user ? "Type your comment here" : "Please sign in to comment" } 
                                 value={newComment} 
                                 onChange={(event) => {
                                     setNewComment(event.target.value)
                                 }} 
                             />
+                            { user 
+                            ? 
                             <button 
                                 className="button-primary"
                                 type="submit"
                             >
                                 Submit
                             </button>
+                            : 
+                            <Link to='/login'>
+                                <button 
+                                    className="button-secondary"
+                                >
+                                    Sign-in
+                                </button>
+                            </Link>
+                            }
                         </form>
                     </div>
                 </div>
