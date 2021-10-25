@@ -9,20 +9,18 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Tooltip from '../components/Tooltip.js';
 
-const Listing = ({listing, user}) => {
+const Listing = ({listing}) => {
     const dispatch = useDispatch()
     let listingId = listing.id
-    console.log(listingId)
-    const userData = JSON.parse(sessionStorage.getItem('userData'))
-    const userId = userData?.sub
+    const user = JSON.parse(sessionStorage.getItem('user'))
     const token = sessionStorage.getItem('token')
     const [listingData, setListingData] = useState(listing)
     const history = useHistory()
     const [toggle, setToggle] = useState(false)
     const [likes, setLikes] = useState()
-    console.log(likes)
-    const [liked, setLiked] = useState()
+    const [liked, setLiked] = useState(false)
     const [isStopped, setIsStopped] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     const toggleLike = async() => {
         if (!liked) {
@@ -122,12 +120,19 @@ const Listing = ({listing, user}) => {
             setLikes(response.data.like_count)
         })
     }
+
     useEffect(() => {
+        const likedBool = Object.values(user.watchlist).includes(listingId.toString())
         getLikes(listingId)
+        setIsStopped(!likedBool)
+        setLiked(!likedBool)
+        setLoading(false)
     }, [])
     
     
     return (
+        <>
+        {(loading === false) && (
         <div className="listing">
             {/* listing image */}
             <div className="listing-img-div">
@@ -144,7 +149,7 @@ const Listing = ({listing, user}) => {
             <div className="listing-like">
                 
                     <button 
-                        className={liked ? "listing-info-like-button liked" : "listing-info-like-button"}
+                        className="listing-info-like-button"
                         onClick={user ? toggleLike : setToggle}
                     >
                         <Lottie
@@ -162,8 +167,6 @@ const Listing = ({listing, user}) => {
                         />
                         <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
                     </button>
-                
-                    <Tooltip content="Please sign in to like and comment" toggle={toggle} setToggle={setToggle}/>
             </div>
             <div className="listing-btn">
                 {/* <Link to={`listings/${listingId}`}> */}
@@ -175,6 +178,8 @@ const Listing = ({listing, user}) => {
                 {/* </Link> */}
             </div>
         </div>
+        )}
+        </>
     )
 }
 

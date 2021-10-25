@@ -20,8 +20,7 @@ const ListingInfoPage = () => {
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
-    const likes = useSelector((state) => state.likes)
-
+    const [likes, setLikes] = useState()
     
     
     const [menuOpen, setMenuOpen] = useState(false)
@@ -112,9 +111,19 @@ const ListingInfoPage = () => {
         setLiked(!liked)
     }
 
+    const getLikes = (listingId) => {
+        axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+        .then(response => {
+            setLikes(response.data.like_count)
+        })
+    }
+
     useEffect(() => {
         dispatch(getListing(listingId))
-        dispatch(getLikes(listingId))
+        const likedBool = Object.values(user.watchlist).includes(listingId.toString())
+        getLikes(listingId)
+        setIsStopped(!likedBool)
+        setLiked(!likedBool)
     }, [])
 
     const handleEdit = () => {
@@ -269,9 +278,10 @@ const ListingInfoPage = () => {
 
                 <div className="listing-info-like">
                     <button 
-                        className={liked ? "listing-info-like-button liked" : "listing-info-like-button"}
+                        className="listing-info-like-button"
                         onClick={user ? toggleLike : setToggle}
                     >
+                    
                         <Lottie
                             options={{
                                 loop: false,
@@ -285,7 +295,8 @@ const ListingInfoPage = () => {
                             width="35px"
                             isStopped={isStopped}
                         />
-                        <span className="listing-info-like-text"><h5>{likes.like_count} Likes</h5></span>
+                        
+                        <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
                     </button>
                 </div>
 
