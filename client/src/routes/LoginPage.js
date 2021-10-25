@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom' 
 import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { UserContext } from '../App'
 
 function LoginPage() {
     const [username, setUsername] = useState('')
@@ -12,6 +13,7 @@ function LoginPage() {
     const [invalidLogin, setInvalidLogin] = useState(false)
     const [loading, setLoading] = useState(false)
     const history = useHistory()
+    const {currentUser, setCurrentUser} = useContext(UserContext)
 
     const loginCredentials = {
         username: username,
@@ -35,6 +37,7 @@ function LoginPage() {
                     .get(`http://localhost:8000/users/view/${username}`)
                     .then((response) => {
                         console.log(response)
+                        setCurrentUser(response.data)
                         sessionStorage.setItem('user', JSON.stringify(response.data))
                         console.log(sessionStorage.getItem('user'))
                     })

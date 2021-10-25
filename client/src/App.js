@@ -16,11 +16,12 @@ export const UserContext = createContext(null)
 
 const App = () => {
     const location = useLocation()
+    const [currentUser, setCurrentUser] = useState(null)
 
   return (
       <>
         <div className="wrapper">
-          {/* <UserContext.Provider value={{user, setUser}}> */}
+          <UserContext.Provider value={{currentUser, setCurrentUser}}>
           <Navbar />
           <div className="container">
             <Switch location={location} key={location.pathname}>
@@ -33,7 +34,7 @@ const App = () => {
               <Route path='/profile/' component={ProfilePage} />
             </Switch>
           </div>
-          {/* </UserContext.Provider> */}
+          </UserContext.Provider>
         </div>
     </>
   )

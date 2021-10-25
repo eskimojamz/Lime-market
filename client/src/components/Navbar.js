@@ -5,9 +5,10 @@ import LogoutButton from './LogoutButton'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import MenuButton from './MenuButton'
-import { useSelector } from 'react-redux'
+import { UserContext } from '../App'
 
 const Navbar = () => {
+    const {currentUser, setCurrentUser} = useContext(UserContext)
     const user = JSON.parse(sessionStorage.getItem('user'))
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
@@ -17,6 +18,7 @@ const Navbar = () => {
     const logoutAll = () => {
         sessionStorage.removeItem('token')
         sessionStorage.removeItem('user')
+        setCurrentUser(null)
         window.location.reload()
     }
 
@@ -60,23 +62,22 @@ const Navbar = () => {
                 <Link to='/listings'><button className="listings-nav-btn-mobile">Listings</button></Link>
                 <Link to='/form'><button className="sell-nav-btn-mobile">Sell Now</button></Link>
                 </div>
-                {user
+                {user || currentUser
                     ? (
                     <>
                     <div className="mobile-menu-profile">
                         <div className="mobile-menu-profile-left">
-                            <img className="profile-mobile" src={user?.profile_img} />
+                            <img className="profile-mobile" src={currentUser?.profile_img || user?.profile_img} />
                         </div>
                         <div className="mobile-menu-profile-right">
                             <h5>Signed in as: </h5>
-                            <h4>{user?.username}</h4>
+                            <h4>{currentUser?.username || user?.username}</h4>
                         </div>
                     </div>
                     <div className="mobile-menu-bottom-logout">
                         <Link to="/profile">
                             <button 
-                                className="profile-btn-mobile" 
-                                onClick={localStorage.setItem('currentUser', JSON.stringify(user))}
+                                className="profile-btn-mobile"
                                 >My Profile
                             </button>
                         </Link>
@@ -105,12 +106,12 @@ const Navbar = () => {
                     </button>
                 </Link>
                 
-                {user 
+                {user || currentUser
                     ? (
                     <>
                     <motion.img 
                         className="profile" 
-                        src={user?.profile_img} 
+                        src={currentUser?.profile_img || user?.profile_img} 
                         onClick={() => setProfileOpen(!profileOpen)} 
                         initial={{ y: -20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
@@ -127,13 +128,13 @@ const Navbar = () => {
                             >
                             <div className="profile-menu-user-top">
                                 <h5>Signed in as:</h5>
-                                <h5 className="bold">{user?.username}</h5>
+                                <h5 className="bold">{currentUser?.username || user?.username}</h5>
                             </div>
                             <div className="profile-menu-user-bottom">
                                 <Link to="/profile">
                                     <button 
-                                        className="profile-btn" 
-                                        onClick={localStorage.setItem('currentUser', JSON.stringify(user))}>
+                                        className="profile-btn"
+                                    >
                                         My Profile
                                     </button>
                                 </Link>
