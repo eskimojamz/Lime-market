@@ -11,7 +11,7 @@ import Tooltip from '../components/Tooltip.js';
 
 const Listing = ({listing}) => {
     const dispatch = useDispatch()
-    let listingId = listing.id
+    let listingId = listing.id.toString()
     const user = JSON.parse(sessionStorage.getItem('user'))
     const token = sessionStorage.getItem('token')
     const [listingData, setListingData] = useState(listing)
@@ -26,7 +26,7 @@ const Listing = ({listing}) => {
         if (!liked) {
             dispatch(likeCount(listingId, 
                 {
-                    like_count: likes.like_count + 1
+                    like_count: likes + 1
                 },
                 {
                     headers: {
@@ -60,7 +60,7 @@ const Listing = ({listing}) => {
         } else if (liked) {
             dispatch(likeCount(listingId, 
                 {
-                    like_count: likes.like_count - 1
+                    like_count: likes - 1
                 },
                 {
                     headers: {
@@ -125,7 +125,7 @@ const Listing = ({listing}) => {
         const likedBool = Object.values(user.watchlist).includes(listingId.toString())
         getLikes(listingId)
         setIsStopped(!likedBool)
-        setLiked(!likedBool)
+        setLiked(likedBool)
         setLoading(false)
     }, [])
     

@@ -15,11 +15,22 @@ import LoginButton from '../components/LoginButton';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
-    console.log('user', user)
+    console.log(user?.watchlist)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
+
+    // const [state, setState] = useState({
+    //     likes: null,
+    //     menuOpen: false,
+    //     edit: false, 
+    //     deleted: false, 
+    //     liked: null, 
+    //     isStopped: true, 
+    //     toggle: false, 
+    //     newComment: 
+    // })
     const [likes, setLikes] = useState()
     
     
@@ -34,83 +45,6 @@ const ListingInfoPage = () => {
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
     
-    const toggleLike = async() => {
-        if (!liked) {
-            dispatch(likeCount(listingId, 
-                {
-                    like_count: likes.like_count + 1
-                },
-                {
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                }
-            ))
-            console.log(user?.watchlist)
-            const key = Object.values(user?.watchlist).length
-            console.log(key)
-            let newWatchlist = user?.watchlist
-            newWatchlist[key] = listingId
-            dispatch(likeListing(user.username, 
-                {
-                    watchlist: newWatchlist
-                },
-                {
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                }    
-            ))
-
-            await axios
-                .get(`http://localhost:8000/users/view/${user.username}`)
-                .then((response) => {
-                    console.log(response)
-                    sessionStorage.setItem('user', JSON.stringify(response.data))
-                })
-            console.log(user)
-        } else if (liked) {
-            dispatch(likeCount(listingId, 
-                {
-                    like_count: likes.like_count - 1
-                },
-                {
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                }
-            ))
-            console.log(user?.watchlist)
-            let arr = Object.values(user?.watchlist)
-            let index = arr.indexOf(listingId)
-            if (index > -1) {
-                arr.splice(index, 1)
-            }
-            const newWatchlist = {...arr}
-
-            dispatch(likeListing(user.username, 
-                {
-                    watchlist: newWatchlist
-                },
-                {
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                }    
-            ))
-
-            await axios
-                .get(`http://localhost:8000/users/view/${user.username}`)
-                .then((response) => {
-                    console.log(response)
-                    sessionStorage.setItem('user', JSON.stringify(response.data))
-                })
-            console.log(user?.watchlist)
-        }
-        setIsStopped(!isStopped)
-        setLiked(!liked)
-    }
-
     const getLikes = (listingId) => {
         axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
         .then(response => {
@@ -118,12 +52,110 @@ const ListingInfoPage = () => {
         })
     }
 
+    const toggleLike = () => {
+        if (!liked) {
+            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+                {
+                    like_count: likes + 1
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            )
+            .then(() => {
+                console.log(user?.watchlist)
+                const key = Object.values(user?.watchlist).length
+                console.log(key)
+                let newWatchlist = user?.watchlist
+                newWatchlist[key] = listingId
+                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                    {
+                        watchlist: newWatchlist
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Token ${token}`
+                        }
+                    }    
+                )
+            })
+            .then(() => {
+                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                    .then((response) => {
+                        sessionStorage.setItem('user', JSON.stringify(response.data))
+                        getLikes(listingId)
+                    })
+            })
+            .then(() => {
+                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                    .then(response => {
+                        setLikes(response.data.like_count)
+                        setIsStopped(!isStopped)
+                        setLiked(!liked)
+                    })
+            })
+        } else if (liked) {
+            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+                {
+                    like_count: likes - 1
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            )
+            .then(() => {
+                console.log(user?.watchlist)
+                let arr = Object.values(user?.watchlist)
+                console.log(arr)
+                let index = arr.indexOf(listingId)
+                console.log(index)
+                if (index > -1) {
+                    arr.splice(index, 1)
+                }
+                const newWatchlist = {...arr}
+                console.log(newWatchlist)
+                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                    {
+                        watchlist: newWatchlist
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Token ${token}`
+                        }
+                    }    
+                )
+            })
+            .then(() => {
+                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                    .then((response) => {
+                        sessionStorage.setItem('user', JSON.stringify(response.data))
+                    })
+            })
+            .then(() => {
+                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                    .then(response => {
+                        setLikes(response.data.like_count)
+                        setIsStopped(!isStopped)
+                        setLiked(!liked)
+                    })
+            })
+        }
+    }
+
+    
+
     useEffect(() => {
         dispatch(getListing(listingId))
-        const likedBool = Object.values(user.watchlist).includes(listingId.toString())
+        if (user) {
+            const likedBool = Object.values(user?.watchlist).includes(listingId.toString())
+            setIsStopped(!likedBool)
+            setLiked(likedBool)
+        }
         getLikes(listingId)
-        setIsStopped(!likedBool)
-        setLiked(!likedBool)
     }, [])
 
     const handleEdit = () => {

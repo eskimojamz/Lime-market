@@ -100,27 +100,25 @@ export const updateListing = (listingId, updatedListing) => async (dispatch) => 
     }
 };
 
-export const getLikes = (listingId) => async (dispatch) => {
+export const getLikes = (listingId) => () => {
     try {
-      const {data} = await api.fetchLikes(listingId);
-
-      dispatch({ type: 'FETCH_LIKES', payload: data });
+      api.fetchLikes(listingId);
     } catch (error) {
       console.log(error);
     }
 };
 
-export const likeCount = (listingId, updatedCount, auth) => async () => {
+export const likeCount = (listingId, updatedCount, auth) => () => {
     try {
-      await api.likeCount(listingId, updatedCount, auth);
+      api.likeCount(listingId, updatedCount, auth);
     } catch (error) {
       console.log(error);
     }
 };
 
-export const likeListing = (userId, watchlist, auth) => async () => {
+export const likeListing = (userId, watchlist, auth) => () => {
     try {
-        await api.likeListing(userId, watchlist, auth);
+        api.likeListing(userId, watchlist, auth);
     } catch (error) {
         console.log(error.message);
     }
