@@ -44,13 +44,6 @@ const ListingInfoPage = () => {
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
-    
-    const getLikes = (listingId) => {
-        axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
-        .then(response => {
-            setLikes(response.data.like_count)
-        })
-    }
 
     const toggleLike = () => {
         if (!liked) {
@@ -146,17 +139,12 @@ const ListingInfoPage = () => {
         }
     }
 
-    
-
-    useEffect(() => {
-        dispatch(getListing(listingId))
-        if (user) {
-            const likedBool = Object.values(user?.watchlist).includes(listingId.toString())
-            setIsStopped(!likedBool)
-            setLiked(likedBool)
-        }
-        getLikes(listingId)
-    }, [])
+    const getLikes = (listingId) => {
+        axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+        .then(response => {
+            setLikes(response.data.like_count)
+        })
+    }
 
     const handleEdit = () => {
         dispatch(setCurrentListing(listingId))
@@ -167,21 +155,6 @@ const ListingInfoPage = () => {
         dispatch(deleteListing(listingId))
         setDeleted(true)
     }
-    
-    // const handleLike = () => {
-    //     if (userData) { 
-    //         axios
-    //             .patch(`http://localhost:5000/listings/${listingId}/likeListing`, userId)
-    //             .then((response) => {
-    //                 setListingData(response.data)
-    //             })
-    //     } else {
-    //         setToggle(true)
-    //         setTimeout(() => {
-    //             setToggle(false)
-    //         }, 2500)
-    //     }
-    // }
 
     const handleComment = (e) => {
         e.preventDefault()
@@ -201,13 +174,15 @@ const ListingInfoPage = () => {
 
     const paypal = useRef();
 
-    // useEffect(() => {
-    //     if (user !== (null || undefined)) {
-    //         if (Object.values(user?.watchlist).contains(listingId)) {
-    //             setLiked(true)
-    //         }
-    //     }
-    // }, [])
+    useEffect(() => {
+        dispatch(getListing(listingId))
+        if (user) {
+            const likedBool = Object.values(user?.watchlist).includes(listingId.toString())
+            setIsStopped(!likedBool)
+            setLiked(likedBool)
+        }
+        getLikes(listingId)
+    }, [])
 
     useEffect(() => {
         const product = {
