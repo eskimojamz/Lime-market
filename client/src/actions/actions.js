@@ -20,11 +20,9 @@ export const getListing = (listingId) => async(dispatch) => {
     }  
 }
 
-export const authUser = (userCredentials) => async(dispatch) => {
+export const authUser = (userCredentials) => () => {
     try {
-        const { data } = await api.authUser(userCredentials)
-        
-        dispatch({ type: 'AUTH_USER', payload: data })
+        api.authUser(userCredentials)
     } catch (error) {
         console.log(error.message)
     }  
@@ -40,9 +38,9 @@ export const getUser = (userId) => async(dispatch) => {
     }  
 }
 
-export const getComments = () => async(dispatch) => {
+export const getComments = (listingId) => async(dispatch) => {
     try {
-        const { data } = await api.fetchComments()
+        const { data } = await api.fetchComments(listingId)
         
         dispatch({ type: 'FETCH_COMMENTS', payload: data })
     } catch (error) {
@@ -60,11 +58,9 @@ export const createListing = (listing) => async (dispatch) => {
     }
 }
 
-export const addComment = (comment) => async (dispatch) => {
+export const addComment = (comment, auth) => () => {
     try {
-        const { data } = await api.addComment(comment);
-    
-        dispatch({ type: 'COMMENT', payload: data });
+        api.addComment(comment, auth);
     } catch (error) {
         console.log(error.message);
     }
@@ -80,11 +76,9 @@ export const editComment = (id, comment) => async (dispatch) => {
     }
 };
 
-export const deleteComment = (id) => async (dispatch) => {
+export const deleteComment = (commentId, auth) => async () => {
     try {
-        await api.deleteComment(id);
-
-        dispatch({ type: 'DELETE_COMMENT', payload: id});
+        await api.deleteComment(commentId, auth);
     } catch (error) {
         console.log(error.message);
     }
@@ -100,29 +94,29 @@ export const updateListing = (listingId, updatedListing) => async (dispatch) => 
     }
 };
 
-export const getLikes = (listingId) => () => {
-    try {
-      api.fetchLikes(listingId);
-    } catch (error) {
-      console.log(error);
-    }
-};
+// export const getLikes = (listingId) => () => {
+//     try {
+//       api.fetchLikes(listingId);
+//     } catch (error) {
+//       console.log(error);
+//     }
+// };
 
-export const likeCount = (listingId, updatedCount, auth) => () => {
-    try {
-      api.likeCount(listingId, updatedCount, auth);
-    } catch (error) {
-      console.log(error);
-    }
-};
+// export const likeCount = (listingId, updatedCount, auth) => () => {
+//     try {
+//       api.likeCount(listingId, updatedCount, auth);
+//     } catch (error) {
+//       console.log(error);
+//     }
+// };
 
-export const likeListing = (userId, watchlist, auth) => () => {
-    try {
-        api.likeListing(userId, watchlist, auth);
-    } catch (error) {
-        console.log(error.message);
-    }
-};
+// export const likeListing = (userId, watchlist, auth) => () => {
+//     try {
+//         api.likeListing(userId, watchlist, auth);
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// };
   
 export const deleteListing = (id) => async (dispatch) => {
     try {

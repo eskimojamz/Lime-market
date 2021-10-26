@@ -40,7 +40,7 @@ const ListingInfoPage = () => {
 
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
-    const listingComments = useSelector(state => state.comments.filter(comment => comment.listingId === listingId))
+    const listingComments = useSelector(state => state.comments)
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
@@ -158,22 +158,38 @@ const ListingInfoPage = () => {
 
     const handleComment = (e) => {
         e.preventDefault()
-        dispatch(addComment({  
-            listingId: listingId, 
-            creator: user.username,
-            creatorImg: user.profile_img,
-            body: newComment,
-        }))
+        dispatch(addComment(
+            // comment
+            {   
+                creator: user.username,
+                // creatorImg: user.profile_img,
+                listing: listingId,
+                content: newComment,
+            },
+            {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            } 
+        ))
         setNewComment("")
+        dispatch(getComments(listingId))
     }
 
     const handleCommentDelete = (commentId) => {
-        dispatch(deleteComment(commentId))
+        dispatch(deleteComment(
+            commentId,
+            {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }
+        ))
         window.location.reload()
     }
 
     const paypal = useRef();
-
+    console.log(listingComments)
     useEffect(() => {
         dispatch(getListing(listingId))
         if (user) {
@@ -182,6 +198,7 @@ const ListingInfoPage = () => {
             setLiked(likedBool)
         }
         getLikes(listingId)
+        dispatch(getComments(listingId))
     }, [])
 
     useEffect(() => {
@@ -316,7 +333,7 @@ const ListingInfoPage = () => {
                                 nickname: comment.creatorName,
                                 picture: comment.creatorImg,
                             }
-                            const commentId = comment._id
+                            const commentId = comment.id
                             return (
                                 <div key={key} className="comment-comment">
                                     {/* Delete Modal */}
@@ -332,12 +349,14 @@ const ListingInfoPage = () => {
                                         </div>
                                     </div>
                                     {/* ------------ */}
+
                                     <div className="comment-body">
-                                        <p>{comment.body}</p>
+                                        <p>{comment.content}Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
                                     </div>
+
                                     <div className="comment-bottom">
                                         <div className="comment-user">
-                                            <div className="comment-pic">
+                                            {/* <div className="comment-pic">
                                                 <Link to={'/profile/'}>
                                                     <img 
                                                         src={comment.creatorImg} 
@@ -346,15 +365,15 @@ const ListingInfoPage = () => {
                                                         }}
                                                     />
                                                 </Link>
-                                            </div>
+                                            </div> */}
                                             <div className="comment-name">
-                                                <h6>{comment.creatorName}</h6>
+                                                <h6>{comment.creator}</h6>
                                                 {(comment.creator === listing?.creator) && 
                                                     <h4>Seller  ✓</h4>
                                                 }
                                             </div>
                                         </div>
-                                        <div className="comment-date"><p>{moment(`${comment.createdAt}`).format('lll')}</p></div>
+                                        <div className="comment-date"><p>{moment(`${comment.date_created}`).format('lll')}</p></div>
                                     </div>
                                     {(comment.creator === user.username) &&
                                     <div className="comment-bottom-delete">

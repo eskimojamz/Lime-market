@@ -15,8 +15,8 @@ const Listing = ({listing}) => {
     const [likes, setLikes] = useState()
     const [liked, setLiked] = useState(false)
     const [isStopped, setIsStopped] = useState(true)
-    const [loading, setLoading] = useState(true)
-
+    const [loading, setLoading] = useState(false)
+    console.log(listing)
     const toggleLike = () => {
         if (!liked) {
             axios.patch(`http://localhost:8000/listings/${listingId}/like`, 

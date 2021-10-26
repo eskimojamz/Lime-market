@@ -18,7 +18,7 @@ const ListingsPage = () => {
   }, [])
 
   return (
-      listings ?
+      listings.length > 0 ?
         (
         <motion.div 
           className="listings-grid"
