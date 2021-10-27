@@ -48,9 +48,9 @@ export const getComments = (listingId) => async(dispatch) => {
     }  
 }
 
-export const createListing = (listing) => async (dispatch) => {
+export const createListing = (newListing, auth) => (dispatch) => {
     try {
-        const { data } = await api.createListing(listing)
+        const { data } = api.createListing(newListing, auth)
 
         dispatch({ type: 'CREATE', payload: data })
     } catch (error) {

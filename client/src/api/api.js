@@ -18,7 +18,7 @@ export const fetchUsers = () => axios.get(users)
 // Listings
 export const fetchListings = () => axios.get(listings)
 export const fetchListing = (listingId) => axios.get(`${listings}/${listingId}`)
-export const createListing = (newListing) => axios.post(listings, newListing)
+export const createListing = (newListing, auth) => axios.post(`${listings}/create`, newListing, auth)
 export const updateListing = (listingId, updatedListing) => axios.patch(`${listings}/update/${listingId}`, updatedListing)
 export const deleteListing = (id) => axios.delete(`${listings}/${id}`)
 export const fetchLikes = (listingId) => axios.get(`${listings}/${listingId}/likeCount`)

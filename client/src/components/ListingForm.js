@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react'
+import { Redirect, useHistory } from 'react-router-dom';
 import priceTagSvg from '../assets/pricetag.svg'
 
 import { createListing, updateListing, setCurrentListing } from '../actions/actions';
+import axios from 'axios';
 
 const ListingForm = () => {
-    const { user } = useAuth0()
-    
+    const user = JSON.parse(sessionStorage.getItem('user'))
+    const token = sessionStorage.getItem('token')
+    const history = useHistory()
+    console.log(user)
     const [listingData, setListingData] = useState({ 
         title: '', 
         description: '', 
@@ -18,12 +20,20 @@ const ListingForm = () => {
         // image3: null,
         // image4: null,
     })
+    const [listingImages, setListingImages] = useState({
+        image1: null,
+        image2: null,
+        image3: null,
+        image4: null,
+    })
     console.log(listingData)
+    
     const [files, setFiles] = useState([])
+    console.log(listingImages)
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
-    const [redirectId, setRedirectId] = useState(null)
+    // const [redirectId, setRedirectId] = useState(null)
     const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
     const [errors, setErrors] = useState({
         title: '',
@@ -59,7 +69,7 @@ const ListingForm = () => {
         if (listingData.description.length < 10 | listingData.description.length > 100) {
             descriptionError = 'Description must be between 10 and 100 characters long'
         }
-        if (!listingData.image1) {
+        if (!listingImages.image1) {
             imageError = 'At least one image must be uploaded'
         }
         if (titleError || priceError || descriptionError || imageError) {
@@ -74,24 +84,62 @@ const ListingForm = () => {
 
         return true
     }
+    // const axiosInstance = axios.create({
+    //     timeout: 5000,
+    //     headers: {
+    //         ,
+    //         Accept: '*/*',
+    //     },
+    // })
 
     const handleSubmit = (e) => {
-        const isValid = validate()
-        console.log(validate())
-        if (isValid === true){
-            if (currentListing) {
-                dispatch(updateListing(currentListing, listingData))
-                clear()
-                setRedirect(true)
-            } else {
-                // Get user profile data for dispatch createListing
-                dispatch(createListing({...listingData, creator: user?.sub, creatorName: user?.nickname, creatorImg: user?.picture }))
-                clear()
-                setRedirect(true)
+        e.preventDefault()
+        let formData = new FormData()
+        formData.append('title', listingData.title)
+        formData.append('description', listingData.description)
+        formData.append('price', 1)
+        formData.append('image1', listingImages.image1)
+        formData.append('image2', listingImages.image2)
+        formData.append('image3', listingImages.image3)
+        formData.append('image4', listingImages.image4)
+        formData.append('creator', user?.username) 
+        // formData.append('creator_img', user?.profile_img) 
+        console.log(formData)
+
+        axios.post('http://localhost:8000/listings/create',
+            formData,
+            {
+                headers: {
+                    'Authorization': `Token ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
             }
-        } else {
-            e.preventDefault()
-        }
+        )
+        .then(response => {
+            console.log(response)
+            clear()
+            const redirectId = response.data.id.toString()
+            history.push({
+                pathname: `/listings/${redirectId}`
+            })
+            window.location.reload()
+            
+            // setRedirect(true)
+        })
+        // const isValid = validate()
+        // console.log(validate())
+        // if (isValid === true){
+        //     if (currentListing) {
+        //         dispatch(updateListing(currentListing, listingData))
+        //         clear()
+        //         setRedirect(true)
+        //     } else {
+        //         // Get user profile data for dispatch createListing
+                
+        //     }
+        // } else {
+        //     e.preventDefault()
+        // }
     }
 
     return (
@@ -102,7 +150,7 @@ const ListingForm = () => {
             <div className="form-form">
                 <h1>Create Listing</h1>
                 { redirect && <Redirect to={`/listings`} /> }
-                <form onSubmit={handleSubmit}>
+                <form>
                     {/* Title */}
                     <label for="title">
                         <h4>Title:</h4>
@@ -165,11 +213,11 @@ const ListingForm = () => {
                         multiple
                         onChange={(event) => {
                             if (event.target.files) {
-                                setListingData({ ...listingData, 
-                                    image1: event.target.files[0],
-                                    image2: event.target.files[1],
-                                    image3: event.target.files[2],
-                                    image4: event.target.files[3],
+                                setListingImages({  
+                                    image1: event.target.files[0] || null,
+                                    image2: event.target.files[1] || null,
+                                    image3: event.target.files[2] || null,
+                                    image4: event.target.files[3] || null,
                                 })
 
                                 // Empty array to remove previous files onchange
@@ -210,7 +258,7 @@ const ListingForm = () => {
                     
                     {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
                     
-                    <button className="button-primary" type="submit" style={{marginTop: 25}}>
+                    <button className="button-primary" type="submit" style={{marginTop: 25}} onClick={handleSubmit}>
                     Submit
                     </button>
                 </form> 
