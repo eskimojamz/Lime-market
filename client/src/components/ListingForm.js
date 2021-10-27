@@ -13,10 +13,10 @@ const ListingForm = () => {
     console.log(user)
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
-    console.log(listingData)
-    
-    const [files, setFiles] = useState([])
     console.log(listingImages)
+    
+    // const [files, setFiles] = useState({})
+    // console.log(files)
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
@@ -168,6 +168,7 @@ const ListingForm = () => {
                         <input className="form-price-input"
                             id="price" name="price"
                             type="text" 
+                            placeholder="Price"
                             value={listingData.price} 
                             onChange={(e) => setListingData({ ...listingData, 
                                 price: e.target.value 
@@ -204,19 +205,18 @@ const ListingForm = () => {
                         multiple
                         onChange={(event) => {
                             console.log(event.target.files)
-                            if (event.target.files) { 
-                                for (let file in event.target.files) {
-                                    listingImages[file] = event.target.files[file]
-                                }
-                                
-
+                            if (event.target.files) {
                                 // Empty array to remove previous files onchange
-                                files.length = 0
-                                
-                                // For every file, create & push the img url to files array state
-                                for (let file of event.target.files) {
-                                    files.push(URL.createObjectURL(file))
+                                listingImages.length = 0
+                                // initialize empty images object 
+                                let images = {}
+                                // add imgfiles to images object
+                                for (let file in event.target.files) {
+                                    images[file] = event.target.files[file]
                                 }
+                                // set listingImages state to images object from above
+                                setListingImages(images)
+                                console.log(listingImages)
                             }
                             
                         }}       
@@ -226,21 +226,21 @@ const ListingForm = () => {
                     </div>
                     
                     {/* Files Preview Div */}
-                    { files.length > 0 && (
+                    { listingImages.length > 0 && (
                     <>
                     <h4>Image Preview:</h4>
                     <div className="form-files">
-                        {files[0] 
-                            ? <img className="files-img" src={files[0]} /> 
+                        {listingImages[0] 
+                            ? <img className="files-img" src={URL.createObjectURL(listingImages[0])} /> 
                             : null}
-                        {files[1] 
-                            ? <img className="files-img" src={files[1]} /> 
+                        {listingImages[1] 
+                            ? <img className="files-img" src={URL.createObjectURL(listingImages[1])} /> 
                             : null}
-                        {files[2] 
-                            ? <img className="files-img" src={files[2]} /> 
+                        {listingImages[2] 
+                            ? <img className="files-img" src={URL.createObjectURL(listingImages[2])} /> 
                             : null}
-                        {files[3] 
-                            ? <img className="files-img" src={files[3]} /> 
+                        {listingImages[3] 
+                            ? <img className="files-img" src={URL.createObjectURL(listingImages[3])} /> 
                             : null}
                     </div> 
                     </>
