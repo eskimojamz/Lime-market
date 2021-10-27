@@ -11,21 +11,8 @@ const ListingForm = () => {
     const token = sessionStorage.getItem('token')
     const history = useHistory()
     console.log(user)
-    const [listingData, setListingData] = useState({ 
-        title: '', 
-        description: '', 
-        price: '0', 
-        // image1: null,
-        // image2: null,
-        // image3: null,
-        // image4: null,
-    })
-    const [listingImages, setListingImages] = useState({
-        image1: null,
-        image2: null,
-        image3: null,
-        image4: null,
-    })
+    const [listingData, setListingData] = useState({})
+    const [listingImages, setListingImages] = useState({})
     console.log(listingData)
     
     const [files, setFiles] = useState([])
@@ -97,11 +84,15 @@ const ListingForm = () => {
         let formData = new FormData()
         formData.append('title', listingData.title)
         formData.append('description', listingData.description)
-        formData.append('price', 1)
-        formData.append('image1', listingImages.image1)
-        formData.append('image2', listingImages.image2)
-        formData.append('image3', listingImages.image3)
-        formData.append('image4', listingImages.image4)
+        formData.append('price', parseInt(listingData.price))
+        for (const image in listingImages){
+            formData.append(`image${parseInt(image)}`, listingImages[image])
+        }
+
+        // formData.append('image1', listingImages.image1)
+        // formData.append('image2', listingImages.image2)
+        // formData.append('image3', listingImages.image3)
+        // formData.append('image4', listingImages.image4)
         formData.append('creator', user?.username) 
         // formData.append('creator_img', user?.profile_img) 
         console.log(formData)
@@ -212,13 +203,12 @@ const ListingForm = () => {
                         accept="image/png, image/jpeg"
                         multiple
                         onChange={(event) => {
-                            if (event.target.files) {
-                                setListingImages({  
-                                    image1: event.target.files[0] || null,
-                                    image2: event.target.files[1] || null,
-                                    image3: event.target.files[2] || null,
-                                    image4: event.target.files[3] || null,
-                                })
+                            console.log(event.target.files)
+                            if (event.target.files) { 
+                                for (let file in event.target.files) {
+                                    listingImages[file] = event.target.files[file]
+                                }
+                                
 
                                 // Empty array to remove previous files onchange
                                 files.length = 0
