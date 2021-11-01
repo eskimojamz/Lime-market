@@ -26,12 +26,13 @@ body {
   --nav-size: 60px;
   --border: 1px solid #474a4d;
   --border-radius: 3px;
+  --box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   --speed: 500ms;
   --bar-width: 35px;
   --bar-height: 2px;
   --bar-spacing: 10px;
   --primary: rgba(116, 205, 151, 1);
-  --primary-light: rgba(165, 233, 192, 1);
+  --primary-light: rgba(116, 205, 151, 0.2);
   --primary-dark: rgba(89, 172, 122, 1);
   --secondary: rgba(235, 235, 235, 1);
   --secondary-dark: rgba(204, 204, 204, 1);
@@ -147,6 +148,7 @@ button:focus {
   background: var(--primary);
   padding: 0.75rem 0.75rem;
   margin: 1rem 0;
+  height: 2.5rem;
   border-radius: var(--border-radius);
   border: none;
   font-family: 'Sora';
@@ -163,6 +165,7 @@ button:focus {
   background: var(--secondary);
   padding: 0.75rem 0.75rem;
   margin: 1rem 0;
+  height: 2.5rem;
   border-radius: var(--border-radius);
   border: none;
   font-family: 'Sora';
@@ -325,6 +328,7 @@ button:focus {
 .login-btn {
   background: var(--secondary);
   padding: 0.75rem 0.75rem;
+  height: 2.5rem;
   font-size: 0.9rem;
   font-weight: 500;
   border-radius: var(--border-radius);
@@ -348,7 +352,7 @@ button:focus {
 .logout-btn {
   height: 2rem;
   width: 6rem;
-  background: rgba(238, 242, 243, 1);
+  background: var(--secondary);
   color: black;
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
@@ -402,6 +406,10 @@ iframe {
   border-radius: var(--border-radius);
 }
 
+.profile-menu-user-top {
+  text-align: center;
+}
+
 .profile-menu-user-bottom {
   display: flex;
   justify-content: space-between;
@@ -423,8 +431,8 @@ iframe {
 .profile-btn {
   height: 2rem;
   width: 6rem;
-  background: rgba(196, 196, 196, 1);
-  color: black;
+  background: var(--primary);
+  color: white;
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
   font-weight: 500;
@@ -435,9 +443,57 @@ iframe {
   transition: opacity var(--speed);
 }
 
-.profile-menu-liked {
+.profile-menu-watchlist {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.watchlist-h {
+  text-align: center;
+}
+
+.watchlist-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.watchlist-listing {
+  height: 5rem;
+  width: 15rem;
+  padding: 0.5rem;
+  display: flex;
+  background: white;
+  box-shadow: var(--box-shadow);
+}
+
+.watchlist-listing-img {
+  height: 4rem;
+  width: 4rem;
+}
+
+.watchlist-listing-img img {
+  height: 4rem;
+  width: 4rem;
+  border-radius: var(--border-radius);
+}
+
+.watchlist-listing-info {
+  height: 100%;
+  width: 100%;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.watchlist-title {
+  margin: 0;
+}
+
+.watchlist-price {
+  margin: 0;
+  color: var(--primary);
 }
 
 /* .profile-item {
@@ -1062,7 +1118,7 @@ input[type=file]::file-selector-button {
   }
   .listing-info-bottom {
     grid-column: 2 / 7;
-    grid-row: 5 / -1;
+    grid-row: 5 / 6;
   }
   .listing-info-price {
     grid-column: 2 / 5;
@@ -1091,6 +1147,7 @@ input[type=file]::file-selector-button {
     align-self: center;
     /* padding-top: 1rem; */
     text-align: center;
+
   }
   .listing-info-paypal {
     grid-column: 8 / 12;
@@ -1263,6 +1320,7 @@ input[type=file]::file-selector-button {
   color: rgba(247, 252, 248, 1);
   background:rgba(116, 205, 151, 1);
   border-radius: var(--border-radius);
+  padding: 0.1rem 0.5rem;
 }
 
 .listing-info-paypal {
@@ -1282,10 +1340,12 @@ input[type=file]::file-selector-button {
   justify-content: center;
   align-items: center;
   height: 2.5rem;
+  width: 6rem;
+  padding-left: 0;
   padding-right: 10px;
   margin: 0 auto;
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
-  border: solid 0.1rem rgba(204, 204, 204, 1);
+  border: solid 0.1rem var(--primary);
   border-radius: var(--border-radius);
 }
 

@@ -14,11 +14,31 @@ function LoginPage() {
     const [loading, setLoading] = useState(false)
     const history = useHistory()
     const {currentUser, setCurrentUser} = useContext(UserContext)
+    const user = sessionStorage.getItem('user')
 
     const loginCredentials = {
         username: username,
         password: password,
     }
+
+    // const fetchWatchlist = () => {
+    //     // Object.keys(user.watchlist).map(key => {
+    //     //     axios.get('http://localhost:8000/listings/')
+    //     // })
+    //     let newWatchlist = [] 
+    //     for (let listing in user?.watchlist) {
+    //         axios.get(`http://localhost:8000/listings/${user?.watchlist[listing]}`)
+    //         .then(response => {
+    //             newWatchlist.push({
+    //                 id: response.data.id,
+    //                 img: response.data.image1,
+    //                 title: response.data.title,
+    //                 price: response.data.price
+    //             })
+    //         })
+    //     }
+    //     localStorage.setItem('watchlist', newWatchlist)
+    // }
 
     const handleSubmit = async(e) => {
         e.preventDefault()

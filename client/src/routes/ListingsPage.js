@@ -26,7 +26,9 @@ const ListingsPage = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.25 }}
         >
-        {listings.map(listing => <Listing listing={listing} />)}
+        {listings.map(listing => 
+          <Listing listing={listing} />
+        )}
         </motion.div>
         ) :
       <Loading />   

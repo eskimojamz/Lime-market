@@ -59,10 +59,12 @@ const ListingInfoPage = () => {
             )
             .then(() => {
                 console.log(user?.watchlist)
-                const key = Object.values(user?.watchlist).length
-                console.log(key)
                 let newWatchlist = user?.watchlist
-                newWatchlist[key] = listingId
+                newWatchlist[listingId] = {
+                    img: listing.image1,
+                    title: listing.title,
+                    price: listing.price
+                }
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
@@ -101,16 +103,20 @@ const ListingInfoPage = () => {
                 }
             )
             .then(() => {
-                console.log(user?.watchlist)
-                let arr = Object.values(user?.watchlist)
-                console.log(arr)
-                let index = arr.indexOf(listingId)
-                console.log(index)
-                if (index > -1) {
-                    arr.splice(index, 1)
-                }
-                const newWatchlist = {...arr}
-                console.log(newWatchlist)
+                // console.log(user?.watchlist)
+                // let arr = Object.keys(user?.watchlist)
+                // console.log(arr)
+                // let index = arr.indexOf(listingId)
+                // console.log(index)
+                // if (index > -1) {
+                //     arr.splice(index, 1)
+                // }
+                // const newWatchlist = {...arr}
+                // console.log(newWatchlist)
+
+                const newWatchlist = user?.watchlist
+                delete newWatchlist[listingId]
+
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
@@ -286,12 +292,12 @@ const ListingInfoPage = () => {
                     <div className="listing-info-creator">
                         <div className="listing-info-creator-img">
                             
-                            <img src={listing.creatorImg} />
+                            <img src={listing.creator_img} />
                             
                         </div>
                         <div className="listing-info-creator-name">
                             
-                            <h5>{listing.creatorName}</h5>
+                            <h5>{listing.creator}</h5>
                             <h4>Seller  ✓</h4>
                         </div>
                     </div>

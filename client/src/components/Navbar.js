@@ -6,14 +6,17 @@ import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
 import MenuButton from './MenuButton'
 import { UserContext } from '../App'
+import axios from 'axios'
 
 const Navbar = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext)
     const user = JSON.parse(sessionStorage.getItem('user'))
+    const userWatchlist = Object.values(user?.watchlist)
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     
     console.log('user', user)
+    
 
     const logoutAll = () => {
         sessionStorage.removeItem('token')
@@ -118,6 +121,7 @@ const Navbar = () => {
                         transition={{ delay: 1.25, duration: 0.25 }}
                         >
                     </motion.img>
+
                     {profileOpen && (
                         <motion.div 
                             className="profile-menu"
@@ -140,9 +144,27 @@ const Navbar = () => {
                                 </Link>
                                 <LogoutButton logoutAll={logoutAll} />
                             </div>
-                            <div className="profile-menu-liked">
-                                <h2>Liked Items</h2>
-
+                            <div className="profile-menu-watchlist">
+                                <div className="watchlist-h">
+                                    <h2>Watchlist</h2>
+                                </div>
+                                
+                                <div className="watchlist-items">
+                                    {userWatchlist.map(listing => {
+                                        return (
+                                            <div className="watchlist-listing">
+                                                <div className="watchlist-listing-img">
+                                                    <img src={listing.img} />
+                                                </div>
+                                                <div className="watchlist-listing-info">
+                                                    <h4 className="watchlist-title">{listing.title}</h4>
+                                                    <h4 className="watchlist-price">${listing.price.toString()}</h4>
+                                                </div>
+                                            </div>  
+                                        )
+                                    })} 
+                                </div>
+                                
                             </div>
                         </motion.div>
                     )}
