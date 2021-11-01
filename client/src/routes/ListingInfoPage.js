@@ -15,7 +15,7 @@ import LoginButton from '../components/LoginButton';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
-    console.log(user?.watchlist)
+    
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
@@ -59,8 +59,10 @@ const ListingInfoPage = () => {
             )
             .then(() => {
                 console.log(user?.watchlist)
-                let newWatchlist = user?.watchlist
-                newWatchlist[listingId] = {
+                let newWatchlist = Object.values(user?.watchlist)
+                const index = newWatchlist.length
+                newWatchlist[index] = {
+                    id: listingId,
                     img: listing.image1,
                     title: listing.title,
                     price: listing.price
@@ -103,19 +105,12 @@ const ListingInfoPage = () => {
                 }
             )
             .then(() => {
-                // console.log(user?.watchlist)
-                // let arr = Object.keys(user?.watchlist)
-                // console.log(arr)
-                // let index = arr.indexOf(listingId)
-                // console.log(index)
-                // if (index > -1) {
-                //     arr.splice(index, 1)
-                // }
-                // const newWatchlist = {...arr}
-                // console.log(newWatchlist)
-
                 const newWatchlist = user?.watchlist
-                delete newWatchlist[listingId]
+                const index = newWatchlist.findIndex(l => l.id == listingId.toString())
+                if (index > -1) {
+                    newWatchlist.splice(index, 1)
+                }
+                console.log(newWatchlist)
 
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
@@ -195,7 +190,7 @@ const ListingInfoPage = () => {
     }
 
     const paypal = useRef();
-    console.log(listingComments)
+
     useEffect(() => {
         dispatch(getListing(listingId))
         if (user) {

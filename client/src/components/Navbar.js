@@ -11,7 +11,6 @@ import axios from 'axios'
 const Navbar = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext)
     const user = JSON.parse(sessionStorage.getItem('user'))
-    const userWatchlist = Object.values(user?.watchlist)
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     
@@ -150,7 +149,7 @@ const Navbar = () => {
                                 </div>
                                 
                                 <div className="watchlist-items">
-                                    {userWatchlist.map(listing => {
+                                    {Object.values(user?.watchlist).map(listing => {
                                         return (
                                             <div className="watchlist-listing">
                                                 <div className="watchlist-listing-img">
@@ -158,7 +157,7 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="watchlist-listing-info">
                                                     <h4 className="watchlist-title">{listing.title}</h4>
-                                                    <h4 className="watchlist-price">${listing.price.toString()}</h4>
+                                                    <h4 className="watchlist-price">${listing.price}</h4>
                                                 </div>
                                             </div>  
                                         )

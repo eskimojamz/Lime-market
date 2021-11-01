@@ -31,10 +31,14 @@ const Listing = ({listing}) => {
             )
             .then(() => {
                 console.log(user?.watchlist)
-                const key = Object.values(user?.watchlist).length
-                console.log(key)
-                let newWatchlist = user?.watchlist
-                newWatchlist[key] = listingId
+                let newWatchlist = Object.values(user?.watchlist)
+                const index = newWatchlist.length
+                newWatchlist[index] = {
+                    id: listingId,
+                    img: listing.image1,
+                    title: listing.title,
+                    price: listing.price
+                }
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
@@ -73,16 +77,11 @@ const Listing = ({listing}) => {
                 }
             )
             .then(() => {
-                console.log(user?.watchlist)
-                let arr = Object.values(user?.watchlist)
-                console.log(arr)
-                let index = arr.indexOf(listingId)
-                console.log(index)
+                const newWatchlist = user?.watchlist
+                const index = newWatchlist.findIndex(l => l.id == listingId.toString())
                 if (index > -1) {
-                    arr.splice(index, 1)
+                    newWatchlist.splice(index, 1)
                 }
-                const newWatchlist = {...arr}
-                console.log(newWatchlist)
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
