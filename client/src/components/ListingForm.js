@@ -13,6 +13,7 @@ const ListingForm = () => {
     console.log(user)
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
+    console.log(listingData)
     console.log(listingImages)
     
     // const [files, setFiles] = useState({})
@@ -85,8 +86,8 @@ const ListingForm = () => {
         formData.append('title', listingData.title)
         formData.append('description', listingData.description)
         formData.append('price', parseInt(listingData.price))
-        for (const image in listingImages){
-            formData.append(`image${parseInt(image)}`, listingImages[image])
+        for (let image in listingImages){
+            formData.append(`image${parseInt(image) + 1}`, listingImages[image])
         }
 
         // formData.append('image1', listingImages.image1)
@@ -115,7 +116,7 @@ const ListingForm = () => {
             })
             window.location.reload()
             
-            // setRedirect(true)
+            setRedirect(true)
         })
         // const isValid = validate()
         // console.log(validate())
