@@ -95,7 +95,7 @@ const ListingForm = () => {
         // formData.append('image3', listingImages.image3)
         // formData.append('image4', listingImages.image4)
         formData.append('creator', user?.username) 
-        // formData.append('creator_img', user?.profile_img) 
+        formData.append('creator_img', user?.profile_img) 
         console.log(formData)
 
         axios.post('http://localhost:8000/listings/create',
