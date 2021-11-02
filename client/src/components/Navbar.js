@@ -151,15 +151,17 @@ const Navbar = () => {
                                 <div className="watchlist-items">
                                     {Object.values(user?.watchlist).map(listing => {
                                         return (
-                                            <div className="watchlist-listing">
-                                                <div className="watchlist-listing-img">
-                                                    <img src={listing.img} />
-                                                </div>
-                                                <div className="watchlist-listing-info">
-                                                    <h4 className="watchlist-title">{listing.title}</h4>
-                                                    <h4 className="watchlist-price">${listing.price}</h4>
-                                                </div>
-                                            </div>  
+                                            <Link to={`/listings/${listing.id}`}>
+                                                <button className="watchlist-listing">
+                                                    <div className="watchlist-listing-img">
+                                                        <img src={listing.img} />
+                                                    </div>
+                                                    <div className="watchlist-listing-info">
+                                                        <h4 className="watchlist-title">{listing.title}</h4>
+                                                        <h4 className="watchlist-price">${listing.price}</h4>
+                                                    </div>
+                                                </button>  
+                                            </Link>
                                         )
                                     })} 
                                 </div>

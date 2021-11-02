@@ -119,7 +119,7 @@ const Listing = ({listing}) => {
 
     useEffect(() => {
         if (user) {
-            const likedBool = Object.values(user?.watchlist).includes(listingId.toString())
+            const likedBool = user?.watchlist.some(listing => listing.id === listingId.toString())
             setIsStopped(!likedBool)
             setLiked(likedBool)
         }
