@@ -41,10 +41,18 @@ const ListingInfoPage = () => {
 
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
-    const listingComments = useSelector(state => state.comments)
+    const [listingComments, setComments] = useState()
     const [toggle, setToggle] = useState(false)
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
+
+    const getComments = async(listingId) => {
+        await axios
+            .get(`http://localhost:8000/comments?listing_id=${listingId}`)
+            .then(response => {
+                setComments(response.data)
+            })
+    }
 
     const toggleLike = () => {
         if (!liked) {
@@ -177,19 +185,21 @@ const ListingInfoPage = () => {
             } 
         ))
         setNewComment("")
-        dispatch(getComments(listingId))
+        getComments(listingId)
     }
 
-    const handleCommentDelete = (commentId) => {
-        dispatch(deleteComment(
-            commentId,
+    const handleCommentDelete = async(commentId) => {
+        await axios.delete(`http://localhost:8000/comments/delete/${commentId}`,
             {
                 headers: {
                     'Authorization': `Token ${token}`
                 }
             }
-        ))
-        window.location.reload()
+        )
+        .then(() => {
+            getComments(listingId)
+            setDeleteModal(!deleteModalOn)
+        })
     }
 
     const paypal = useRef();
@@ -202,7 +212,7 @@ const ListingInfoPage = () => {
             setLiked(likedBool)
         }
         getLikes(listingId)
-        dispatch(getComments(listingId))
+        getComments(listingId)
     }, [])
 
     useEffect(() => {
