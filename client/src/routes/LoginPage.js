@@ -49,17 +49,17 @@ function LoginPage() {
                 username: `${loginCredentials.username}`,
                 password: `${loginCredentials.password}`
             })
-            .then((response) => {
+            .then(async(response) => {
                 console.log(response.data.token)
                 sessionStorage.setItem('token', response.data.token)
 
-                axios
+                await axios
                     .get(`http://localhost:8000/users/view/${username}`)
                     .then((response) => {
                         console.log(response)
                         setCurrentUser(response.data)
                         sessionStorage.setItem('user', JSON.stringify(response.data))
-                        console.log(sessionStorage.getItem('user'))
+                        console.log(currentUser)
                     })
                 
                 setLoading(false)

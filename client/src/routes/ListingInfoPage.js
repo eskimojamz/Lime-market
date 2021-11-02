@@ -15,7 +15,8 @@ import LoginButton from '../components/LoginButton';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
-    
+    const {currentUser, setCurrentUser} = useContext(UserContext)
+    console.log(currentUser)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
@@ -82,6 +83,7 @@ const ListingInfoPage = () => {
                 return axios.get(`http://localhost:8000/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
+                        setCurrentUser(response.data)
                         getLikes(listingId)
                     })
             })
@@ -127,6 +129,7 @@ const ListingInfoPage = () => {
                 return axios.get(`http://localhost:8000/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
+                        setCurrentUser(response.data)
                     })
             })
             .then(() => {
@@ -328,13 +331,8 @@ const ListingInfoPage = () => {
                 {/* Comments */}
                 <div className="comments-section">
                     <div className="comments-show">
-                        {listingComments.map((comment, key) => {
-                            const currentUserData = {
-                                sub: comment.creator,
-                                nickname: comment.creatorName,
-                                picture: comment.creatorImg,
-                            }
-                            const commentId = comment.id
+                        {listingComments?.map((comment, key) => {
+                            const commentId = comment?.id
                             return (
                                 <div key={key} className="comment-comment">
                                     {/* Delete Modal */}
@@ -352,7 +350,7 @@ const ListingInfoPage = () => {
                                     {/* ------------ */}
 
                                     <div className="comment-body">
-                                        <p>{comment.content}Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+                                        <p>{comment?.content}Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
                                     </div>
 
                                     <div className="comment-bottom">
@@ -368,15 +366,15 @@ const ListingInfoPage = () => {
                                                 </Link>
                                             </div> */}
                                             <div className="comment-name">
-                                                <h6>{comment.creator}</h6>
-                                                {(comment.creator === listing?.creator) && 
+                                                <h6>{comment?.creator}</h6>
+                                                {(comment?.creator === listing?.creator) && 
                                                     <h4>Seller  ✓</h4>
                                                 }
                                             </div>
                                         </div>
-                                        <div className="comment-date"><p>{moment(`${comment.date_created}`).format('lll')}</p></div>
+                                        <div className="comment-date"><p>{moment(`${comment?.date_created}`).format('lll')}</p></div>
                                     </div>
-                                    {(comment.creator === user.username) &&
+                                    {(comment?.creator === user?.username) &&
                                     <div className="comment-bottom-delete">
                                         <button 
                                             className="comment-delete-button"

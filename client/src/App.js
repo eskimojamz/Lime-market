@@ -17,6 +17,11 @@ export const UserContext = createContext(null)
 const App = () => {
     const location = useLocation()
     const [currentUser, setCurrentUser] = useState(null)
+    console.log(currentUser)
+
+    useEffect(() => {
+      setCurrentUser(JSON.parse(sessionStorage.getItem('user')))
+    }, [])
 
   return (
       <>

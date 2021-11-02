@@ -11,6 +11,7 @@ import axios from 'axios'
 const Navbar = () => {
     const {currentUser, setCurrentUser} = useContext(UserContext)
     const user = JSON.parse(sessionStorage.getItem('user'))
+    console.log(currentUser)
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     
@@ -149,7 +150,7 @@ const Navbar = () => {
                                 </div>
                                 
                                 <div className="watchlist-items">
-                                    {Object.values(user?.watchlist).map(listing => {
+                                    {currentUser?.watchlist.map(listing => {
                                         return (
                                             <Link to={`/listings/${listing.id}`}>
                                                 <button className="watchlist-listing">

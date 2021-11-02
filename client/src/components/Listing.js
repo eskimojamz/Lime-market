@@ -1,21 +1,27 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useContext} from 'react'
 import { useHistory } from 'react-router-dom'
 import Lottie from 'react-lottie-segments'
 import like from '../assets/like.json'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Tooltip from '../components/Tooltip.js';
+import { UserContext } from '../App'
 
 const Listing = ({listing}) => {
     let listingId = listing.id.toString()
     const user = JSON.parse(sessionStorage.getItem('user'))
+    console.log(user)
+    const {currentUser, setCurrentUser} = useContext(UserContext)
+    console.log(currentUser)
     const token = sessionStorage.getItem('token')
     const history = useHistory()
+    const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
+    console.log(likedBool)
     const [toggle, setToggle] = useState(false)
     const [likes, setLikes] = useState()
-    const [liked, setLiked] = useState(false)
-    const [isStopped, setIsStopped] = useState(true)
-    const [loading, setLoading] = useState(false)
+    const [liked, setLiked] = useState(likedBool)
+    const [isStopped, setIsStopped] = useState(!likedBool)
+    const [loading, setLoading] = useState(true)
     console.log(listing)
     const toggleLike = () => {
         if (!liked) {
@@ -54,6 +60,7 @@ const Listing = ({listing}) => {
                 return axios.get(`http://localhost:8000/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
+                        setCurrentUser(response.data)
                         getLikes(listingId)
                     })
             })
@@ -97,6 +104,7 @@ const Listing = ({listing}) => {
                 return axios.get(`http://localhost:8000/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
+                        setCurrentUser(response.data)
                     })
             })
             .then(() => {
@@ -118,12 +126,12 @@ const Listing = ({listing}) => {
     }
 
     useEffect(() => {
-        if (user) {
-            const likedBool = user?.watchlist.some(listing => listing.id === listingId.toString())
-            setIsStopped(!likedBool)
-            setLiked(likedBool)
-        }
         getLikes(listingId)
+        if (currentUser) {
+            user && likedBool !== undefined && setLoading(!loading)
+        } else {
+            setLoading(!loading)
+        }
     }, [])
     
     
