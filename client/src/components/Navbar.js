@@ -4,6 +4,8 @@ import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.svg'
+import deleteSvg from '../assets/delete.svg'
+import goSvg from '../assets/go.svg'
 import MenuButton from './MenuButton'
 import { UserContext } from '../App'
 import axios from 'axios'
@@ -135,7 +137,7 @@ const Navbar = () => {
                                 <h5 className="bold">{currentUser?.username || user?.username}</h5>
                             </div>
                             <div className="profile-menu-user-bottom">
-                                <Link to="/profile">
+                                <Link to={`/profile/${currentUser?.username}`}>
                                     <button 
                                         className="profile-btn"
                                     >
@@ -152,8 +154,8 @@ const Navbar = () => {
                                 <div className="watchlist-items">
                                     {currentUser?.watchlist.map(listing => {
                                         return (
-                                            <Link to={`/listings/${listing.id}`}>
-                                                <button className="watchlist-listing">
+                                            
+                                                <div className="watchlist-listing">
                                                     <div className="watchlist-listing-img">
                                                         <img src={listing.img} />
                                                     </div>
@@ -161,8 +163,16 @@ const Navbar = () => {
                                                         <h4 className="watchlist-title">{listing.title}</h4>
                                                         <h4 className="watchlist-price">${listing.price}</h4>
                                                     </div>
-                                                </button>  
-                                            </Link>
+                                                    <div className="watchlist-listing-buttons">
+                                                        <a>
+                                                            <img src={deleteSvg} />
+                                                        </a>
+                                                        <Link to={`/listings/${listing.id}`}>
+                                                            <img src={goSvg} />
+                                                        </Link>
+                                                    </div>
+                                                </div>  
+                                            
                                         )
                                     })} 
                                 </div>

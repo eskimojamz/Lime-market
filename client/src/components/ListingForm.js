@@ -107,16 +107,28 @@ const ListingForm = () => {
                 }
             }
         )
-        .then(response => {
+        .then(async response => {
             console.log(response)
-            clear()
-            const redirectId = response.data.id.toString()
-            history.push({
-                pathname: `/listings/${redirectId}`
-            })
-            window.location.reload()
+            await axios.patch(`http://localhost:8000/users/update/${user?.username}`,
+                {
+                    listings_created: [...user?.listings_created,
+                        response.data
+                    ]
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            )
+            // clear()
+            // const redirectId = response.data.id.toString()
+            // history.push({
+            //     pathname: `/listings/${redirectId}`
+            // })
+            // window.location.reload()
             
-            setRedirect(true)
+            // setRedirect(true)
         })
         // const isValid = validate()
         // console.log(validate())

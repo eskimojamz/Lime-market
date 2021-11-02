@@ -36,7 +36,7 @@ const App = () => {
               <Route exact path='/listings' component={ListingsPage} />
               <Route path='/listings/:listingId' exact component={ListingInfoPage} />
               <Route path='/form' exact component={FormPage} />
-              <Route path='/profile/' component={ProfilePage} />
+              <Route path='/profile/:userId' component={ProfilePage} />
             </Switch>
           </div>
           </UserContext.Provider>

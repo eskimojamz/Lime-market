@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useParams, useSelector } from 'react-redux'
-
+import { useParams } from 'react-router';
 import Listing from '../components/Listing'
 
-import { useAuth0 } from "@auth0/auth0-react";
-
 import { motion, AnimateSharedLayout} from 'framer-motion'
-import { setCurrentUser } from '../actions/actions';
+import axios from 'axios';
 
 const Profile = () => {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-  const listings = useSelector((state) => state.listings)
-  const userListings = listings.filter(listing => listing.creator === currentUser.sub)
-  console.log(currentUser)
+  const { userId } = useParams()
+  const [userImg, setUserImg] = useState('')
+  const [userListings, setUserListings] = useState([])
 
   const containerVariants = {
     hidden: { 
@@ -30,6 +26,14 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    axios.get(`http://localhost:8000/users/view/${userId}`)
+      .then(response => {
+        console.log(response)
+        setUserImg(response.data.profile_img)
+      })
+  }, [])
+
   return (
     <div className="profile-info-container">
       <motion.div className="profile-info"
@@ -39,10 +43,10 @@ const Profile = () => {
         exit="exit"
       >
         <div className="profile-info-img">
-          <img src={currentUser.picture} alt={currentUser.nickname} />
+          <img src={userImg} alt={userId} />
         </div>
         <div className="profile-info-name">
-          <h2>{currentUser.nickname}</h2>
+          <h2>{userId}</h2>
         </div>
         <div className="profile-info-listings-label">
           <h1>User Listings</h1>
