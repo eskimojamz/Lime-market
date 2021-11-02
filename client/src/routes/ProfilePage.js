@@ -31,6 +31,7 @@ const Profile = () => {
       .then(response => {
         console.log(response)
         setUserImg(response.data.profile_img)
+        setUserListings(response.data.listings_created)
       })
   }, [])
 

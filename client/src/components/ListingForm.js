@@ -9,8 +9,7 @@ import axios from 'axios';
 const ListingForm = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
     const token = sessionStorage.getItem('token')
-    const history = useHistory()
-    console.log(user)
+    console.log([...user?.listings_created, {}])
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
     console.log(listingData)
@@ -21,7 +20,7 @@ const ListingForm = () => {
     const currentListing = useSelector(state => state.currentListing)
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
-    // const [redirectId, setRedirectId] = useState(null)
+    const [redirectId, setRedirectId] = useState('')
     const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
     const [errors, setErrors] = useState({
         title: '',
@@ -109,11 +108,11 @@ const ListingForm = () => {
         )
         .then(async response => {
             console.log(response)
+            setRedirectId(response.data.id.toString())
+            const userListings = [...user?.listings_created, response.data]
             await axios.patch(`http://localhost:8000/users/update/${user?.username}`,
                 {
-                    listings_created: [...user?.listings_created,
-                        response.data
-                    ]
+                    listings_created: userListings
                 },
                 {
                     headers: {
@@ -121,14 +120,13 @@ const ListingForm = () => {
                     }
                 }
             )
-            // clear()
-            // const redirectId = response.data.id.toString()
-            // history.push({
-            //     pathname: `/listings/${redirectId}`
-            // })
-            // window.location.reload()
-            
-            // setRedirect(true)
+        })
+        .then(() => {
+            clear()
+            console.log('thenned')
+                
+            setRedirect(true)
+            window.location.reload()
         })
         // const isValid = validate()
         // console.log(validate())
@@ -153,7 +151,7 @@ const ListingForm = () => {
             </div>
             <div className="form-form">
                 <h1>Create Listing</h1>
-                { redirect && <Redirect to={`/listings`} /> }
+                { redirect && <Redirect to={`/listings/${redirectId}`} /> }
                 <form>
                     {/* Title */}
                     <label for="title">

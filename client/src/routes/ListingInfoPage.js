@@ -6,7 +6,7 @@ import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
-import comment from '../assets/comment.svg'
+import deleteSvg from '../assets/delete.svg'
 import like from '../assets/like.json'
 import { motion } from 'framer-motion'
 import { UserContext } from '../App';
@@ -174,7 +174,7 @@ const ListingInfoPage = () => {
             // comment
             {   
                 creator: user.username,
-                // creatorImg: user.profile_img,
+                creator_img: user.profile_img,
                 listing: listingId,
                 content: newComment,
             },
@@ -359,22 +359,33 @@ const ListingInfoPage = () => {
                                     </div>
                                     {/* ------------ */}
 
+                                    {/* Comment delete */}
+                                    {(comment?.creator === user?.username) &&
+                                    <div className="comment-bottom-delete">
+                                        <img 
+                                            className="comment-delete-button"
+                                            onClick={ () =>
+                                                setDeleteModal(true)
+                                            }
+                                            src={deleteSvg}
+                                        />
+                                    </div>
+                                    }
+
                                     <div className="comment-body">
-                                        <p>{comment?.content}Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum</p>
+                                        <p>{comment?.content}</p>
                                     </div>
 
                                     <div className="comment-bottom">
                                         <div className="comment-user">
-                                            {/* <div className="comment-pic">
-                                                <Link to={'/profile/'}>
+                                            <div className="comment-pic">
+                                                <Link to={`/profile/${comment?.creator}`}>
                                                     <img 
-                                                        src={comment.creatorImg} 
-                                                        onClick={() => {
-                                                            localStorage.setItem('currentUser', JSON.stringify(currentUserData))
-                                                        }}
+                                                        className="comment-comment-img"
+                                                        src={comment?.creator_img}
                                                     />
                                                 </Link>
-                                            </div> */}
+                                            </div>
                                             <div className="comment-name">
                                                 <h6>{comment?.creator}</h6>
                                                 {(comment?.creator === listing?.creator) && 
@@ -384,17 +395,6 @@ const ListingInfoPage = () => {
                                         </div>
                                         <div className="comment-date"><p>{moment(`${comment?.date_created}`).format('lll')}</p></div>
                                     </div>
-                                    {(comment?.creator === user?.username) &&
-                                    <div className="comment-bottom-delete">
-                                        <button 
-                                            className="comment-delete-button"
-                                            onClick={ () =>
-                                                setDeleteModal(true)
-                                            }>
-                                            Delete
-                                        </button>
-                                    </div>
-                                    }
                                 </div>
                             );
                             })}
@@ -403,7 +403,7 @@ const ListingInfoPage = () => {
                         <form onSubmit={handleComment}>
                             <textarea 
                                 className="input-box" 
-                                placeholder={ user ? "Type your comment here" : "Please sign in to comment" } 
+                                placeholder={ user ? "Comments must be at least 10 characters long." : "Please sign in to comment" } 
                                 value={newComment} 
                                 onChange={(event) => {
                                     setNewComment(event.target.value)
@@ -411,12 +411,19 @@ const ListingInfoPage = () => {
                             />
                             { user 
                             ? 
-                            <button 
-                                className="button-primary"
-                                type="submit"
-                            >
-                                Submit
-                            </button>
+                            ( newComment.length > 9
+                                ?
+                                <button 
+                                    className="button-primary"
+                                    type="submit"
+                                >
+                                    Submit
+                                </button>
+                                :
+                                <div className="button-primary-null">
+                                    Submit
+                                </div>
+                            )
                             : 
                             <Link to='/login'>
                                 <button 
