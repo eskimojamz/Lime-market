@@ -9,7 +9,6 @@ import axios from 'axios';
 const ListingForm = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
     const token = sessionStorage.getItem('token')
-    console.log([...user?.listings_created, {}])
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
     console.log(listingData)
