@@ -14,7 +14,7 @@ const ListingsPage = () => {
   const [loading, setLoading] = useState(true)
   const [listings, setListings] = useState()
   const [currentPage, setCurrentPage] = useState(1)
-  const PageSize = 1
+  const PageSize = 6
 
   useEffect(() => {
     fetchListings().then(response => setListings(response.data))
@@ -32,19 +32,14 @@ const ListingsPage = () => {
   
 
   return (
-      currentData?.length > 0 ?
-        (
+      currentData?.length > 0
+        ? (
         <>
-        <motion.div 
-          className="listings-grid"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.25 }}
-        >
-        {currentData.map(listing => 
-          <Listing listing={listing} />
-        )}
-        </motion.div>
+        <div className="listings-grid">
+          {currentData.map(listing => 
+            <Listing listing={listing} />
+          )}
+        </div>
 
         <Pagination
           className="pagination-bar"
@@ -54,8 +49,29 @@ const ListingsPage = () => {
           onPageChange={page => setCurrentPage(page)}
         />
         </>
-        ) :
-      <Loading />   
+        )
+        : (
+        <>
+        {/* skeleton loading */}
+        <div className="listings-grid">
+          {/* create array from length of PageSize and map to div element */}
+          {Array.from({length: PageSize}, (item, index) =>
+            <div className="listing-skeleton">
+              <div className="listing-img-div skeleton skeleton-img">
+              </div>
+              <div className="listing-skeleton-text">
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-text"></div>
+              </div>
+            </div>
+          )}
+        </div>
+        </>
+        )  
   )
 }
 

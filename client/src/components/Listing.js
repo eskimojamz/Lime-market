@@ -1,5 +1,6 @@
 import {useEffect, useState, useContext} from 'react'
 import { useHistory } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import Lottie from 'react-lottie-segments'
 import like from '../assets/like.json'
 import { Link } from 'react-router-dom'
@@ -21,7 +22,6 @@ const Listing = ({listing}) => {
     const [likes, setLikes] = useState()
     const [liked, setLiked] = useState(likedBool)
     const [isStopped, setIsStopped] = useState(!likedBool)
-    const [loading, setLoading] = useState(true)
     console.log(listing)
     const toggleLike = () => {
         if (!liked) {
@@ -127,18 +127,18 @@ const Listing = ({listing}) => {
 
     useEffect(() => {
         getLikes(listingId)
-        if (currentUser) {
-            user && likedBool !== undefined && setLoading(!loading)
-        } else {
-            setLoading(!loading)
-        }
     }, [])
     
     
     return (
         <>
-        {(loading === false) && (
-        <div className="listing">
+        
+        <motion.div 
+            className="listing"
+            initial={{ y: 0, opacity: 0 }}
+            animate={{ y: -10, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.25 }}
+        >
             {/* listing image */}
             <div className="listing-img-div">
                 <img src={listing.image1} />
@@ -182,8 +182,8 @@ const Listing = ({listing}) => {
                     >Details</button>
                 {/* </Link> */}
             </div>
-        </div>
-        )}
+        </motion.div>
+        
         </>
     )
 }
