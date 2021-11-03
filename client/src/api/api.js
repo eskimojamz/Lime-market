@@ -9,11 +9,11 @@ const comments = 'http://localhost:8000/comments';
 export const authUser = (userCredentials) => axios.post(auth, userCredentials)
 
 // User Profiles
-export const createUser = (userCredentials, auth) => axios.post(`${users}/create`, userCredentials, auth)
-export const deleteUser = (userId, auth) => axios.delete(`${users}/create/${userId}`, auth)
-export const updateUser = (userId, auth) => axios.patch(`${users}/update/${userId}`, auth)
+// export const createUser = (userCredentials, auth) => axios.post(`${users}/create`, userCredentials, auth)
+// export const deleteUser = (userId, auth) => axios.delete(`${users}/create/${userId}`, auth)
+// export const updateUser = (userId, auth) => axios.patch(`${users}/update/${userId}`, auth)
 export const fetchUser = (userId) => axios.get(`${users}/view/${userId}`)
-export const fetchUsers = () => axios.get(users)
+// export const fetchUsers = () => axios.get(users)
 
 // Listings
 export const fetchListings = () => axios.get(listings)

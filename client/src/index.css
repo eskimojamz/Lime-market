@@ -1402,7 +1402,7 @@ input[type=file]::file-selector-button {
   padding-right: 10px;
   margin: 0 auto;
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
-  border: solid 0.1rem var(--primary);
+  border: solid 0.1rem var(--secondary-dark);
   border-radius: var(--border-radius);
 }
 
@@ -1453,9 +1453,10 @@ input[type=file]::file-selector-button {
   border-radius: var(--border-radius);
 }
 
-.comment-bottom-delete {
+.comment-top-delete {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 0.5rem;
 }
 
 .comment-delete-button {
@@ -1469,10 +1470,13 @@ input[type=file]::file-selector-button {
 .comment-comment p {
   padding: 0;
   margin: 0;
+  font-size: 14px;
+  font-weight: 300;
 }
 
 .comment-comment h6 {
   margin: 0;
+  font-weight: 600;
 }
 
 .comment-comment-img {

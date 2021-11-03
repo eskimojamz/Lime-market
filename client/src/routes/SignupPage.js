@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom' 
 import loginSvg from '../assets/login.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { UserContext } from '../App'
 
 function SignupPage() {
+    const {currentUser, setCurrentUser} = useContext(UserContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [invalidSignup, setInvalidSignup] = useState(false)
@@ -14,33 +16,36 @@ function SignupPage() {
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        await axios.post('http://localhost:8000/users/create', {
-            username: `${username}`,
-            password: `${password}`,
-        })
-        await axios.post('http://localhost:8000/auth/', {
-            username: `${username}`,
-            password: `${password}`
-        })
-        .then((response) => {
-            console.log(response)
-            sessionStorage.setItem('token', response.data.token)
-            sessionStorage.setItem('username', username)
-            history.push('/')
-        })
-        .catch((error) => {
-            if (error) {
-                // console.log(error.response)
-                setInvalidSignup(true)
-                // console.log(invalidLogin)
-                setLoading(false)
-                return
-            }
-        });
+        setLoading(true)
 
+        await axios
+            .post('http://localhost:8000/users/create', {
+                username: `${username}`,
+                password: `${password}`,
+            }).then(async(response) => {
+                setCurrentUser(response.data)
+                sessionStorage.setItem('user', JSON.stringify(response.data))
 
-        // Prevent default refresh for testing
-        
+                await axios
+                    .post('http://localhost:8000/auth/', {
+                        username: `${username}`,
+                        password: `${password}`
+                    }).then((response) => {
+                        sessionStorage.setItem('token', response.data.token)
+                        
+                        setLoading(false)
+                        history.push('/')
+                        })
+                    })
+            .catch((error) => {
+                if (error) {
+                    // console.log(error.response)
+                    setInvalidSignup(true)
+                    // console.log(invalidLogin)
+                    setLoading(false)
+                    return
+                }
+            });
     }
 
     return (

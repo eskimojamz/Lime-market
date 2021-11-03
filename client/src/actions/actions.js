@@ -84,15 +84,15 @@ export const deleteComment = (commentId, auth) => async () => {
     }
 };
 
-export const updateListing = (listingId, updatedListing) => async (dispatch) => {
-    try {
-      const { data } = await api.updateListing(listingId, updatedListing);
+// export const updateListing = (listingId, updatedListing) => async (dispatch) => {
+//     try {
+//       const { data } = await api.updateListing(listingId, updatedListing);
   
-      dispatch({ type: 'UPDATE', payload: data });
-    } catch (error) {
-      console.log(error);
-    }
-};
+//       dispatch({ type: 'UPDATE', payload: data });
+//     } catch (error) {
+//       console.log(error);
+//     }
+// };
 
 // export const getLikes = (listingId) => () => {
 //     try {
@@ -118,15 +118,15 @@ export const updateListing = (listingId, updatedListing) => async (dispatch) => 
 //     }
 // };
   
-export const deleteListing = (id) => async (dispatch) => {
-    try {
-        await api.deleteListing(id);
+// export const deleteListing = (id) => async (dispatch) => {
+//     try {
+//         await api.deleteListing(id);
 
-        dispatch({ type: 'DELETE', payload: id });
-    } catch (error) {
-        console.log(error.message);
-    }
-};
+//         dispatch({ type: 'DELETE', payload: id });
+//     } catch (error) {
+//         console.log(error.message);
+//     }
+// };
 
 // export const likeListing = (id, userId) => async (dispatch) => {
 //     try {

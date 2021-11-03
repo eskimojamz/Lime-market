@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListings, updateListing, deleteListing, likeListing, setCurrentListing, addComment, deleteComment, getComments, getListing, likeCount, getLikes, getUser } from '../actions/actions';
+import { setCurrentListing, addComment, getListing } from '../actions/actions';
 import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
@@ -163,9 +163,30 @@ const ListingInfoPage = () => {
         setEdit(true)
     }
 
-    const handleDelete = () => {
-        dispatch(deleteListing(listingId))
-        setDeleted(true)
+    const handleDelete = async() => {
+        await axios.delete(`http://localhost:8000/listings/delete/${listingId}`,
+            {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }
+        ).then(async() => {
+            const newList = user?.listings_created.filter(l => l.id !== parseInt(listingId))
+
+            await axios.patch(`http://localhost:8000/users/update/${user.username}`,
+                {
+                    listings_created: newList
+                },
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                }
+            ).then(() => {
+                setDeleted(true)
+            })
+        })
+        
     }
 
     const handleComment = (e) => {
@@ -361,7 +382,7 @@ const ListingInfoPage = () => {
 
                                     {/* Comment delete */}
                                     {(comment?.creator === user?.username) &&
-                                    <div className="comment-bottom-delete">
+                                    <div className="comment-top-delete">
                                         <img 
                                             className="comment-delete-button"
                                             onClick={ () =>
@@ -393,7 +414,7 @@ const ListingInfoPage = () => {
                                                 }
                                             </div>
                                         </div>
-                                        <div className="comment-date"><p>{moment(`${comment?.date_created}`).format('lll')}</p></div>
+                                        <div className="comment-date"><h6>{moment(`${comment?.date_created}`).format('lll')}</h6></div>
                                     </div>
                                 </div>
                             );
