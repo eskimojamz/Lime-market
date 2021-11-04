@@ -65,7 +65,6 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
-  max-width: 1080px;
   margin-top: 5rem;
   overflow-y: scroll;
 }
@@ -1356,18 +1355,15 @@ input[type=file]::file-selector-button {
     grid-template-rows: repeat(2, 6.5rem) 5rem auto 5rem 5rem auto;
   }
   .listing-info-edit-menu {
-    grid-column: 12 / -1;
-    grid-row: 1 / 2;
-    justify-self: end;
-  }
-  .edit-menu {
-    position: absolute;
-    right: 20px;
     grid-column: 9 / -1;
-    grid-row: 1 / -1;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
   }
   .listing-info-img {
-    grid-column: 1 / -1;
+    grid-column: 5 / 9;
     grid-row: 1 / 3;
     justify-self: center;
     align-self: center;
@@ -1459,22 +1455,24 @@ input[type=file]::file-selector-button {
     background: rgba(0, 0, 0, 0.1) !important;
     height: 100vh;
     width: 100vw;
-    pointer-events: none;
-    visibility: hidden;
-    opacity: 0;
     transition: all 0.2s ease;
   }
   .edit-menu-backdrop-show {
-    pointer-events: all;
-    visibility: visible;
-    opacity: 1;
+    pointer-events: all !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   .edit-menu {
     display: none !important;
   }
   .edit-menu-mobile {
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     background: var(--bg);
-    height: 50vh;
+    height: 18rem;
     width: 100vw;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
@@ -1516,10 +1514,12 @@ input[type=file]::file-selector-button {
   .button-menu:hover {
     opacity: 50%;
   }
-
   .button-menu-delete:hover {
     opacity: 50%;
     background: rgba(238, 242, 243, 1);
+  }
+  .edit-menu-mobile, .edit-menu-mobile-open {
+    display: none !important;
   }
 }
 
@@ -1529,11 +1529,15 @@ input[type=file]::file-selector-button {
   background: none;
   height: 100%;
   width: 100vw;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
 }
 
 .edit-menu {
-  position: absolute;
   padding: 0;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -1565,6 +1569,7 @@ input[type=file]::file-selector-button {
 }
 
 .button-menu-edit {
+  height: 4rem;
   width: 100%; 
   border: none;
   background: none;
@@ -1577,6 +1582,7 @@ input[type=file]::file-selector-button {
 }
 
 .button-menu-delete {
+  height: 4rem;
   width: 100%; 
   border: none;
   background: none;
@@ -1587,6 +1593,27 @@ input[type=file]::file-selector-button {
 .button-menu-delete:hover {
   opacity: 50%;
   background: rgba(255, 152, 152, 1);
+}
+
+.button-menu-close-mobile-container {
+  height: 4rem;
+  display: grid;
+  place-items: center;
+}
+
+.button-menu-close-mobile {
+  height: 2rem;
+  width: fit-content;
+  padding: 0 1rem; 
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--secondary);
+  font-size: 1rem;
+
+}
+
+.button-menu-close-mobile h5 {
+  margin: 0 !important;
 }
 
 .listing-info-img {
