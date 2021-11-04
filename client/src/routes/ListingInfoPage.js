@@ -12,6 +12,7 @@ import { motion } from 'framer-motion'
 import { UserContext } from '../App';
 import axios from 'axios'
 import LoginButton from '../components/LoginButton';
+import EditMenuBackdrop from '../components/EditMenuBackdrop';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
@@ -35,14 +36,15 @@ const ListingInfoPage = () => {
     const [likes, setLikes] = useState()
     
     
-    const [menuOpen, setMenuOpen] = useState(false)
+    const [toggleMenu, setToggleMenu] = useState(false)
+    const [toggleTooltip, setToggleTooltip] = useState(false)
     const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
 
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
     const [listingComments, setComments] = useState()
-    const [toggle, setToggle] = useState(false)
+    
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
 
@@ -277,30 +279,35 @@ const ListingInfoPage = () => {
     
     return (
         <>
-        { listing && 
+        { listing &&
+
         <motion.div className="page-wrapper"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.25 }}
         >
-
-        <Tooltip content="Please sign in to like and save listings" toggle={toggle} setToggle={setToggle}/>
-            
+        
             { deleted && <Redirect to="/listings" /> }
+
+            {/* Toggles */}
+            <Tooltip content="Please sign in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
+            <EditMenuBackdrop toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} handleEdit={handleEdit} handleDelete={handleDelete}/>
+            {/*  */}
 
             {/* Listing Info */}
             <div className="listing-info">
                 { (listing.creator === user?.username) &&
                 <div className="listing-info-edit-menu">
-                    <button className="button-menu" onClick={() => setMenuOpen(!menuOpen)} >
+                    {/* Toggle EditMenu */}
+                    <button className={`button-menu ${toggleMenu && "button-menu-active"}`} onClick={() => setToggleMenu(!toggleMenu)} >
                         <img src={menu} />
                     </button>
-                    { menuOpen &&
-                    <div className="edit-menu">
-                        <button className="button-menu-edit"><h5 onClick={handleEdit}>Edit</h5></button>
-                        <button className="button-menu-delete"><h5 onClick={handleDelete}>Delete</h5></button>
+                    
+                    <div className={`edit-menu ${toggleMenu && "edit-menu-open"}`}>
+                        <button className="button-menu-edit" onClick={handleEdit}><h5 >Edit</h5></button>
+                        <button className="button-menu-delete" onClick={handleDelete}><h5>Delete</h5></button>
                     </div>
-                    }
+                    
                 </div>
                 }
                 
@@ -338,7 +345,7 @@ const ListingInfoPage = () => {
                 <div className="listing-info-like">
                     <button 
                         className="listing-info-like-button"
-                        onClick={user ? toggleLike : setToggle}
+                        onClick={user ? toggleLike : setToggleTooltip}
                     >
                     
                         <Lottie
@@ -367,7 +374,7 @@ const ListingInfoPage = () => {
                             return (
                                 <div key={key} className="comment-comment">
                                     {/* Delete Modal */}
-                                    <div className={deleteModalOn ? "delete-modal-backdrop" : "display-none"}>
+                                    <div className={deleteModalOn ? "delete-modal-backdrop" : "hidden"}>
                                         <div className="delete-modal-overlay">
                                             <div>
                                                 <h3>Are you sure you want to delete this comment?</h3>

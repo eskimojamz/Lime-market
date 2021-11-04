@@ -1,6 +1,7 @@
 html {
   box-sizing: border-box;
   font-size: 100%;
+  height: 100%;
 }
 
 *, *:before, *:after {
@@ -11,12 +12,16 @@ body {
   background: rgba(247, 252, 248, 1);
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   font-family: 'Sora',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root, .App {
+  height: 100%;
 }
 
 :root {
@@ -27,12 +32,15 @@ body {
   --border: 1px solid #474a4d;
   --border-radius: 3px;
   --box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
+  --box-shadow-lite: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+  --box-shadow-strong: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
   --speed: 500ms;
   --bar-width: 35px;
   --bar-height: 2px;
   --bar-spacing: 10px;
   --primary: rgba(116, 205, 151, 1);
   --primary-light: rgba(116, 205, 151, 0.2);
+  --primary-superlight: rgba(247, 252, 248, 1);
   --primary-dark: rgba(89, 172, 122, 1);
   --secondary: rgba(235, 235, 235, 1);
   --secondary-dark: rgba(204, 204, 204, 1);
@@ -48,8 +56,9 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  overflow-y: scroll;
 }
 
 .container {
@@ -57,13 +66,15 @@ body {
   height: 100%;
   width: 100%;
   max-width: 1080px;
-  margin-top: 7rem;
+  margin-top: 5rem;
+  overflow-y: scroll;
 }
 
-@media only screen and (min-width: 768px) {
-  .container {
-    margin-top: 10rem !important;
-  }
+.page-wrapper {
+  display: flex; 
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 ul {
@@ -401,7 +412,7 @@ button:focus {
   display: flex;
   justify-content: center;
   position: fixed;
-  background: rgba(247, 252, 248, 1);
+  background: var(--primary-superlight);
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(204, 204, 204, 1);
   z-index: 3;
@@ -599,7 +610,7 @@ iframe {
   right: 0;
   height: calc(100vh - (5rem - 1px));
   width: 300px;
-  background:rgba(247, 252, 248, 1);
+  background: var(--primary-superlight);
   border-left: 1px solid rgba(204, 204, 204, 1);
   border-top: 5px solid var(--primary);
   padding: 1rem;
@@ -1168,12 +1179,6 @@ iframe {
   align-self: center;
 }
 
-.page-wrapper {
-  display: flex; 
-  justify-content: center;
-  /* place-items: center; */
-}
-
 .form-grid {
   padding: 0 0 2rem 0;
   display: flex;
@@ -1332,9 +1337,11 @@ input[type=file]::file-selector-button {
 }
 
 .listing-info {
-  position: relative;
+  position: static;
+  height: fit-content;
   width: 100%;
   padding: 1rem 2rem;
+  margin-top: 2rem;
   background: white;
   border-radius: var(--border-radius);
   font: 'Sora';
@@ -1442,18 +1449,60 @@ input[type=file]::file-selector-button {
   }
   .button-menu {
     position: relative;
-    left: 2rem;
+    left: 1rem;
+  }
+  .edit-menu-backdrop {
+    position: fixed !important;
+    display: flex;
+    align-items: flex-end;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.1) !important;
+    height: 100vh;
+    width: 100vw;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+  .edit-menu-backdrop-show {
+    pointer-events: all;
+    visibility: visible;
+    opacity: 1;
   }
   .edit-menu {
-    position: absolute;
-    z-index: 1;
-    margin-top: 2.5rem;
+    display: none !important;
+  }
+  .edit-menu-mobile {
+    background: var(--bg);
+    height: 50vh;
+    width: 100vw;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(50%);
+    transition: all 0.5s ease;
+  }
+  .edit-menu-mobile-open {
+    pointer-events: all;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .button-menu {
   border: none;
+  border-radius: 50%;
   background: none;
+  padding: 0;
+  height: 2rem;
+  width: 2rem;
+}
+
+.button-menu-active {
+  background: var(--primary-light);
 }
 
 .button-menu img {
@@ -1463,32 +1512,52 @@ input[type=file]::file-selector-button {
   border-radius: 50%;
 }
 
-.button-menu:hover {
-  opacity: 50%;
+@media only screen and (min-width: 768px) {
+  .button-menu:hover {
+    opacity: 50%;
+  }
+
+  .button-menu-delete:hover {
+    opacity: 50%;
+    background: rgba(238, 242, 243, 1);
+  }
 }
 
-.button-menu-delete:hover {
-  opacity: 50%;
-  background: rgba(238, 242, 243, 1);
+.edit-menu-backdrop {
+  position: absolute;
+  z-index: 1;
+  background: none;
+  height: 100%;
+  width: 100vw;
 }
 
 .edit-menu {
+  position: absolute;
   padding: 0;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* top: 500px; */
-  /* right: 20px; */
-  width: 100px;
-  background-color: var(--bg);
-  border: 1px solid whitesmoke;
+  height: 100px;
+  width: 150px;
+  background: var(--bg);
   border-radius: var(--border-radius);
-  font-family: 'Poppins';
   overflow: hidden;
-  transition: height var(--speed) ease;
-  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transform-origin: top right;
+  transform: translateY(-10px) scale(0);
+  transition: all 0.2s ease;
+}
+
+.edit-menu-open {
+  pointer-events: all;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  box-shadow: var(--box-shadow-strong);
 }
 
 .edit-menu h5 {
@@ -1584,7 +1653,7 @@ input[type=file]::file-selector-button {
   font-size: 0.8rem;
   font-weight: 600;
   margin: 0;
-  color: rgba(247, 252, 248, 1);
+  color:  var(--primary-superlight);
   background:rgba(116, 205, 151, 1);
   border-radius: var(--border-radius);
   padding: 0.1rem 0.5rem;
@@ -1721,7 +1790,7 @@ input[type=file]::file-selector-button {
   font-weight: 500;
   margin: 0;
   margin-top: 0.2rem;
-  color: rgba(247, 252, 248, 1);
+  color:  var(--primary-superlight);
   background:rgba(116, 205, 151, 1);
   border-radius: var(--border-radius);
 }
@@ -1764,7 +1833,7 @@ input[type=file]::file-selector-button {
   height: 10rem;
   width: 20rem;
   padding: 1rem;
-  background:rgba(247, 252, 248, 1);
+  background: var(--primary-superlight);
   box-shadow: 0px 4px 250px 500px rgba(0, 0, 0, 0.1);
   border-radius: var(--border-radius);
   display: flex; 
