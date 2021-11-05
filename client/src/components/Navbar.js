@@ -55,51 +55,74 @@ const Navbar = () => {
             toggle={() => setMenuOpen(!menuOpen)}
           />
 
+          {menuOpen &&
+          <motion.div className="mobile-menu-backdrop" onClick={() => setMenuOpen(!menuOpen)}>
+            {/*  */}
+          </motion.div>
+          }
+          
+          <AnimatePresence>
           {menuOpen && (
             <motion.div
+              layout
               className="mobile-menu"
-              // variants={RightLeftFast}
-              // initial="hidden"
-              // animate="visible"
-              // exit="exit"
+              initial={{x: 100, opacity: 0 }}
+              animate={{x: 0, opacity: 1 }}
+              transition={{bounce: 0}}
+              exit={{x: 100, opacity: 0}}
             >
-              <div className="mobile-menu-top">
+              <motion.div layout className="mobile-menu-top">
                 <Link to="/listings">
-                  <button className="listings-nav-btn-mobile">Listings</button>
+                  <motion.button className="listings-nav-btn-mobile">Listings</motion.button>
                 </Link>
+                <motion.span className="span-mobile-menu" />
                 <Link to="/form">
-                  <button className="sell-nav-btn-mobile">Sell Now</button>
+                  <motion.button className="sell-nav-btn-mobile">Sell Now</motion.button>
                 </Link>
-              </div>
+                <span className="span-mobile-menu" />
+              </motion.div>
               {user || currentUser ? (
                 <>
-                  <div className="mobile-menu-profile">
-                    <div className="mobile-menu-profile-left">
+                  <motion.div layout className="mobile-menu-profile">
+                    <motion.div className="mobile-menu-profile-left">
                       <img
                         className="profile-mobile"
                         src={currentUser?.profile_img || user?.profile_img}
                       />
-                    </div>
-                    <div className="mobile-menu-profile-right">
+                    </motion.div>
+                    <motion.div className="mobile-menu-profile-right">
                       <h5>Signed in as: </h5>
                       <h4>{currentUser?.username || user?.username}</h4>
-                    </div>
-                  </div>
-                  <div className="mobile-menu-bottom-logout">
-                    <Link to="/profile">
-                      <button className="profile-btn-mobile">My Profile</button>
+                    </motion.div>
+                  </motion.div>
+                  
+                  <motion.div className="mobile-menu-bottom-logout">
+                    <Link className="mobile-menu-profile-link" to={`/profiles/${user?.username}`}>
+                    <button className="profile-btn-mobile">
+                      My Profile
+                    </button>
                     </Link>
                     <LogoutButton logoutAll={logoutAll} />
-                  </div>
-                  <div className="mobile-menu-liked">
-                    <h2>Liked Items</h2>
-                  </div>
+                  </motion.div>
+                  <span className="span-mobile-menu" />
+
+                  <motion.div className="mobile-menu-liked">
+                    <motion.div className="watchlist-h"> 
+                      <h2>Watchlist</h2>
+                    </motion.div>
+                    <motion.div layout className="watchlist-items">
+                      {currentUser?.watchlist.map((listing) => {
+                        return <WatchlistListing listing={listing} />;
+                      })}
+                    </motion.div>
+                  </motion.div>
                 </>
               ) : (
                 <LoginButton />
               )}
             </motion.div>
           )}
+          </AnimatePresence>
 
           <div className="nav-right-desktop">
             <Link to="/listings">
@@ -144,11 +167,11 @@ const Navbar = () => {
                     <div className="watchlist-h">
                       <h2>Watchlist</h2>
                     </div>
-                      <motion.div layout className="watchlist-items">
-                        {currentUser?.watchlist.map((listing) => {
-                          return <WatchlistListing listing={listing} />;
-                        })}
-                      </motion.div>
+                    <motion.div layout className="watchlist-items">
+                      {currentUser?.watchlist.map((listing) => {
+                        return <WatchlistListing listing={listing} />;
+                      })}
+                    </motion.div>
                   </div>
                 </div>
               </>
