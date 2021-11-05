@@ -144,14 +144,11 @@ const Navbar = () => {
                     <div className="watchlist-h">
                       <h2>Watchlist</h2>
                     </div>
-
-                    <AnimateSharedLayout type="crossfade">
                       <motion.div layout className="watchlist-items">
                         {currentUser?.watchlist.map((listing) => {
                           return <WatchlistListing listing={listing} />;
                         })}
                       </motion.div>
-                    </AnimateSharedLayout>
                   </div>
                 </div>
               </>

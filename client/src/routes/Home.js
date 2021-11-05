@@ -24,7 +24,7 @@ const Home = () => {
                 >
                     <h1>buy & sell</h1>
                     <h1 className="highlight">safely & affordably</h1>
-                    <p>Hoppang makes it easy to buy and sell items of all kinds on a safe and secure platform. Powered by the Paypal payment system, users can sell or purchase items with confidence.</p>
+                    <p>Lime Market makes it easy to buy and sell items on a safe and secure platform.</p> <p>Powered by the Paypal payment system, users can buy and sell items with confidence.</p>
                 </motion.div>
                 <motion.button 
                     className="button-primary" 

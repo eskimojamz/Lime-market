@@ -8,7 +8,7 @@ import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
 import deleteSvg from '../assets/delete.svg'
 import like from '../assets/like.json'
-import { motion } from 'framer-motion'
+import { motion, AnimateSharedLayout } from 'framer-motion'
 import { UserContext } from '../App';
 import axios from 'axios'
 import LoginButton from '../components/LoginButton';
@@ -280,7 +280,6 @@ const ListingInfoPage = () => {
     return (
         <>
         { listing &&
-
         <motion.div className="page-wrapper"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -374,17 +373,24 @@ const ListingInfoPage = () => {
                             return (
                                 <div key={key} className="comment-comment">
                                     {/* Delete Modal */}
-                                    <div className={deleteModalOn ? "delete-modal-backdrop" : "hidden"}>
-                                        <div className="delete-modal-overlay">
-                                            <div>
+                                    {deleteModalOn &&
+                                    <motion.div className="delete-modal-backdrop" onClick={() => setDeleteModal(!deleteModalOn)}>
+                                        <motion.div className="delete-modal-overlay"
+                                            initial={{opacity: 0, scale: 0}}
+                                            animate={{opacity: 1, scale: 1}}
+                                            transition={{type: 'spring', bounce: 1, duration: 0.2}}
+                                            exit={{opacity: 0, scale: 0}}
+                                        >
+                                            <motion.div>
                                                 <h3>Are you sure you want to delete this comment?</h3>
-                                            </div>
-                                            <div className="delete-modal-overlay-bottom">
+                                            </motion.div>
+                                            <motion.div className="delete-modal-overlay-bottom">
                                                 <button className="delete-modal-yes" onClick={() => handleCommentDelete(commentId)} >Yes</button>
                                                 <button className="button-secondary" onClick={() => setDeleteModal(false)}>No</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            </motion.div>
+                                        </motion.div>
+                                    </motion.div>
+                                    }
                                     {/* ------------ */}
 
                                     {/* Comment delete */}

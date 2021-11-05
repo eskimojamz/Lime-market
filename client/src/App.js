@@ -11,6 +11,7 @@ import ListingsPage from './routes/ListingsPage'
 import ListingInfoPage from './routes/ListingInfoPage'
 import FormPage from './routes/FormPage'
 import ProfilePage from './routes/ProfilePage'
+import { motion, AnimateSharedLayout } from 'framer-motion'
 
 export const UserContext = createContext(null)
 
@@ -25,10 +26,11 @@ const App = () => {
 
   return (
       <>
-        <div className="wrapper">
+        <AnimateSharedLayout>
+        <motion.div className="wrapper">
           <UserContext.Provider value={{currentUser, setCurrentUser}}>
           <Navbar />
-          <div className="container">
+          <motion.div className="container">
             <Switch location={location} key={location.pathname}>
               <Route path='/' exact component={Home} />
               <Route path='/register/' component={SignupPage} />
@@ -38,9 +40,10 @@ const App = () => {
               <Route path='/form' exact component={FormPage} />
               <Route path='/profile/:userId' component={ProfilePage} />
             </Switch>
-          </div>
+          </motion.div>
           </UserContext.Provider>
-        </div>
+        </motion.div>
+        </AnimateSharedLayout>
     </>
   )
 }

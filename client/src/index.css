@@ -74,7 +74,6 @@ body {
 .page-wrapper {
   display: flex; 
   justify-content: center;
-  height: 100%;
   width: 100%;
 }
 
@@ -945,6 +944,7 @@ iframe {
 @media only screen and (max-width: 767px) {
   .hero {
     display: block;
+    margin-top: 2rem;
   }
   .hero-right {
     display: none;
@@ -1109,6 +1109,7 @@ iframe {
 .listings-grid {
   display: grid; 
   padding: 0 0 2rem 0;
+  margin: 4rem 0;
   grid-template-columns: repeat(auto-fit, 325px);
   grid-auto-rows: 21.5rem;
   grid-row-gap: 3rem;
@@ -1225,6 +1226,7 @@ iframe {
 
 .form-grid {
   padding: 0 0 2rem 0;
+  margin-top: 2rem;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -1385,7 +1387,7 @@ input[type=file]::file-selector-button {
   height: fit-content;
   width: 100%;
   padding: 1rem 2rem;
-  margin-top: 2rem;
+  margin: 2rem 0;
   background: white;
   border-radius: var(--border-radius);
   font: 'Sora';
@@ -1483,6 +1485,9 @@ input[type=file]::file-selector-button {
 }
 
 @media only screen and (max-width: 768px) {
+  .listing-info {
+    margin: 2rem 1rem !important;
+  }
   .listing-info-edit-menu {
     position: relative;
     display: flex;
@@ -1577,6 +1582,12 @@ input[type=file]::file-selector-button {
   pointer-events: none;
   visibility: hidden;
   opacity: 0;
+}
+
+.edit-menu-backdrop-show {
+  pointer-events: all !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .edit-menu {
@@ -1906,7 +1917,7 @@ input[type=file]::file-selector-button {
   width: 20rem;
   padding: 1rem;
   background: var(--primary-superlight);
-  box-shadow: 0px 4px 250px 500px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 250px 500px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
   display: flex; 
   flex-direction: column;
