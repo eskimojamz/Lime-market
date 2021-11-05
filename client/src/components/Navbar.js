@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { Link } from "react-router-dom";
@@ -120,9 +120,7 @@ const Navbar = () => {
                   transition={{ delay: 1.25, duration: 0.25 }}
                 ></motion.img>
 
-                <div
-                  className={`profile-menu ${profileOpen && "open"}`}
-                >
+                <div className={`profile-menu ${profileOpen && "open"}`}>
                   <div className="profile-menu-close">
                     <img
                       className="profile-menu-close-btn"
@@ -147,33 +145,13 @@ const Navbar = () => {
                       <h2>Watchlist</h2>
                     </div>
 
-                    <div className="watchlist-items">
-                      {currentUser?.watchlist.map((listing) => {
-                        return (
-                          <div className="watchlist-listing">
-                            <div className="watchlist-listing-img">
-                              <img src={listing.img} />
-                            </div>
-                            <div className="watchlist-listing-info">
-                              <h4 className="watchlist-title">
-                                {listing.title}
-                              </h4>
-                              <h4 className="watchlist-price">
-                                ${listing.price}
-                              </h4>
-                            </div>
-                            <div className="watchlist-listing-buttons">
-                              <a>
-                                <img src={deleteSvg} />
-                              </a>
-                              <Link to={`/listings/${listing.id}`}>
-                                <img src={goSvg} />
-                              </Link>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
+                    <AnimateSharedLayout type="crossfade">
+                      <motion.div layout className="watchlist-items">
+                        {currentUser?.watchlist.map((listing) => {
+                          return <WatchlistListing listing={listing} />;
+                        })}
+                      </motion.div>
+                    </AnimateSharedLayout>
                   </div>
                 </div>
               </>
@@ -188,3 +166,144 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+function WatchlistListing({ listing }) {
+  const {currentUser, setCurrentUser} = useContext(UserContext)
+  const token = sessionStorage.getItem('token')
+
+  const [removeOpen, setRemoveOpen] = useState(false);
+  const listingId = listing.id
+  console.log(listingId)
+  const [likes, setLikes] = useState()
+
+  const toggleRemove = () => setRemoveOpen(!removeOpen);
+
+  const remove = () => {
+    axios
+      .patch(
+        `http://localhost:8000/listings/${listingId}/like`,
+        {
+          like_count: likes - 1,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        const newWatchlist = currentUser?.watchlist;
+        const index = newWatchlist.findIndex(
+          (l) => l.id == listingId.toString()
+        );
+        if (index > -1) {
+          newWatchlist.splice(index, 1);
+        }
+        console.log(newWatchlist);
+
+        return axios.patch(
+          `http://localhost:8000/users/update/${currentUser?.username}`,
+          {
+            watchlist: newWatchlist,
+          },
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+      })
+      .then(() => {
+        return axios
+          .get(`http://localhost:8000/users/view/${currentUser?.username}`)
+          .then((response) => {
+            sessionStorage.setItem("user", JSON.stringify(response.data));
+            setCurrentUser(response.data);
+          });
+      })
+      // .then(() => {
+      //   return axios
+      //     .get(`http://localhost:8000/listings/${listingId}/likeCount`)
+      //     .then((response) => {
+      //       setLikes(response.data.like_count);
+      //       setIsStopped(!isStopped);
+      //       setLiked(!liked);
+      //     });
+      // });
+  };
+
+  useEffect(() => {
+    const getLikes = () => {
+      const listingId = listing.id
+      axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+      .then(response => {
+          setLikes(response.data.like_count)
+      })
+    }
+    getLikes()
+    console.log(likes)
+  })
+
+  return (
+    <motion.div layout className="watchlist-listing"
+      initial={{ opacity: 0, y: 10}}
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.2 },
+      }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div layout className="watchlist-listing-initial">
+        <motion.div className="watchlist-listing-img">
+          <motion.img src={listing.img}></motion.img>
+        </motion.div>
+        <motion.div className="watchlist-listing-info">
+          <motion.h4 className="watchlist-title">{listing.title}</motion.h4>
+          <motion.h4 className="watchlist-price">${listing.price}</motion.h4>
+        </motion.div>
+        <motion.div className="watchlist-listing-buttons">
+          <motion.a>
+            <motion.img src={deleteSvg} onClick={toggleRemove}></motion.img>
+          </motion.a>
+          <Link to={`/listings/${listing.id}`}>
+            <motion.img src={goSvg}></motion.img>
+          </Link>
+        </motion.div>
+      </motion.div>
+
+      <AnimatePresence>
+        {removeOpen && (
+          <motion.div
+            layout
+            className="watchlist-listing-bottom"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.5, delayChildren: 1.5 },
+            }}
+            exit={{ opacity: 0 }}
+          >
+            {/* <motion.div layout className="watchlist-listing-bottom-text">
+            <motion.h5 className="watchlist-listing-bottom-text-h" layout>Are you sure?</motion.h5>
+          </motion.div> */}
+            <motion.div className="watchlist-listing-bottom-buttons">
+              <motion.button 
+                className="watchlist-listing-bottom-buttons-remove"
+                onClick={remove}
+              >
+                Remove
+              </motion.button>
+              <motion.button
+                className="watchlist-listing-bottom-buttons-cancel"
+                onClick={toggleRemove}
+              >
+                Cancel
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}

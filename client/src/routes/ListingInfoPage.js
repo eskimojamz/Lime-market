@@ -236,7 +236,7 @@ const ListingInfoPage = () => {
         }
         getLikes(listingId)
         getComments(listingId)
-    }, [])
+    }, [currentUser])
 
     useEffect(() => {
         const product = {
