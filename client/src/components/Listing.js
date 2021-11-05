@@ -16,12 +16,12 @@ const Listing = ({listing}) => {
     console.log(currentUser)
     const token = sessionStorage.getItem('token')
     const history = useHistory()
-    const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
-    console.log(likedBool)
+    // const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
+    // console.log(likedBool)
     const [toggle, setToggle] = useState(false)
     const [likes, setLikes] = useState()
-    const [liked, setLiked] = useState(likedBool)
-    const [isStopped, setIsStopped] = useState(!likedBool)
+    const [liked, setLiked] = useState()
+    const [isStopped, setIsStopped] = useState(true)
     console.log(listing)
     const toggleLike = () => {
         if (!liked) {
@@ -127,7 +127,12 @@ const Listing = ({listing}) => {
 
     useEffect(() => {
         getLikes(listingId)
-    }, [])
+        if (user) {
+            const likedBool = user?.watchlist.some(listing => listing.id === listingId.toString())
+            setIsStopped(!likedBool)
+            setLiked(likedBool)
+        }
+    }, [currentUser])
     
     
     return (
