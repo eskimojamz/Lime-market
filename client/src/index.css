@@ -1325,7 +1325,10 @@ iframe {
     flex-direction: row !important;
   }
   .form-form {
+    padding: 0 0.5rem;
     margin: 1rem 0 1rem 1rem;
+    width: 100%;
+    overflow-x: auto;
   }
   .form-top {
     display: none;

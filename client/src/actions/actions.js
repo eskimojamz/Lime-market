@@ -140,11 +140,7 @@ export const deleteComment = (commentId, auth) => async () => {
 
 
 export const setCurrentListing = (currentListing) => {
-    return { type: 'SET_LISTING', payload: currentListing }
-};
-
-export const setCurrentUser = (currentUser) => {
-    return { type: 'SET_ID', payload: currentUser }
+    return { type: 'CURRENT_LISTING', payload: currentListing }
 };
 
 // export const loginUser = (loginCredentials) => async (dispatch) => {

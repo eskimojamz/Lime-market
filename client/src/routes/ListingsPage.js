@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useContext } from 'react'
 import Pagination from '../pagination/Pagination'
 import Listing from '../components/Listing'
 import Loading from '../components/Loading'
@@ -12,12 +12,12 @@ import { fetchListings } from '../api/api'
 const ListingsPage = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
-  const [listings, setListings] = useState()
+  const listings = useSelector(state => state.listings)
   const [currentPage, setCurrentPage] = useState(1)
   const PageSize = 6
 
   useEffect(() => {
-    fetchListings().then(response => setListings(response.data))
+    dispatch(getListings())
   }, [])
 
   const currentData = useMemo(() => {
@@ -37,7 +37,7 @@ const ListingsPage = () => {
         <>
         <div className="listings-grid">
           {currentData.map(listing => 
-            <Listing listing={listing} />
+            <Listing listing={listing} currentPage={currentPage} />
           )}
         </div>
 

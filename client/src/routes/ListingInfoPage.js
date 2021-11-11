@@ -22,7 +22,7 @@ const ListingInfoPage = () => {
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
-
+    console.log(listing)
     // const [state, setState] = useState({
     //     likes: null,
     //     menuOpen: false,
@@ -155,10 +155,14 @@ const ListingInfoPage = () => {
         .then(response => {
             setLikes(response.data.like_count)
         })
+        .catch((error) => {
+            console.log(error)
+            setLikes(0)
+        })
     }
 
     const handleEdit = () => {
-        // dispatch(setCurrentListing(listing))
+        dispatch(setCurrentListing(listing))
         setEdit(true)
     }
 
@@ -292,7 +296,7 @@ const ListingInfoPage = () => {
 
             {/* Listing Info */}
             <div className="listing-info">
-                { (listing.creator === user?.username) &&
+                { (listing?.creator === user?.username) &&
                 <div className="listing-info-edit-menu">
                     {/* Toggle EditMenu */}
                     <button className={`button-menu ${toggleMenu && "button-menu-active"}`} onClick={() => setToggleMenu(!toggleMenu)} >
@@ -309,27 +313,27 @@ const ListingInfoPage = () => {
                 
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
-                    <img src={listing.image1} />
+                    <img src={listing?.image1} />
                 </div>
                 <div className="listing-info-title">
-                    <h1>{listing.title}</h1>
+                    <h1>{listing?.title}</h1>
                 </div>
                 <div className="listing-info-desc">
-                    <p>{listing.description}</p>
+                    <p>{listing?.description}</p>
                 </div>
                 <div className="listing-info-bottom">
                     <div className="listing-info-price">
-                        <h1>${listing.price}</h1>
+                        <h1>${listing?.price}</h1>
                     </div>
                     <div className="listing-info-creator">
                         <div className="listing-info-creator-img">
                             
-                            <img src={listing.creator_img} />
+                            <img src={listing?.creator_img} />
                             
                         </div>
                         <div className="listing-info-creator-name">
                             
-                            <h5>{listing.creator}</h5>
+                            <h5>{listing?.creator}</h5>
                             <h4>Seller  ✓</h4>
                         </div>
                     </div>

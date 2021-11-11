@@ -8,8 +8,8 @@ import axios from 'axios'
 import Tooltip from '../components/Tooltip.js';
 import { UserContext } from '../App'
 
-const Listing = ({listing}) => {
-    let listingId = listing.id.toString()
+const Listing = ({listing, currentPage}) => {
+    const listingId = listing.id.toString()
     const user = JSON.parse(sessionStorage.getItem('user'))
     console.log(user)
     const {currentUser, setCurrentUser} = useContext(UserContext)
@@ -118,8 +118,8 @@ const Listing = ({listing}) => {
         }
     }
 
-    const getLikes = (listingId) => {
-        axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+    const getLikes = (listing_id) => {
+        axios.get(`http://localhost:8000/listings/${listing_id}/likeCount`)
         .then(response => {
             setLikes(response.data.like_count)
         })
@@ -132,7 +132,7 @@ const Listing = ({listing}) => {
             setIsStopped(!likedBool)
             setLiked(likedBool)
         }
-    }, [currentUser])
+    }, [currentUser, currentPage])
     
     
     return (
