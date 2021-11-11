@@ -135,7 +135,7 @@ const ListingForm = () => {
             )
             .then(async response => {
                 console.log(response)
-                setRedirectId(response.data.id.toString())
+                // setRedirectId(response.data.id.toString())
                 const userListings = [...updatedListings, response.data]
                 await axios.patch(`http://localhost:8000/users/update/${user?.username}`,
                     {
@@ -152,11 +152,11 @@ const ListingForm = () => {
         .then(() => {
             setLoading(false)
             clear()
-            setCurrentListing(null)
+            setCurrentListing([])
             console.log('thenned')
                 
             setRedirect(true)
-            window.location.reload()
+            // window.location.reload()
         })
         .catch((error) => {
             setLoading(false)
@@ -243,7 +243,7 @@ const ListingForm = () => {
             </div>
             <div className="form-form">
                 <h1>Create Listing</h1>
-                { redirect && <Redirect to={`/listings/${redirectId}`} /> }
+                { redirect && <Redirect to={`/listings/${listingId}`} /> }
                 <form>
                     {/* Title */}
                     <label for="title">

@@ -193,6 +193,7 @@ function WatchlistListing({ listing }) {
 
   const [removeOpen, setRemoveOpen] = useState(false);
   const listingId = listing.id
+  const [listingData, setListingData] = useState()
   console.log(listingId)
   const [likes, setLikes] = useState()
 
@@ -253,6 +254,12 @@ function WatchlistListing({ listing }) {
   };
 
   useEffect(() => {
+    const getListing = () => {
+      axios.get(`http://localhost:8000/listings/${listingId}`)
+      .then(response => {
+        setListingData(response.data)
+      })
+    }
     const getLikes = () => {
       const listingId = listing.id
       axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
@@ -260,9 +267,10 @@ function WatchlistListing({ listing }) {
           setLikes(response.data.like_count)
       })
     }
+    getListing()
     getLikes()
-    console.log(likes)
-  })
+    console.log(listingData)
+  }, [])
 
   return (
     <motion.div layout className="watchlist-listing"
@@ -276,17 +284,17 @@ function WatchlistListing({ listing }) {
     >
       <motion.div layout className="watchlist-listing-initial">
         <motion.div className="watchlist-listing-img">
-          <motion.img src={listing.img}></motion.img>
+          <motion.img src={listingData?.image1}></motion.img>
         </motion.div>
         <motion.div className="watchlist-listing-info">
-          <motion.h4 className="watchlist-title">{listing.title}</motion.h4>
-          <motion.h4 className="watchlist-price">${listing.price}</motion.h4>
+          <motion.h4 className="watchlist-title">{listingData?.title}</motion.h4>
+          <motion.h4 className="watchlist-price">${listingData?.price}</motion.h4>
         </motion.div>
         <motion.div className="watchlist-listing-buttons">
           <motion.a>
             <motion.img src={deleteSvg} onClick={toggleRemove}></motion.img>
           </motion.a>
-          <Link to={`/listings/${listing.id}`}>
+          <Link to={`/listings/${listingData?.id}`}>
             <motion.img src={goSvg}></motion.img>
           </Link>
         </motion.div>

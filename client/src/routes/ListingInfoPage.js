@@ -73,10 +73,7 @@ const ListingInfoPage = () => {
                 let newWatchlist = Object.values(user?.watchlist)
                 const index = newWatchlist.length
                 newWatchlist[index] = {
-                    id: listingId,
-                    img: listing.image1,
-                    title: listing.title,
-                    price: listing.price
+                    id: listingId
                 }
                 return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
                     {
