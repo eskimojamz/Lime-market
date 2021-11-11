@@ -122,7 +122,6 @@ const ListingForm = () => {
         // })
         .then(async(response) => {
             console.log(response)
-            // sessionStorage.setItem('user', JSON.stringify(response.data))
             console.log(user)
             await axios.patch(`http://localhost:8000/listings/update/${listingId}`,
                 formData,
@@ -147,14 +146,16 @@ const ListingForm = () => {
                         }
                     }
                 )
+                .then(response => {
+                    sessionStorage.setItem('user', JSON.stringify(response.data))
+                })
             })
         })
         .then(() => {
             setLoading(false)
             clear()
             setCurrentListing([])
-            console.log('thenned')
-                
+            setCurrentUser(JSON.parse(sessionStorage.getItem('user')))
             setRedirect(true)
             // window.location.reload()
         })

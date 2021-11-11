@@ -168,7 +168,8 @@ const Navbar = () => {
                       <h2>Watchlist</h2>
                     </div>
                     <motion.div layout className="watchlist-items">
-                      {currentUser?.watchlist.map((listing) => {
+                      { currentUser?.watchlist.length > 0 &&
+                      currentUser?.watchlist.map((listing) => {
                         return <WatchlistListing listing={listing} />;
                       })}
                     </motion.div>
@@ -270,7 +271,7 @@ function WatchlistListing({ listing }) {
     getListing()
     getLikes()
     console.log(listingData)
-  }, [])
+  }, [currentUser])
 
   return (
     <motion.div layout className="watchlist-listing"
