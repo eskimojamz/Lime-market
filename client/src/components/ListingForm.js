@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import priceTagSvg from '../assets/pricetag.svg'
+import ClipLoader from 'react-spinners/ClipLoader'
 
 import { createListing, updateListing, setCurrentListing } from '../actions/actions';
 import axios from 'axios';
+import { UserContext } from '../App';
 
 const ListingForm = () => {
+    const {currentUser, setCurrentUser} = useContext(UserContext)
     const user = JSON.parse(sessionStorage.getItem('user'))
     const token = sessionStorage.getItem('token')
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
     console.log(listingData)
     console.log(listingImages)
+    const [loading, setLoading] = useState(false)
     
     // const [files, setFiles] = useState({})
     // console.log(files)
-    const currentListing = useSelector(state => state.currentListing)
+    const currentListing = useSelector(state => state.listing)
+    console.log(currentListing)
+    const listingId = currentListing?.id
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
     const [redirectId, setRedirectId] = useState('')
-    const listing = useSelector(state => state.listings.find(l => l._id === currentListing))
+
     const [errors, setErrors] = useState({
         title: '',
         price: '',
@@ -80,6 +86,7 @@ const ListingForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setLoading(true)
         let formData = new FormData()
         formData.append('title', listingData.title)
         formData.append('description', listingData.description)
@@ -94,8 +101,67 @@ const ListingForm = () => {
         // formData.append('image4', listingImages.image4)
         formData.append('creator', user?.username) 
         formData.append('creator_img', user?.profile_img) 
-        console.log(formData)
-
+        
+        const updatedListings = currentUser?.listings_created.filter((listing) => listing.id !== listingId)
+        
+        currentListing !== []
+        ? (
+        // Remove listing to edit from user data listings_created
+        axios.patch(`http://localhost:8000/users/update/${user?.username}`,
+            {
+                listings_created: updatedListings
+            },
+            {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }
+        )
+        // .then(async() => {
+        //     await axios.get(`http://localhost:8000/users/view/${user?.username}`)
+        // })
+        .then(async(response) => {
+            console.log(response)
+            // sessionStorage.setItem('user', JSON.stringify(response.data))
+            console.log(user)
+            await axios.patch(`http://localhost:8000/listings/update/${listingId}`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Token ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+            .then(async response => {
+                console.log(response)
+                setRedirectId(response.data.id.toString())
+                const userListings = [...updatedListings, response.data]
+                await axios.patch(`http://localhost:8000/users/update/${user?.username}`,
+                    {
+                        listings_created: userListings
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Token ${token}`
+                        }
+                    }
+                )
+            })
+        })
+        .then(() => {
+            setLoading(false)
+            clear()
+            setCurrentListing(null)
+            console.log('thenned')
+                
+            setRedirect(true)
+            window.location.reload()
+        })
+        .catch((error) => {
+            setLoading(false)
+        }))
+        : (
         axios.post('http://localhost:8000/listings/create',
             formData,
             {
@@ -121,27 +187,54 @@ const ListingForm = () => {
             )
         })
         .then(() => {
+            setLoading(false)
             clear()
             console.log('thenned')
                 
             setRedirect(true)
             window.location.reload()
         })
-        // const isValid = validate()
-        // console.log(validate())
-        // if (isValid === true){
-        //     if (currentListing) {
-        //         dispatch(updateListing(currentListing, listingData))
-        //         clear()
-        //         setRedirect(true)
-        //     } else {
-        //         // Get user profile data for dispatch createListing
-                
-        //     }
-        // } else {
-        //     e.preventDefault()
-        // }
+        .catch((error) => {
+            setLoading(false)
+        }))
     }
+
+    useEffect(() => {
+        if (currentListing !== [] ) {
+            setListingData({
+                title: currentListing?.title,
+                price: currentListing?.price,
+                description: currentListing?.description
+            })
+            
+            let imageURLs = [
+                currentListing?.image1,
+                currentListing?.image2,
+                currentListing?.image3,
+                currentListing?.image4
+            ]
+            imageURLs = imageURLs.filter(el => el !== null)
+            console.log(imageURLs)
+            let images = {}
+            imageURLs?.forEach(async(el, i) => {
+                const imgURL = await fetch(el, {
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000'
+                    }
+                })
+                console.log(imgURL)
+                const blob = await imgURL.blob();
+                console.log(blob)
+                const fileName = el?.slice(el.lastIndexOf('/') + 1)
+                console.log(fileName)
+                const file = new File([blob], fileName, {type: blob.type});
+                images[i] = file
+            })
+            // set listingImages state to images object from above
+            setListingImages(images)
+            console.log(listingImages)
+        }
+    }, [])
 
     return (
         <div className="form">
@@ -236,28 +329,46 @@ const ListingForm = () => {
                     </div>
                     
                     {/* Files Preview Div */}
-                    { listingImages.length > 0 && (
+                    { listingImages.length > 0 || currentListing && (
                     <>
                     <h4>Image Preview:</h4>
                     <div className="form-files">
                         {listingImages[0] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[0])} /> 
                             : null}
+                        {currentListing?.image1
+                            ? <img className="files-img" src={currentListing?.image1} />
+                            : null
+                        }
                         {listingImages[1] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[1])} /> 
                             : null}
+                        {currentListing?.image2
+                            ? <img className="files-img" src={currentListing?.image2} />
+                            : null
+                        }
                         {listingImages[2] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[2])} /> 
                             : null}
+                        {currentListing?.image3
+                            ? <img className="files-img" src={currentListing?.image3} />
+                            : null
+                        }
                         {listingImages[3] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[3])} /> 
                             : null}
+                        {currentListing?.image4
+                            ? <img className="files-img" src={currentListing?.image4} />
+                            : null
+                        }
                     </div> 
                     </>
                     )}
                     
                     {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
-                    
+                    <div className='clip-loader'>
+                        <ClipLoader color='green' loading={loading} size={15} />
+                    </div>  
                     <button className="button-primary" type="submit" style={{marginTop: 25}} onClick={handleSubmit}>
                     Submit
                     </button>

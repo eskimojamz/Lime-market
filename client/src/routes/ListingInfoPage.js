@@ -161,7 +161,7 @@ const ListingInfoPage = () => {
     }
 
     const handleEdit = () => {
-        dispatch(setCurrentListing(listingId))
+        // dispatch(setCurrentListing(listing))
         setEdit(true)
     }
 
