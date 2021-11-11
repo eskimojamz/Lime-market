@@ -15,13 +15,14 @@ const ListingForm = () => {
     const [listingData, setListingData] = useState({})
     const [listingImages, setListingImages] = useState({})
     console.log(listingData)
-    console.log(listingImages)
+    console.log(Object.keys(listingImages).length)
     const [loading, setLoading] = useState(false)
     
     // const [files, setFiles] = useState({})
     // console.log(files)
     const currentListing = useSelector(state => state.listing)
     console.log(currentListing)
+    const [currentListingImages, setCurrentListingImages] = useState()
     const listingId = currentListing?.id
     const dispatch = useDispatch()
     const [redirect, setRedirect] = useState(false)
@@ -202,11 +203,6 @@ const ListingForm = () => {
 
     useEffect(() => {
         if (currentListing !== [] ) {
-            setListingData({
-                title: currentListing?.title,
-                price: currentListing?.price,
-                description: currentListing?.description
-            })
             
             let imageURLs = [
                 currentListing?.image1,
@@ -218,11 +214,7 @@ const ListingForm = () => {
             console.log(imageURLs)
             let images = {}
             imageURLs?.forEach(async(el, i) => {
-                const imgURL = await fetch(el, {
-                    headers: {
-                        'Access-Control-Allow-Origin': 'http://localhost:3000'
-                    }
-                })
+                const imgURL = await fetch(el)
                 console.log(imgURL)
                 const blob = await imgURL.blob();
                 console.log(blob)
@@ -230,10 +222,22 @@ const ListingForm = () => {
                 console.log(fileName)
                 const file = new File([blob], fileName, {type: blob.type});
                 images[i] = file
+                console.log(images)
             })
             // set listingImages state to images object from above
             setListingImages(images)
             console.log(listingImages)
+            setListingData({
+                title: currentListing?.title,
+                price: currentListing?.price,
+                description: currentListing?.description
+            })
+            setCurrentListingImages({
+                image1 :currentListing?.image1,
+                image2: currentListing?.image2,
+                image3: currentListing?.image3,
+                image4: currentListing?.image4
+            })
         }
     }, [])
 
@@ -309,6 +313,16 @@ const ListingForm = () => {
                         multiple
                         onChange={(event) => {
                             console.log(event.target.files)
+                            if (currentListing) {
+                                console.log('dispatched')
+                                setCurrentListingImages({ 
+                                    image1: null, 
+                                    image2: null, 
+                                    image3: null,
+                                    image4: null
+                                })
+                                console.log(currentListing)
+                            }
                             if (event.target.files) {
                                 // Empty array to remove previous files onchange
                                 listingImages.length = 0
@@ -330,41 +344,33 @@ const ListingForm = () => {
                     </div>
                     
                     {/* Files Preview Div */}
-                    { listingImages.length > 0 || currentListing && (
-                    <>
+                    
+                   
                     <h4>Image Preview:</h4>
                     <div className="form-files">
                         {listingImages[0] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[0])} /> 
-                            : null}
-                        {currentListing?.image1
-                            ? <img className="files-img" src={currentListing?.image1} />
-                            : null
-                        }
+                            : currentListingImages?.image1
+                                ? <img className="files-img" src={currentListingImages?.image1} />
+                                : null}
                         {listingImages[1] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[1])} /> 
-                            : null}
-                        {currentListing?.image2
-                            ? <img className="files-img" src={currentListing?.image2} />
-                            : null
-                        }
+                            : currentListingImages?.image2
+                                ? <img className="files-img" src={currentListingImages?.image2} />
+                                : null}
                         {listingImages[2] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[2])} /> 
-                            : null}
-                        {currentListing?.image3
-                            ? <img className="files-img" src={currentListing?.image3} />
-                            : null
-                        }
+                            : currentListingImages?.image3
+                                ? <img className="files-img" src={currentListingImages?.image3} />
+                                : null}
                         {listingImages[3] 
                             ? <img className="files-img" src={URL.createObjectURL(listingImages[3])} /> 
-                            : null}
-                        {currentListing?.image4
-                            ? <img className="files-img" src={currentListing?.image4} />
-                            : null
-                        }
+                            : currentListingImages?.image4
+                                ? <img className="files-img" src={currentListingImages?.image4} />
+                                : null}
                     </div> 
-                    </>
-                    )}
+                    
+                    
                     
                     {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
                     <div className='clip-loader'>
