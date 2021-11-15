@@ -254,6 +254,7 @@ const ListingForm = () => {
   }, []);
 
   return (
+    <>
     <div className="form">
       <div className="form-top">
         <img className="form-svg-top" src={priceTagSvg}></img>
@@ -425,6 +426,7 @@ const ListingForm = () => {
         <img className="form-svg" src={priceTagSvg}></img>
       </div>
     </div>
+    </>
   );
 };
 
