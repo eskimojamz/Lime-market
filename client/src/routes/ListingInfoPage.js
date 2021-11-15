@@ -344,7 +344,7 @@ const ListingInfoPage = () => {
 
                 <div className="listing-info-like">
                     <button 
-                        className="listing-info-like-button"
+                        className={`listing-info-like-button ${liked && "liked"}`} 
                         onClick={user ? toggleLike : setToggleTooltip}
                     >
                     
@@ -361,7 +361,6 @@ const ListingInfoPage = () => {
                             width="35px"
                             isStopped={isStopped}
                         />
-                        
                         <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
                     </button>
                 </div>

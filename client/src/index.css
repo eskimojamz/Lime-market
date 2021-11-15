@@ -1823,12 +1823,11 @@ input[type=file]::file-selector-button {
   align-items: center;
   height: 2.5rem;
   width: 6rem;
-  padding-left: 0;
-  padding-right: 10px;
   margin: 0 auto;
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
-  border: solid 0.1rem var(--secondary-dark);
+  border: solid 0.1rem var(--primary);
   border-radius: var(--border-radius);
+  transition: all 0.2s ease ;
 }
 
 .listing-info-like-button:hover {
@@ -1836,15 +1835,15 @@ input[type=file]::file-selector-button {
 }
 
 .liked {
-  background: white;
-  border: 2px var(--primary);
-  transition: all 0.2s ease;
+  background: var(--primary-light);
+  border: solid 0.1rem var(--primary-light);
 }
 
 .listing-info-like-text {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 61px;
 }
 
 .listing-info-like h5 {
