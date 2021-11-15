@@ -12,10 +12,14 @@ const ListingForm = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
-  const [listingData, setListingData] = useState({});
+  const [listingData, setListingData] = useState({
+    title: "",
+    price: 0,
+    description: "",
+  });
   const [listingImages, setListingImages] = useState({});
   console.log(listingData);
-  console.log(Object.keys(listingImages).length);
+  console.log(listingImages);
   const [loading, setLoading] = useState(false);
 
   // const [files, setFiles] = useState({})
@@ -56,7 +60,7 @@ const ListingForm = () => {
     if (listingData.title.length < 5) {
       titleError = "Title must be at least 5 characters long";
     }
-    if (parseInt(listingData.price) < 1) {
+    if (parseInt(listingData.price) < 1 || listingData.price.length === 0) {
       priceError = "Price must be at least $1 (dollar)";
     }
     if (
@@ -66,7 +70,7 @@ const ListingForm = () => {
       descriptionError =
         "Description must be between 10 and 100 characters long";
     }
-    if (!listingImages.image1) {
+    if (listingImages.length < 1) {
       imageError = "At least one image must be uploaded";
     }
     if (titleError || priceError || descriptionError || imageError) {
@@ -92,6 +96,7 @@ const ListingForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    validate()
     let formData = new FormData();
     formData.append("title", listingData.title);
     formData.append("description", listingData.description);
@@ -285,7 +290,7 @@ const ListingForm = () => {
               className="form-price-input"
               id="price"
               name="price"
-              type="text"
+              type="number"
               placeholder="Price"
               value={listingData.price}
               onChange={(e) =>
@@ -395,17 +400,25 @@ const ListingForm = () => {
           </div>
 
           {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
-          <div className="clip-loader">
-            <ClipLoader color="green" loading={loading} size={15} />
-          </div>
-          <button
+              
+          { 
+            loading
+            ?
+            <div className="button-secondary center-button">
+              Submit
+              <ClipLoader color="grey" loading={loading} size={15} />
+            </div>
+            :
+            <button
             className="button-primary"
             type="submit"
             style={{ marginTop: 25 }}
             onClick={handleSubmit}
-          >
-            Submit
-          </button>
+            >
+              Submit
+            </button>
+          }
+          
         </form>
       </div>
       <div className="form-bg">
