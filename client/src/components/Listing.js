@@ -159,7 +159,7 @@ const Listing = ({listing, currentPage}) => {
             <div className="listing-like">
                 
                     <button 
-                        className="listing-info-like-button"
+                        className={`listing-info-like-button ${liked && "liked"}`}
                         onClick={user ? toggleLike : setToggle}
                     >
                         <Lottie

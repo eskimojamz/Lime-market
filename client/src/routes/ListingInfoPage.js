@@ -290,7 +290,7 @@ const ListingInfoPage = () => {
             { deleted && <Redirect to="/listings" /> }
 
             {/* Toggles */}
-            <Tooltip content="Please sign in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
+            <Tooltip content="Please log-in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
             <EditMenuBackdrop toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} handleEdit={handleEdit} handleDelete={handleDelete}/>
             {/*  */}
 

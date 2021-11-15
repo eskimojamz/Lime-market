@@ -1,42 +1,87 @@
-.tooltip-content {
-    justify-self: center;
-    z-index: 106;
-    top: 31rem;
-    left: -15rem;
-    position: relative;
-    background: rgba(180, 228, 199, 1);
-    box-shadow: 0px 4px 30px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 0.5rem;
-    height: 5.5rem;
-    width: 7rem;
-    text-align: center;
-    transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+@media only screen and (max-width: 767px) {
+    .tooltip-content {
+        z-index: 502;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background: var(--bg);
+        height: 23rem;
+        width: 100vw;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+        pointer-events: none;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(50%);
+        transition: all 0.5s ease;
+    }
+    .tooltip-content-open {
+        pointer-events: all;
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .modal-backdrop {
+        position: fixed !important;
+        display: flex;
+        align-items: flex-end;
+        z-index: 501;
+        background: rgba(0, 0, 0, 0.1) !important;
+        height: 100vh;
+        width: 100vw;
+        transition: all 0.2s ease;
+        pointer-events: none;
+        visibility: hidden;
+        opacity: 0;
+    }
+    .modal-backdrop-show {
+        z-index: 501 !important;
+        pointer-events: all !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 }
+@media only screen and (min-width: 768px){
+    .tooltip-content {
+        justify-self: center;
+        z-index: 106;
+        top: 33rem;
+        left: -15.3rem;
+        position: relative;
+        background: rgba(180, 228, 199, 1);
+        box-shadow: var(--box-shadow-strong);
+        border-radius: 0.5rem;
+        height: 5.5rem;
+        width: 7rem;
+        text-align: center;
+        transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
 
-.tooltip-content:before {
-    position: absolute;
-    content: "";
-    height: 1rem;
-    width: 1rem;
-    background: rgba(180, 228, 199, 1);
-    top: -0.5rem;
-    left: 50%;
-    transform: translateX(-50%) rotate(45deg);
-    transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    .tooltip-content:before {
+        position: absolute;
+        content: "";
+        height: 1rem;
+        width: 1rem;
+        background: rgba(180, 228, 199, 1);
+        top: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        transition: 4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    .modal-backdrop {
+        z-index: 105;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        background: none;
+    }
 }
 
 .tooltip-content p {
     z-index: 107;
     font-size: 0.8rem;
     padding: 0.5rem;
-}
-
-.modal-backdrop {
-    z-index: 105;
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    background: none;
 }

@@ -87,14 +87,23 @@ function SignupPage() {
                                     } 
                                 />
                             </label>
-                            <div className='clip-loader'>
+                            <div className='errors-bottom'>
                                 {invalidSignup 
                                     ? (<p className="invalid">Oops, your username and/or password is too short! Try again.</p>)
                                     : null
                                 }
-                                <ClipLoader color='green' loading={loading} size={15} />
-                            </div>    
-                                <button className="button-primary" type="submit" value="Submit">Sign-up</button>
+                            </div>   
+                            {loading
+                                ?  
+                                <div className="button-secondary center-button">
+                                    Sign-up 
+                                    <ClipLoader color='grey' loading={loading} size={15} />
+                                </div>
+                                :
+                                <button className="button-primary" type="submit" value="Submit">
+                                    Sign-up
+                                </button>
+                            }
                         </form>
                     </div>
                     <div className="login-bottom">

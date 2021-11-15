@@ -1,4 +1,6 @@
 import "../css/Tooltip.css";
+import loginPlease from '../assets/loginplease.svg'
+import {Link} from 'react-router-dom'
 
 export default function Tooltip({ content, toggleTooltip, setToggleTooltip }) {
     const toggle = () => {
@@ -7,14 +9,17 @@ export default function Tooltip({ content, toggleTooltip, setToggleTooltip }) {
     
     return (
         <>
-        {toggleTooltip && (
-            <div className="modal-backdrop" onClick={toggle}>
-                <div className="tooltip-content fade-in">
+            <div className={`modal-backdrop ${toggleTooltip && "modal-backdrop-show"}`} onClick={toggle}>
+                <div className={`tooltip-content ${toggleTooltip && "tooltip-content-open"}`}>
                     <p>{content}</p>
+                    <img src={loginPlease} />
+                    <Link to="/login">
+                        <button className="button-primary">
+                            Log-in
+                        </button>
+                    </Link>
                 </div>
             </div>
-        )
-        }
         </>
   );
 }
