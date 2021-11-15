@@ -1182,7 +1182,6 @@ iframe {
 
 .listings-grid {
   display: grid; 
-  padding: 0 0 2rem 0;
   margin: 4rem 0;
   grid-template-columns: repeat(auto-fit, 325px);
   grid-auto-rows: 21.5rem;

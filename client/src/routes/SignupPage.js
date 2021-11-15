@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import axios from 'axios'
 import { Link, useHistory } from 'react-router-dom' 
-import loginSvg from '../assets/login.svg'
+import signup from '../assets/signup.svg'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { UserContext } from '../App'
 
@@ -14,9 +14,28 @@ function SignupPage() {
     const [loading, setLoading] = useState(false)
     const history = useHistory()
 
+    const validate = () => {
+        let usernameError = false 
+        let passwordError = false
+
+        if (username.length < 6) { 
+            usernameError = true
+        }
+        if (password.length < 8) { 
+            passwordError = true
+        }
+
+        if (usernameError || passwordError) {
+            setInvalidSignup(true)
+            setLoading(false)
+            return
+          }
+    }
+
     const handleSubmit = async(e) => {
         e.preventDefault()
         setLoading(true)
+        validate()
 
         await axios
             .post('http://localhost:8000/users/create', {
@@ -25,7 +44,7 @@ function SignupPage() {
             }).then(async(response) => {
                 setCurrentUser(response.data)
                 sessionStorage.setItem('user', JSON.stringify(response.data))
-
+                
                 await axios
                     .post('http://localhost:8000/auth/', {
                         username: `${username}`,
@@ -38,13 +57,11 @@ function SignupPage() {
                         })
                     })
             .catch((error) => {
-                if (error) {
                     // console.log(error.response)
                     setInvalidSignup(true)
                     // console.log(invalidLogin)
                     setLoading(false)
                     return
-                }
             });
     }
 
@@ -57,7 +74,7 @@ function SignupPage() {
         >
             <div className="login-div">
                 <div className="login-bg">
-                    <img src={loginSvg} className="login-svg" />
+                    <img src={signup} className="login-svg" />
                 </div>
                 <div className="login-form-div">
                     <div className="login-form-title">
