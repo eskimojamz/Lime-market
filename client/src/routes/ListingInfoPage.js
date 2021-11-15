@@ -314,6 +314,15 @@ const ListingInfoPage = () => {
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
                     <img src={listing?.image1} />
+                    <div className="listing-info-img-small">
+                        <div className={`${listing?.image2 ? "listing-info-img-small-col-1" : "display-none"}`}>
+                            {listing?.image2 && <img src={listing?.image2} />}
+                            {listing?.image3 && <img src={listing?.image3} />}
+                        </div>
+                        <div className={`${listing?.image4 ? "listing-info-img-small-col-2" : "display-none"}`}>
+                            {listing?.image4 && <img src={listing?.image4} /> }
+                        </div>
+                    </div>
                 </div>
                 <div className="listing-info-title">
                     <h1>{listing?.title}</h1>

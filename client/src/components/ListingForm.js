@@ -65,10 +65,10 @@ const ListingForm = () => {
     }
     if (
       (listingData.description.length < 10) |
-      (listingData.description.length > 100)
+      (listingData.description.length > 250)
     ) {
       descriptionError =
-        "Description must be between 10 and 100 characters long";
+        "Description must be between 10 and 250 characters long";
     }
     if (listingImages.length < 1) {
       imageError = "At least one image must be uploaded";
