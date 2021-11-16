@@ -220,7 +220,6 @@ const ListingForm = () => {
         currentListing?.image1,
         currentListing?.image2,
         currentListing?.image3,
-        currentListing?.image4,
       ];
       imageURLs = imageURLs.filter((el) => el !== null);
       console.log(imageURLs);
@@ -248,7 +247,6 @@ const ListingForm = () => {
         image1: currentListing?.image1,
         image2: currentListing?.image2,
         image3: currentListing?.image3,
-        image4: currentListing?.image4,
       });
     }
   }, []);
@@ -339,7 +337,6 @@ const ListingForm = () => {
                   image1: null,
                   image2: null,
                   image3: null,
-                  image4: null,
                 });
                 console.log(currentListing);
               }
@@ -389,14 +386,6 @@ const ListingForm = () => {
               />
             ) : currentListingImages?.image3 ? (
               <img className="files-img" src={currentListingImages?.image3} />
-            ) : null}
-            {listingImages[3] ? (
-              <img
-                className="files-img"
-                src={URL.createObjectURL(listingImages[3])}
-              />
-            ) : currentListingImages?.image4 ? (
-              <img className="files-img" src={currentListingImages?.image4} />
             ) : null}
           </div>
 

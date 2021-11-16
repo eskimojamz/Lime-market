@@ -319,9 +319,6 @@ const ListingInfoPage = () => {
                             {listing?.image2 && <img src={listing?.image2} />}
                             {listing?.image3 && <img src={listing?.image3} />}
                         </div>
-                        <div className={`${listing?.image4 ? "listing-info-img-small-col-2" : "display-none"}`}>
-                            {listing?.image4 && <img src={listing?.image4} /> }
-                        </div>
                     </div>
                 </div>
                 <div className="listing-info-title">
