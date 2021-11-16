@@ -13,6 +13,7 @@ import { UserContext } from '../App';
 import axios from 'axios'
 import LoginButton from '../components/LoginButton';
 import EditMenuBackdrop from '../components/EditMenuBackdrop';
+import ImageCarousel from '../components/ImageCarousel';
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
@@ -23,19 +24,10 @@ const ListingInfoPage = () => {
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
     console.log(listing)
-    // const [state, setState] = useState({
-    //     likes: null,
-    //     menuOpen: false,
-    //     edit: false, 
-    //     deleted: false, 
-    //     liked: null, 
-    //     isStopped: true, 
-    //     toggle: false, 
-    //     newComment: 
-    // })
+    const [currentImage, setCurrentImage] = useState(null)
     const [likes, setLikes] = useState()
     
-    
+    const [toggleCarousel, setToggleCarousel] = useState(false)
     const [toggleMenu, setToggleMenu] = useState(false)
     const [toggleTooltip, setToggleTooltip] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -192,6 +184,11 @@ const ListingInfoPage = () => {
         
     }
 
+    const handleImage = (index) => {
+        setCurrentImage(index)
+        setToggleCarousel(true)
+    }
+
     const handleComment = (e) => {
         e.preventDefault()
         dispatch(addComment(
@@ -292,7 +289,17 @@ const ListingInfoPage = () => {
             {/* Toggles */}
             <Tooltip content="Please log-in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
             <EditMenuBackdrop toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} handleEdit={handleEdit} handleDelete={handleDelete}/>
-            {/*  */}
+            {toggleCarousel 
+                ?
+                <ImageCarousel 
+                    toggleCarousel={toggleCarousel} 
+                    currentImage={currentImage} 
+                    listing={listing}
+                />
+                : 
+                null
+            }
+                {/*  */}
 
             {/* Listing Info */}
             <div className="listing-info">
@@ -313,11 +320,11 @@ const ListingInfoPage = () => {
                 
                 { edit && <Redirect to="/form" /> }
                 <div className="listing-info-img">
-                    <img src={listing?.image1} />
+                    <img src={listing?.image1} onClick={() => handleImage(0)}/>
                     <div className="listing-info-img-small">
                         <div className={`${listing?.image2 ? "listing-info-img-small-col-1" : "display-none"}`}>
-                            {listing?.image2 && <img src={listing?.image2} />}
-                            {listing?.image3 && <img src={listing?.image3} />}
+                            {listing?.image2 && <img src={listing?.image2} onClick={() => handleImage(1)}/>}
+                            {listing?.image3 && <img src={listing?.image3} onClick={() => handleImage(2)}/>}
                         </div>
                     </div>
                 </div>

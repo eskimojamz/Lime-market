@@ -39,7 +39,8 @@ body {
   --bar-height: 2px;
   --bar-spacing: 10px;
   --primary: rgba(116, 205, 151, 1);
-  --primary-light: rgba(116, 205, 151, 0.2);
+  --primary-light: rgba(165, 233, 192, 1);
+  --primary-light-transparent: rgba(116, 205, 151, 0.2);
   --primary-superlight: rgba(247, 252, 248, 1);
   --primary-dark: rgba(89, 172, 122, 1);
   --secondary: rgba(235, 235, 235, 1);
@@ -107,8 +108,14 @@ button {
   border: none;
 }
 
+
+
 @media only screen and (min-width: 768px) {
   button:hover {
+    filter: brightness(1.05);
+    transition: all 0.2s ease;
+  }
+  button:active {
     filter: brightness(0.95);
     transition: all 0.2s ease;
   }
@@ -639,7 +646,7 @@ iframe {
 
 .profile-menu {
   position: absolute;
-  z-index: 101;
+  z-index: 701;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -1509,6 +1516,76 @@ input[type=file]::file-selector-button {
   border-radius: var(--border-radius);
   font: 'Sora';
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-backdrop {
+  z-index: 600;
+  background: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+.carousel-arrow{
+  z-index: 601;
+  position: relative;
+  height: 2rem;
+  top: 14rem;
+}
+.carousel-arrow-left {
+  right: 14rem;
+}
+.carousel-arrow-right {
+  left: 14rem;
+}
+.carousel-wrapper {
+  position: fixed;
+  top: 8rem;
+  overflow: hidden;
+  height: 25rem;
+  width: 25rem;
+  box-shadow: 0px 0px 100px 10px rgba(0, 0, 0, 0.25);
+  border-radius: var(--border-radius);
+}
+.carousel-inner {
+  white-space: nowrap;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+.carousel-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #fff;
+}
+.carousel-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+.carousel-pagin {
+  z-index: 602;
+  position: fixed;
+  top: 34rem;
+  display: flex;
+  gap: 1rem;
+  height: fit-content;
+}
+.carousel-pagin-button {
+  height: 0.8rem;
+  width: 0.8rem;
+  padding: 0;
+  border-radius: 50%;
+  background-color: rgba(119, 119, 119, 1);
+  box-shadow: var(--box-shadow-strong);
+  transition: background-color 0.5s;
+}
+.carousel-pagin-button-active {
+  background: var(--primary-light);
+  border: 5px solid var(--primary-light);
 }
 
 @media only screen and (min-width: 768px) {
