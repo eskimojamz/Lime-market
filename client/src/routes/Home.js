@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import heroImg from '../assets/hero-img.svg'
+import herolisting from '../assets/herolisting.svg'
+import herobg from '../assets/herobg.svg'
 import { motion } from 'framer-motion'
 
 const Home = () => {
@@ -13,14 +14,23 @@ const Home = () => {
             <motion.div 
                 className="hero-mobile"
             >
-                <img src={heroImg} className="hero-img" />
+                <motion.img src={herolisting} className="hero-img" 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25, duration: 0.25 }}
+                />
+                <motion.img src={herobg} className="hero-img" 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25, duration: 0.25 }}
+                />
             </motion.div>
             
             <div className="hero-left">
                 <motion.div
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1.5, duration: 0.25 }}
+                    transition={{ delay: 0.5, duration: 0.25 }}
                 >
                     <h1>buy & sell</h1>
                     <h1 className="highlight">safely & affordably</h1>
@@ -30,11 +40,11 @@ const Home = () => {
                     className="button-primary" 
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1.75, duration: 0.25 }}
+                    transition={{ delay: 0.5, duration: 0.25 }}
                     onClick={() => {
                         history.push('/listings')
                     }}>
-                        See Listings
+                        Start Shopping!
                 </motion.button>
             </div>
 
@@ -42,9 +52,18 @@ const Home = () => {
                 className="hero-right"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 2, duration: 0.25 }}
+                transition={{ delay: 0.5, duration: 0.25 }}
                 >
-                <img src={heroImg} className="hero-img" />
+                <motion.img src={herolisting} className="hero-img" 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25, duration: 0.25 }}
+                />
+                <motion.img src={herobg} className="hero-bg" 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.25, duration: 0.25 }}
+                />
             </motion.div>
         </div>
 

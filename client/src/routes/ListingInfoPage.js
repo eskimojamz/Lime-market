@@ -293,6 +293,7 @@ const ListingInfoPage = () => {
                 ?
                 <ImageCarousel 
                     toggleCarousel={toggleCarousel} 
+                    setToggleCarousel={setToggleCarousel}
                     currentImage={currentImage} 
                     listing={listing}
                 />

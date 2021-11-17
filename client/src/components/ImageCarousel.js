@@ -1,17 +1,18 @@
 import {useState, useEffect} from 'react'
-import {motion} from 'framer-motion'
+import {motion, AnimatePresence} from 'framer-motion'
 import left from '../assets/leftarrow.svg'
 import right from '../assets/rightarrow.svg'
+import { useSwipeable } from "react-swipeable";
 
-function ImageCarousel({toggleCarousel, currentImage, listing}) {
+function ImageCarousel({toggleCarousel, setToggleCarousel, currentImage, listing}) {
     const [activeIndex, setActiveIndex] = useState(currentImage)
     const listingImages = [
         listing?.image1, 
         listing?.image2,
         listing?.image3
     ]
-    const listingCount = listingImages?.filter(l => l !== undefined).length
-    console.log(listingCount)
+    const listingCount = listingImages?.filter(l => l !== null).length
+    console.log(listingImages)
 
     const updateIndex = (newIndex) => {
         if (newIndex < 0) {
@@ -23,12 +24,18 @@ function ImageCarousel({toggleCarousel, currentImage, listing}) {
         setActiveIndex(newIndex);
     };
 
+    const handlers = useSwipeable({
+        onSwipedLeft: () => updateIndex(activeIndex + 1),
+        onSwipedRight: () => updateIndex(activeIndex - 1)
+    });
+
     return (
         <>
-           
+            <AnimatePresence>
             <motion.div className="carousel-backdrop"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
             >
                 <img
                     className="carousel-arrow carousel-arrow-left"
@@ -47,7 +54,9 @@ function ImageCarousel({toggleCarousel, currentImage, listing}) {
                 <motion.div className="carousel-wrapper"
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: 'spring', bounce: 0.25 }}   
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: 'spring', bounce: 0.25 }} 
+                    {...handlers}  
                 >
                     <div 
                         className="carousel-inner"
@@ -76,8 +85,13 @@ function ImageCarousel({toggleCarousel, currentImage, listing}) {
                         }
                     </div>
                 </motion.div>
-                <div className="carousel-pagin">
-                    {listingImages?.filter(l => l !== undefined).map((l, i) => {
+                <motion.div className="carousel-pagin"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: 'spring', bounce: 0.25 }} 
+                >
+                    {listingImages?.filter(l => l !== null).map((l, i) => {
                         return (
                             <button
                                 className={`carousel-pagin-button ${i === activeIndex ? "carousel-pagin-button-active" : ""}`}
@@ -88,9 +102,22 @@ function ImageCarousel({toggleCarousel, currentImage, listing}) {
                             </button>
                         );
                     })}
-                </div>
+                </motion.div>
+                <motion.div className="carousel-close"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    transition={{ type: 'spring', bounce: 0.25 }} 
+                >
+                    <button 
+                        className="carousel-close-button"
+                        onClick={() => setToggleCarousel(!toggleCarousel)}
+                    >
+                        Close
+                    </button>
+                </motion.div>
             </motion.div>
-
+            </AnimatePresence>
         </>
     )
 }
