@@ -958,9 +958,9 @@ iframe {
 .hero {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  height: 100%;
-  gap: 3rem;
+  margin: 7rem auto;
+  height: fit-content;
+  gap: 5rem;
   padding: 0 1rem;
   max-width: 1080px;
 }
@@ -979,6 +979,7 @@ iframe {
   .hero-left {
     position: relative;
     top: -10%;
+    width: 25rem;
   }
 }
 
@@ -995,8 +996,7 @@ iframe {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0;
-  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -1046,6 +1046,9 @@ iframe {
 }
 .hero-bg {
   position: absolute;
+  top: -10px;
+  left: 10px;
+  z-index: -1;
 }
 
 .home-bottom {
