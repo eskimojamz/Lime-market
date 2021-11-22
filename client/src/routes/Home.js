@@ -28,7 +28,7 @@ const Home = () => {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.25, duration: 0.25 }}
                 />
-                <motion.img src={herobg} className="hero-img" 
+                <motion.img src={herobg} className="hero-bg" 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.25, duration: 0.25 }}

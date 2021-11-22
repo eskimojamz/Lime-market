@@ -1,6 +1,4 @@
 import React, { useState, useEffect, createContext } from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
 
 import { Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -29,6 +27,7 @@ const App = () => {
         <AnimateSharedLayout>
         <motion.div className="wrapper">
           <UserContext.Provider value={{currentUser, setCurrentUser}}>
+          
           <Navbar />
           <motion.div className="container">
             <Switch location={location} key={location.pathname}>

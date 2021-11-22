@@ -71,19 +71,19 @@ const Navbar = () => {
               transition={{bounce: 0}}
               exit={{x: 100, opacity: 0}}
             >
-              <motion.div layout className="mobile-menu-top">
+              <motion.div className="mobile-menu-top">
                 <Link to="/listings">
-                  <motion.button className="listings-nav-btn-mobile">Listings</motion.button>
+                  <motion.button onClick={() => setMenuOpen(!menuOpen)} className="listings-nav-btn-mobile">Listings</motion.button>
                 </Link>
                 <motion.span className="span-mobile-menu" />
                 <Link to="/form">
-                  <motion.button className="sell-nav-btn-mobile">Sell Now</motion.button>
+                  <motion.button onClick={() => setMenuOpen(!menuOpen)} className="sell-nav-btn-mobile">Sell Now</motion.button>
                 </Link>
                 <span className="span-mobile-menu" />
               </motion.div>
               {user || currentUser ? (
                 <>
-                  <motion.div layout className="mobile-menu-profile">
+                  <motion.div className="mobile-menu-profile">
                     <motion.div className="mobile-menu-profile-left">
                       <img
                         className="profile-mobile"
@@ -97,10 +97,10 @@ const Navbar = () => {
                   </motion.div>
                   
                   <motion.div className="mobile-menu-bottom-logout">
-                    <Link className="mobile-menu-profile-link" to={`/profiles/${user?.username}`}>
-                    <button className="profile-btn-mobile">
-                      My Profile
-                    </button>
+                    <Link className="mobile-menu-profile-link" to={`/profile/${user?.username}`}>
+                      <button className="profile-btn-mobile" onClick={() => setMenuOpen(!menuOpen)}>
+                        My Profile
+                      </button>
                     </Link>
                     <LogoutButton logoutAll={logoutAll} />
                   </motion.div>
@@ -275,10 +275,10 @@ function WatchlistListing({ listing }) {
 
   return (
     <motion.div layout className="watchlist-listing"
-      initial={{ opacity: 0, y: 10}}
+      initial={{ opacity: 0, scale: 0}}
       animate={{
         opacity: 1,
-        y: 0,
+        scale: 1,
         transition: { duration: 0.2 },
       }}
       exit={{ opacity: 0 }}
