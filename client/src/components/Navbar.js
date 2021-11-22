@@ -41,13 +41,16 @@ const Navbar = () => {
                 transition={{ delay: 0.25, duration: 0.25 }}
               ></motion.img>
             </Link>
-            <motion.h1
-              initial={{ y: -20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.25 }}
-            >
-              Lime Market
-            </motion.h1>
+            <Link to="/">
+              <motion.h1
+                className="logo-text"
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.25 }}
+              >
+                Lime Market
+              </motion.h1>
+            </Link>
           </div>
 
           <MenuButton
@@ -118,7 +121,11 @@ const Navbar = () => {
                   </motion.div>
                 </>
               ) : (
-                <LoginButton />
+                <Link to='/login'>
+                    <button className="login-btn" onClick={() => setMenuOpen(!menuOpen)}>
+                        Log-in
+                    </button>
+                </Link>
               )}
             </motion.div>
           )}

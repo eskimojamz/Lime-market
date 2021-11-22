@@ -10,6 +10,8 @@ function SignupPage() {
     const {currentUser, setCurrentUser} = useContext(UserContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [profile_img, setImg] = useState()
+    const defaultImg = 'https://limemarketstatic.s3.amazonaws.com/media/defaultprofileimg.svg'
     const [invalidSignup, setInvalidSignup] = useState(false)
     const [loading, setLoading] = useState(false)
     const history = useHistory()
@@ -37,11 +39,18 @@ function SignupPage() {
         setLoading(true)
         validate()
 
+        let formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
+        formData.append("profile_img", profile_img);
+
         await axios
-            .post('http://localhost:8000/users/create', {
-                username: `${username}`,
-                password: `${password}`,
-            }).then(async(response) => {
+            .post('http://localhost:8000/users/create', formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then(async(response) => {
                 setCurrentUser(response.data)
                 sessionStorage.setItem('user', JSON.stringify(response.data))
                 
@@ -82,34 +91,58 @@ function SignupPage() {
                     </div>
                     <div>
                         <form className="login-form" onSubmit={handleSubmit}>
-                            <label>
-                                <h5>Username:</h5>
+                            <div className="login-form-profile">
+                                <img src={profile_img ? URL.createObjectURL(profile_img) : defaultImg} className="login-form-profile-img" />
+                                <label for="profile-img-input">
+                                    <div className="login-form-profile-img-btn">
+                                        Upload Image
+                                    </div>
+                                </label>
                                 <input 
-                                    type="text"
-                                    placeholder="Minimum 6 characters" 
-                                    value={username} 
-                                    onChange={e => 
-                                        setUsername(e.target.value)
-                                    } 
+                                    className="login-form-input-file"
+                                    id="profile-img-input"
+                                    type="file"
+                                    onChange={event => {
+                                        if (event.target.files) {
+                                            console.log(event.target.files)
+                                            // set profile img to state
+                                            setImg(event.target.files[0])
+                                          }
+                                    }} 
                                 />
-                            </label>
-                            <label>
-                                <h5>Password:</h5>
-                                <input 
-                                    type="password" 
-                                    placeholder="Minimum 8 characters"
-                                    value={password} 
-                                    onChange={e =>
-                                        setPassword(e.target.value)
-                                    } 
-                                />
-                            </label>
-                            <div className='errors-bottom'>
-                                {invalidSignup 
-                                    ? (<p className="invalid">Oops, your username and/or password is too short! Try again.</p>)
-                                    : null
-                                }
-                            </div>   
+                            </div>
+                            <div className="login-form-text-fields">
+                                <label>
+                                    <h5 className="login-form-first-h5">Username:</h5>
+                                    <input 
+                                        type="text"
+                                        placeholder="Minimum 6 characters" 
+                                        value={username} 
+                                        onChange={e => 
+                                            setUsername(e.target.value)
+                                        } 
+                                    />
+                                </label>
+                                <label>
+                                    <h5>Password:</h5>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Minimum 8 characters"
+                                        value={password} 
+                                        onChange={e =>
+                                            setPassword(e.target.value)
+                                        } 
+                                    />
+                                </label>
+                            </div>
+                            {invalidSignup
+                                ?
+                                <div className='errors-bottom'>
+                                    <p className="invalid">Oops, your username and/or password is too short! Try again.</p>
+                                </div> 
+                                : null
+                            }
+
                             {loading
                                 ?  
                                 <div className="button-secondary center-button">
@@ -117,7 +150,7 @@ function SignupPage() {
                                     <ClipLoader color='grey' loading={loading} size={15} />
                                 </div>
                                 :
-                                <button className="button-primary" type="submit" value="Submit">
+                                <button className="login-form-submit-btn" type="submit" value="Submit">
                                     Sign-up
                                 </button>
                             }

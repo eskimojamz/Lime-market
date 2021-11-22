@@ -891,6 +891,10 @@ iframe {
   transition: 0.5s;
 }
 
+.logo-text {
+  color: var(--primary);
+}
+
 .mobile-menu-profile {
   width: 100%;
   height: 5rem;
@@ -1082,11 +1086,39 @@ iframe {
   margin: 0.5rem 0;
 }
 .login-form {
-  margin: 0 auto;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.login-form-profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.login-form-profile-img {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+}
+.login-form-profile-img-btn {
+  font-size: 10px;
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-superlight);
+  cursor: pointer;
+}
+.login-form-input-file {
+  display: none;
 }
 .login-form h5 {
   margin: 1rem 0 0.25rem 0;
   font-weight: 500;
+}
+.login-form-first-h5 {
+  margin: 0 0 0.25rem 0 !important;
 }
 .login-form input{
   border: none;
@@ -1095,7 +1127,9 @@ iframe {
   width: 100%;
   padding: 0.5rem;
 }
-.login-form button{
+.login-form-submit-btn{
+  background-color: var(--primary);
+  color: white;
   width: 100%;
   border: none;
   border-radius: var(--border-radius);
