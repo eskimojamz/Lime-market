@@ -1,7 +1,9 @@
 import {useEffect} from 'react'
 import { useHistory } from 'react-router-dom'
-import herolisting from '../assets/herolisting.svg'
-import herobg from '../assets/herobg.svg'
+import hero from '../assets/hero.png'
+import pattern from '../assets/patternpad.svg'
+import blob1 from '../assets/blob1.svg'
+import blob2 from '../assets/blob2.svg'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import { getListings } from '../actions/actions'
@@ -18,17 +20,19 @@ const Home = () => {
 
     return (
         <>
-        
+        {/* <img src={blob1} className="hero-blob1" />
+        <img src={blob1} className="hero-blob1-filter" />
+        <img src={blob2} className="hero-blob2" />
+        <img src={blob2} className="hero-blob2-filter" /> */}
+        <div className="hero-container">
+        <div className="hero-bg-pattern">
+        </div>
         <div className="hero">
+            
             <motion.div 
                 className="hero-mobile"
             >
-                <motion.img src={herolisting} className="hero-img" 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.25, duration: 0.25 }}
-                />
-                <motion.img src={herobg} className="hero-bg" 
+                <motion.img src={hero} className="hero-img" 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.25, duration: 0.25 }}
@@ -37,6 +41,7 @@ const Home = () => {
             
             <div className="hero-left">
                 <motion.div
+                    className="hero-left-text"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.25 }}
@@ -46,7 +51,7 @@ const Home = () => {
                     <p>Lime Market makes it easy to buy and sell items on a safe and secure platform.</p> <p>Powered by the Paypal payment system, users can buy and sell items with confidence.</p>
                 </motion.div>
                 <motion.button 
-                    className="button-primary" 
+                    className="button-primary hero-button" 
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.25 }}
@@ -63,17 +68,13 @@ const Home = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.25 }}
                 >
-                <motion.img src={herolisting} className="hero-img" 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.25, duration: 0.25 }}
-                />
-                <motion.img src={herobg} className="hero-bg" 
+                <motion.img src={hero} className="hero-img" 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.25, duration: 0.25 }}
                 />
             </motion.div>
+        </div>
         </div>
 
         <motion.div className="hero-bottom"

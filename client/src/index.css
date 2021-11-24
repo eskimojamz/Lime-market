@@ -104,6 +104,7 @@ input, select, textarea, button{
 
 button {
   border: none;
+  cursor: pointer;
 }
 
 
@@ -957,21 +958,66 @@ iframe {
   justify-content: center;
 }
 
+.hero-container {
+  height: 40rem;
+}
+
+.hero-bg-pattern {
+  position: absolute;
+  height: 40rem;
+  width: 100%;
+  background-image: url(./assets/patternpad.svg);
+  background-size: auto;
+  filter: brightness(0.95);
+} 
+
 .hero {
   display: flex;
   justify-content: center;
-  margin: 7rem auto;
-  height: fit-content;
+  align-items: center;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
   gap: 5rem;
-  padding: 0 1rem;
-  max-width: 1080px;
+  padding: 7rem 1rem;
+}
+
+.hero-blob1 {
+  position: fixed;
+  transform: scale(0.8) rotate(45deg);
+  top: -20%;
+  left: 30%;
+  z-index: -1;
+}
+.hero-blob1-filter {
+  position: fixed;
+  filter: blur(50px);
+  transform: scale(0.8) rotate(45deg);
+  top: -20%;
+  left: 30%;
+  z-index: -1;
+}
+.hero-blob2 {
+  position: fixed;
+  transform: scale(0.8) rotate(135deg);
+  top: 20%;
+  left: -30%;
+  z-index: -1;
+}
+.hero-blob2-filter {
+  position: fixed;
+  filter: blur(50px);
+  transform: scale(0.8) rotate(135deg);
+  top: 20%;
+  left: -30%;
+  z-index: -1;
 }
 
 .hero-left {
   grid-column: 1 / 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   text-align: center;
   place-self: center;
@@ -985,6 +1031,10 @@ iframe {
   }
 }
 
+.hero-left-text {
+  text-align: center;
+}
+
 .hero-left h1 {
   margin: 0;
   font-size: 2rem;
@@ -992,12 +1042,23 @@ iframe {
 
 .highlight {
   color: var(--primary);
+  background: var(--primary-superlight);
+  width: fit-content;
+  margin: 0.5rem auto 0 auto !important;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.hero-button {
+  box-shadow: var(--box-shadow);
 }
 
 .hero-bottom {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -1047,7 +1108,7 @@ iframe {
 }
 
 .hero-img {
-  width: 60%;
+  width: 99%;
   max-width: 779px;
   height: auto;
 }
@@ -1061,7 +1122,6 @@ iframe {
 
 .hero-right {
   position: relative;
-  top: -10%;
   grid-column: 2 / 3;
   position: relative;
   place-self: center;
@@ -1684,6 +1744,7 @@ input[type=file]::file-selector-button {
     position: relative;
     height: 2rem;
     top: 14rem;
+    cursor: pointer;
   }
   .carousel-arrow-left {
     right: 14rem;
@@ -2041,6 +2102,7 @@ input[type=file]::file-selector-button {
   width: 200px;
   border-radius: var(--border-radius);
   object-fit: cover;
+  cursor: pointer;
 }
 
 .listing-info-img-small {
@@ -2061,6 +2123,7 @@ input[type=file]::file-selector-button {
 .listing-info-img-small img {
   height: 96px !important;
   width: 100px !important;
+  cursor: pointer;
 }
 
 .listing-info-desc p {
