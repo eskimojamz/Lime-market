@@ -14,6 +14,7 @@ import axios from 'axios'
 import LoginButton from '../components/LoginButton';
 import EditMenuBackdrop from '../components/EditMenuBackdrop';
 import ImageCarousel from '../components/ImageCarousel';
+import { formatDistance, subDays } from 'date-fns'
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
@@ -24,6 +25,7 @@ const ListingInfoPage = () => {
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
     console.log(listing)
+    const listingDate = listing?.created_at
     const [currentImage, setCurrentImage] = useState(null)
     const [likes, setLikes] = useState()
     
@@ -356,7 +358,7 @@ const ListingInfoPage = () => {
                    {/* Paypal */}
                 </div>
 
-                <div className="listing-info-like">
+                <div className="listing-info-like-created">
                     <button 
                         className={`listing-info-like-button ${liked && "liked"}`} 
                         onClick={user ? toggleLike : setToggleTooltip}
@@ -377,6 +379,9 @@ const ListingInfoPage = () => {
                         />
                         <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
                     </button>
+                    <div className="listing-info-created-date">
+                        <h5>Created { listingDate ? formatDistance(new Date(listingDate), new Date(), { addSuffix: true }) : null}</h5>
+                    </div>
                 </div>
 
                 {/* Comments */}
