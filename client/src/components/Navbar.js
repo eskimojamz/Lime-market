@@ -4,9 +4,10 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
+import loginBtnSvg from "../assets/loginbtn.svg"
 import deleteSvg from "../assets/delete.svg";
 import goSvg from "../assets/go.svg";
-import sidebarCloseSvg from "../assets/sidebarclose.svg";
+import sidebarCloseSvg from "../assets/rightarrow2.svg"
 import MenuButton from "./MenuButton";
 import { UserContext } from "../App";
 import axios from "axios";
@@ -115,15 +116,16 @@ const Navbar = () => {
                     </motion.div>
                     <motion.div layout className="watchlist-items">
                       {currentUser?.watchlist.map((listing) => {
-                        return <WatchlistListing listing={listing} />;
+                        return <WatchlistListing listing={listing} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />;
                       })}
                     </motion.div>
                   </motion.div>
                 </>
               ) : (
                 <Link to='/login'>
-                    <button className="login-btn" onClick={() => setMenuOpen(!menuOpen)}>
-                        Log-in
+                    <button className="login-btn" onClick={() => setProfileOpen(!profileOpen)}>
+                        <img className="login-btn-svg" src={loginBtnSvg} />
+                        Sign-in
                     </button>
                 </Link>
               )}
@@ -177,7 +179,7 @@ const Navbar = () => {
                     <motion.div layout className="watchlist-items">
                       { currentUser?.watchlist.length > 0 &&
                       currentUser?.watchlist.map((listing) => {
-                        return <WatchlistListing listing={listing} />;
+                        return <WatchlistListing listing={listing} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />;
                       })}
                     </motion.div>
                   </div>
@@ -195,7 +197,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-function WatchlistListing({ listing }) {
+function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
   const {currentUser, setCurrentUser} = useContext(UserContext)
   const token = sessionStorage.getItem('token')
 
@@ -292,7 +294,13 @@ function WatchlistListing({ listing }) {
     >
       <motion.div layout className="watchlist-listing-initial">
         <motion.div className="watchlist-listing-img">
-          <motion.img src={listingData?.image1}></motion.img>
+          <Link to={`/listings/${listingData?.id}`}>
+            <motion.img 
+              src={listingData?.image1} 
+              onClick={() => setProfileOpen(!profileOpen)} 
+            >
+            </motion.img>
+          </Link>
         </motion.div>
         <motion.div className="watchlist-listing-info">
           <motion.h4 className="watchlist-title">{listingData?.title}</motion.h4>
@@ -303,7 +311,11 @@ function WatchlistListing({ listing }) {
             <motion.img src={deleteSvg} onClick={toggleRemove}></motion.img>
           </motion.a>
           <Link to={`/listings/${listingData?.id}`}>
-            <motion.img src={goSvg}></motion.img>
+            <motion.img 
+              src={goSvg}
+              onClick={() => setProfileOpen(!profileOpen)}
+            >
+            </motion.img>
           </Link>
         </motion.div>
       </motion.div>

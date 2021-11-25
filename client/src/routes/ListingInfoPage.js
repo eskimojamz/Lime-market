@@ -8,6 +8,7 @@ import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
 import deleteSvg from '../assets/delete.svg'
 import like from '../assets/like.json'
+import loginBtnSvg from "../assets/loginbtn.svg"
 import { motion, AnimateSharedLayout } from 'framer-motion'
 import { UserContext } from '../App';
 import axios from 'axios'
@@ -484,8 +485,9 @@ const ListingInfoPage = () => {
                             : 
                             <Link to='/login'>
                                 <button 
-                                    className="button-secondary"
+                                    className="login-btn login-btn-listing-info"
                                 >
+                                    <img className="login-btn-svg" src={loginBtnSvg} />
                                     Sign-in
                                 </button>
                             </Link>

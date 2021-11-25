@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
+import loginBtnSvg from "../assets/loginbtn.svg"
 
 const LoginButton = () => {
     
     return (
         <Link to='/login'>
             <button className="login-btn">
-                Log-in
+                <img className="login-btn-svg" src={loginBtnSvg} />
+                Sign-in
             </button>
         </Link>
     )
