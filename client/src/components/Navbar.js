@@ -16,7 +16,6 @@ const Navbar = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   console.log(currentUser);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
   console.log("user", user);
@@ -55,18 +54,18 @@ const Navbar = () => {
           </div>
 
           <MenuButton
-            menuOpen={menuOpen}
-            toggle={() => setMenuOpen(!menuOpen)}
+            profileOpen={profileOpen}
+            toggle={() => setProfileOpen(!profileOpen)}
           />
 
-          {menuOpen &&
-          <motion.div className="mobile-menu-backdrop" onClick={() => setMenuOpen(!menuOpen)}>
+          {profileOpen &&
+          <motion.div className="mobile-menu-backdrop" onClick={() => setProfileOpen(!profileOpen)}>
             {/*  */}
           </motion.div>
           }
           
           <AnimatePresence>
-          {menuOpen && (
+          {profileOpen && (
             <motion.div
               layout
               className="mobile-menu"
@@ -77,11 +76,11 @@ const Navbar = () => {
             >
               <motion.div className="mobile-menu-top">
                 <Link to="/listings">
-                  <motion.button onClick={() => setMenuOpen(!menuOpen)} className="listings-nav-btn-mobile">Listings</motion.button>
+                  <motion.button onClick={() => setProfileOpen(!profileOpen)} className="listings-nav-btn-mobile">Listings</motion.button>
                 </Link>
                 <motion.span className="span-mobile-menu" />
                 <Link to="/form">
-                  <motion.button onClick={() => setMenuOpen(!menuOpen)} className="sell-nav-btn-mobile">Sell Now</motion.button>
+                  <motion.button onClick={() => setProfileOpen(!profileOpen)} className="sell-nav-btn-mobile">Sell Now</motion.button>
                 </Link>
                 <span className="span-mobile-menu" />
               </motion.div>
@@ -102,7 +101,7 @@ const Navbar = () => {
                   
                   <motion.div className="mobile-menu-bottom-logout">
                     <Link className="mobile-menu-profile-link" to={`/profile/${user?.username}`}>
-                      <button className="profile-btn-mobile" onClick={() => setMenuOpen(!menuOpen)}>
+                      <button className="profile-btn-mobile" onClick={() => setProfileOpen(!profileOpen)}>
                         My Profile
                       </button>
                     </Link>

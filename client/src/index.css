@@ -498,12 +498,13 @@ button:focus {
   padding: 1rem;
   top: 62px;
   right: 0;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 64px);
   width: 80%;
-  background: white;
+  background: var(--primary-superlight);
   box-shadow: var(--box-shadow-strong);
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  border-top: solid 5px var(--primary);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -2234,7 +2235,7 @@ input[type=file]::file-selector-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
+  margin: 0.5rem auto 1rem auto;
   width: 100%;
 }
 
@@ -2314,10 +2315,11 @@ input[type=file]::file-selector-button {
 
 .comment-comment {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   margin: 1rem 0;
-  background: var(--secondary);
+  background: white;
   border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .comment-top-delete {
@@ -2328,6 +2330,7 @@ input[type=file]::file-selector-button {
 
 .comment-delete-button {
   transition: filter 0.2s ease;
+  cursor: pointer;
 }
 
 .comment-delete-button:hover {
@@ -2355,6 +2358,12 @@ input[type=file]::file-selector-button {
 
 .comment-body {
   margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+.comment-body p {
+  font-size: 13px;
+  font-weight: 300;
 }
 
 .comment-bottom {
@@ -2367,14 +2376,23 @@ input[type=file]::file-selector-button {
   align-items: center;
 }
 
+.comment-pic {
+  height: 2rem;
+}
+
 .comment-name {
   display: flex;
   flex-direction: column;
 }
 
+.comment-name h6 {
+  color: black;
+  font-size: 12px;
+}
+
 .comment-name h4 {
   text-align: center;
-  font-size: 0.6rem;
+  font-size: 12px;
   font-weight: 500;
   margin: 0;
   margin-top: 0.2rem;
@@ -2385,7 +2403,13 @@ input[type=file]::file-selector-button {
 
 .comment-date {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+}
+
+.comment-date h6 {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
 }
 
 .comments-input {
@@ -2399,7 +2423,7 @@ input[type=file]::file-selector-button {
 .input-box {
   height: 5rem;
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   border: solid 0.1rem rgba(204, 204, 204, 1);
   border-radius: 5px;
   box-shadow: 0px 4px 30px 0px rgb(0 0 0 / 10%);
@@ -2437,6 +2461,10 @@ input[type=file]::file-selector-button {
 
 .delete-modal-overlay-bottom button{
   width: 5rem;
+  height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .delete-modal-yes {

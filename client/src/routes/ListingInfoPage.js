@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, Redirect, useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentListing, addComment, getListing } from '../actions/actions';
-import moment from 'moment';
 import Lottie from 'react-lottie-segments'
 import Tooltip from '../components/Tooltip.js';
 import menu from '../assets/menu-v.svg';
@@ -15,7 +14,7 @@ import axios from 'axios'
 import LoginButton from '../components/LoginButton';
 import EditMenuBackdrop from '../components/EditMenuBackdrop';
 import ImageCarousel from '../components/ImageCarousel';
-import { formatDistance, subDays } from 'date-fns'
+import { formatDistance } from 'date-fns'
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
@@ -445,13 +444,15 @@ const ListingInfoPage = () => {
                                                 </Link>
                                             </div>
                                             <div className="comment-name">
-                                                <h6>{comment?.creator}</h6>
+                                                <Link to={`/profile/${comment?.creator}`}>
+                                                    <h6>{comment?.creator}</h6>
+                                                </Link>
                                                 {(comment?.creator === listing?.creator) && 
                                                     <h4>Seller  ✓</h4>
                                                 }
                                             </div>
                                         </div>
-                                        <div className="comment-date"><h6>{moment(`${comment?.date_created}`).format('lll')}</h6></div>
+                                        <div className="comment-date"><h6>{formatDistance(new Date(comment?.date_created), new Date(), { addSuffix: true })}</h6></div>
                                     </div>
                                 </div>
                             );

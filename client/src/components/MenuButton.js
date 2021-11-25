@@ -12,12 +12,12 @@ const Path = (props) => (
 
 const transition = { duration: 0.33 };
 
-const MenuButton = ({toggle, menuOpen}) => {
+const MenuButton = ({toggle, profileOpen}) => {
     return (
       <div className="mobile-menu-button" onClick={toggle}>
         <svg width="25" height="25" viewBox="0 0 23 23">
           <Path
-            animate={menuOpen ? "open" : "closed"}
+            animate={profileOpen ? "open" : "closed"}
             initial={false}
             variants={{
               closed: { d: "M 2 2.5 L 20 2.5", stroke: "hsl(0, 0%, 18%)" },
@@ -28,7 +28,7 @@ const MenuButton = ({toggle, menuOpen}) => {
           <Path
             d="M 2 9.423 L 20 9.423"
             stroke="hsl(0, 0%, 18%)"
-            animate={menuOpen ? "open" : "closed"}
+            animate={profileOpen ? "open" : "closed"}
             initial={false}
             variants={{
               closed: { opacity: 1 },
@@ -37,7 +37,7 @@ const MenuButton = ({toggle, menuOpen}) => {
             transition={transition}
           />
           <Path
-            animate={menuOpen ? "open" : "closed"}
+            animate={profileOpen ? "open" : "closed"}
             initial={false}
             variants={{
               closed: { d: "M 2 16.346 L 20 16.346", stroke: "hsl(0, 0%, 18%)" },
