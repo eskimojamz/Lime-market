@@ -350,7 +350,9 @@ const ListingInfoPage = () => {
                         <div className="listing-info-creator-name">
                             
                             <h5>{listing?.creator}</h5>
-                            <h4>Seller  ✓</h4>
+                            <span className="listing-info-seller-check">
+                                <h4>Seller  ✓</h4>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -359,26 +361,28 @@ const ListingInfoPage = () => {
                 </div>
 
                 <div className="listing-info-like-created">
-                    <button 
-                        className={`listing-info-like-button ${liked && "liked"}`} 
-                        onClick={user ? toggleLike : setToggleTooltip}
+                    <div 
+                        className="listing-info-like-div" 
                     >
-                    
-                        <Lottie
-                            options={{
-                                loop: false,
-                                autoplay: false,
-                                animationData: like,
-                                rendererSettings: {
-                                    preserveAspectRatio: 'xMidYMid slice'
-                                }
-                            }}
-                            height="35px"
-                            width="35px"
-                            isStopped={isStopped}
-                        />
+                        <span 
+                            className="listing-info-like-heart"
+                            onClick={user ? toggleLike : setToggleTooltip}>
+                            <Lottie
+                                options={{
+                                    loop: false,
+                                    autoplay: false,
+                                    animationData: like,
+                                    rendererSettings: {
+                                        preserveAspectRatio: 'xMidYMid slice'
+                                    }
+                                }}
+                                height="35px"
+                                width="35px"
+                                isStopped={isStopped}
+                            />
+                        </span>
                         <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
-                    </button>
+                    </div>
                     <div className="listing-info-created-date">
                         <h5>Created { listingDate ? formatDistance(new Date(listingDate), new Date(), { addSuffix: true }) : null}</h5>
                     </div>
