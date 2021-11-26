@@ -14,7 +14,7 @@ body {
   padding: 0;
   height: 100%;
   width: 100vw;
-  font-family: 'Sora',
+  font-family: 'Open Sans',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -47,6 +47,10 @@ body {
   --secondary-dark: rgba(204, 204, 204, 1);
   --red-dark: rgba(253, 86, 74, 1);
   --red-light: rgba(255, 152, 152, 1);
+}
+
+h1 {
+  font-family: 'Sora', sans-serif;
 }
 
 .bold {
@@ -373,9 +377,8 @@ button:focus {
   height: 35px;
   border-radius: var(--border-radius);
   border: solid 1px var(--primary);
-  font-family: 'Sora';
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   color: white;
 }
 
@@ -445,7 +448,6 @@ button:focus {
   align-items: center;
   flex-wrap: wrap;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  font-family: 'Sora';
   width: 100%;
   z-index: 3;
 }
@@ -478,8 +480,17 @@ button:focus {
 
 .mobile-menu-button {
   z-index: 3;
-  height: 22px;
+  height: fit-content;
+  width: fit-content;
   cursor: pointer;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.2);
 }
 
 .mobile-menu-backdrop {
@@ -492,23 +503,39 @@ button:focus {
   right: 1rem;
 }
 
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgb(0 0 0 / 10%);
+  display: flex;
+  align-items: flex-end;
+}
+
 .mobile-menu {
   z-index: 6;
   position: absolute;
   padding: 1rem;
-  top: 62px;
-  right: 0;
   height: calc(100vh - 64px);
-  width: 80%;
+  width: 85vw;
+  top: 64px;
+  right: 0;
   background: var(--primary-superlight);
-  box-shadow: var(--box-shadow-strong);
   border-top: solid 5px var(--primary);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-bottom: solid 1px var(--secondary-dark);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  font-family: 'Poppins';
+  font-family: 'Sora';
+  opacity: 0;
+  transform: translateX(20%);
+  transition: all 0.25s ease-out;
+  pointer-events: none;
 }
 
 @media only screen and (min-width: 768px) {
@@ -524,6 +551,32 @@ button:focus {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.mobile-menu-login {
+  margin: 1.5rem auto 0 auto;
+}
+
+.menu-cart-div {
+  width: 80%;
+  margin: 1.5rem auto 0 auto;
+  padding: 1rem;
+  background: var(--primary-light-transparent);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.menu-cart-div img {
+  height: auto;
+  width: 100%;
+}
+
+.menu-cart-div h5 {
+  color: black;
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0rem 0 1rem 0 !important;
 }
 
 .mobile-menu-liked {
@@ -610,13 +663,13 @@ button:focus {
 }
 
 @media only screen and (max-width: 768px) {
-  .login-btn {
+  /* .login-btn {
     width: 100%;
     height: 4rem;
     font-size: 1.2rem;
     padding: 0.5rem;
     background: none;
-  }
+  } */
   .logout-btn {
     height: 100% !important;
     width: 50% !important;
@@ -652,12 +705,6 @@ button:focus {
   font-weight: 500;
 }
 
-.logout-btn:hover {
-  opacity: 50%;
-  transition: opacity var(--speed);
-  color: black;
-}
-
 .logout-btn:active {
   background: var(--secondary-dark);
   border: solid 0.05rem var(--secondary-dark);
@@ -674,25 +721,30 @@ iframe {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  top: calc(64px - 1px);
-  right: 0;
-  height: calc(100vh - (64px - 1px));
+  top: calc(64px + 12px);
+  right: 12px;
+  /* height: calc(100vh - (64px - 1px)); */
+  height: fit-content;
   width: 300px;
-  background: var(--primary-superlight);
-  border-left: 1px solid rgba(204, 204, 204, 1);
+  background: var(--bg);
   border-top: 5px solid var(--primary);
+  border-right: 1px solid rgba(204, 204, 204, 1);
+  border-bottom: 1px solid rgba(204, 204, 204, 1);
+  border-left: 1px solid rgba(204, 204, 204, 1);
+  border-radius: var(--border-radius);
   padding: 1rem;
-  font-family: 'Poppins';
   overflow: hidden;
   opacity: 0;
-  transform: translateX(100%);
-  transition: all 0.1s ease-out;
+  transform: translateX(20%);
+  transition: all 0.25s ease-out;
+  pointer-events: none;
 }
 
 .open {
   opacity: 1;
   transform: translateX(0);
   box-shadow: -10px 5px 10px 0px rgba(0, 0, 0, 0.1);
+  pointer-events: all;
 }
 
 .profile-menu h5 {
@@ -754,11 +806,6 @@ iframe {
   padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
   font-weight: 500;
-}
-
-.profile-btn:hover {
-  opacity: 50%;
-  transition: opacity var(--speed);
 }
 
 .profile-menu-watchlist {
@@ -880,19 +927,32 @@ iframe {
 
 .watchlist-listing-bottom-buttons-remove {
   background: var(--red-dark);
+  height: 28px;
   width: 4.25rem;
   padding: 0.25rem 0.5rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
   color: white;
   border-radius: var(--border-radius);
+  border: solid 1px var(--red-dark);
 }
 
 .watchlist-listing-bottom-buttons-cancel {
-  background: var(--secondary-dark);
+  background: var(--secondary);
+  height: 28px;
   width: 4.25rem;
   padding: 0.25rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
   color: black;
   border-radius: var(--border-radius);
+  border: solid 1px var(--secondary-dark);
 }
 
 /* .profile-item {
@@ -920,10 +980,17 @@ iframe {
   transition: 0.5s;
 }
 
+@media only screen and (max-width: 767px) {
+  .logo-text {
+    font-size: 20px !important;
+  }
+}
+
 .logo-text {
   color: black;
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .mobile-menu-profile {
@@ -1063,19 +1130,32 @@ iframe {
 }
 
 .hero-left-text {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
 }
 
-.hero-left h1 {
+.hero-left-text h1 {
   margin: 0;
-  font-size: 2rem;
+}
+
+.hero-left-text-bottom {
+  margin-top: 1rem;
+}
+
+.hero-left h4 {
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
 }
 
 .highlight {
   color: var(--primary);
   background: var(--primary-superlight);
-  width: fit-content;
-  margin: 0.5rem auto 0 auto !important;
+  width: max-content;
+  margin: 0.5rem 0 0 0 !important;
   padding: 0.2rem 0.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--box-shadow);
@@ -1083,6 +1163,7 @@ iframe {
 
 .hero-button {
   box-shadow: var(--box-shadow);
+  font-family: 'Sora', sans-serif;
 }
 
 .hero-bottom {
@@ -1095,9 +1176,7 @@ iframe {
 }
 
 .hero-bottom h2{
-  color: black;
-  font-style: italic;
-  margin-bottom: 0.5rem;
+  
 }
 
 .hero-bottom-img {
@@ -1106,8 +1185,12 @@ iframe {
 
 @media only screen and (max-width: 767px) {
   .hero {
-    display: block;
-    margin-top: 2rem;
+    flex-direction: column;
+    padding: 1rem !important;
+    gap: 1rem !important;
+  }
+  .hero-left {
+    position: relative;
   }
   .hero-right {
     display: none;
@@ -1133,7 +1216,7 @@ iframe {
 
 .hero-mobile {
   position: relative;
-  margin: 3rem 0;
+  margin: 2rem 0 0 0;
   display: flex;
   justify-content: center;
 }
@@ -1177,10 +1260,8 @@ iframe {
   margin: 0.5rem 0;
 }
 .login-form {
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 .login-form-profile {
   display: flex;
@@ -1188,6 +1269,7 @@ iframe {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  margin: 0.5rem 0;
 }
 .login-form-profile-img {
   height: 5rem;
@@ -1262,7 +1344,7 @@ iframe {
     margin-top: 1rem;
   }
   .login-bottom {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
 }
 
@@ -1316,7 +1398,11 @@ iframe {
   padding: 0;
   margin: auto;
   width: 100%;
-  height: 2.5rem;
+  height: 2rem;
+}
+
+.login-form-btn {
+  margin: 0 !important;
 }
 
 .login-form .button-secondary {
@@ -1364,6 +1450,13 @@ iframe {
   place-content: center;
   grid-template-rows: 12.5rem 2.5rem 2rem 4.5rem;
   grid-template-columns: repeat(4, 1fr);
+  transition: all 0.2s ease-in-out;
+}
+
+@media only screen and (min-width: 768px) {
+  .listing:hover {
+    transform: scale(1.05) !important;
+  }
 }
 
 .listing-img-div {
@@ -1377,6 +1470,7 @@ iframe {
   width: 160px;
   border-radius: var(--border-radius);
   object-fit: cover;
+  cursor: pointer;
 }
 
 .listing-actions {
@@ -1447,6 +1541,16 @@ iframe {
   align-self: center;
 }
 
+.button-details {
+  width: 100px;
+}
+
+@media only screen and (max-width: 767px) {
+  .form-grid {
+    margin-top: 2rem !important;
+  }
+} 
+
 .form-grid {
   padding: 0 0 2rem 0;
   margin-top: 4rem;
@@ -1497,7 +1601,6 @@ iframe {
     padding: 0 0.5rem;
     margin: 1rem 0 1rem 1rem;
     width: 100%;
-    overflow-x: auto;
   }
   .form-top {
     display: none;
@@ -1509,10 +1612,13 @@ iframe {
   .form-svg{
     height: auto;
     width: 10rem;
-    margin: 3rem 0 0 3rem;
+    margin: 2rem 0 0 2rem;
   }
   .login-modal-listingform{
     width: 25rem !important;
+  }
+  .form .button-primary {
+    width: 100px !important;
   }
 }
 
@@ -2195,7 +2301,6 @@ input[type=file]::file-selector-button {
   width: 55px;
   border-radius: 50%;
   border: 1px solid var(--bg);
-  box-shadow: var(--box-shadow);
   margin-right: 0.5rem;
 }
 
@@ -2263,6 +2368,17 @@ input[type=file]::file-selector-button {
   cursor: pointer;
 }
 
+.listing-info-like-button {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  width: 100px;
+  color: var(--primary);
+  background-color: var(--primary-light-transparent);
+  border-radius: var(--border-radius);
+}
+
 .listing-info-like-button:hover {
   filter: none !important;
 }
@@ -2271,11 +2387,13 @@ input[type=file]::file-selector-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-right: 4px;
+  text-align: center;
+  width: max-content;
+  margin: 0 auto;
 }
 
-.listing-info-like-div h5 {
-  font-weight: 500;
+.listing-info-like-text h5 {
+  font-weight: 600;
   font-size: 13px;
   margin: 0 !important;
 }
@@ -2363,7 +2481,7 @@ input[type=file]::file-selector-button {
 
 .comment-body p {
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .comment-bottom {

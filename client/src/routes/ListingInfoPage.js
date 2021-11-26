@@ -332,7 +332,7 @@ const ListingInfoPage = () => {
                     </div>
                 </div>
                 <div className="listing-info-title">
-                    <h1>{listing?.title}</h1>
+                    <h2>{listing?.title}</h2>
                 </div>
                 <div className="listing-info-desc">
                     <p>{listing?.description}</p>
@@ -361,12 +361,13 @@ const ListingInfoPage = () => {
                 </div>
 
                 <div className="listing-info-like-created">
-                    <div 
-                        className="listing-info-like-div" 
+                    <button 
+                        className="listing-info-like-button"
+                        onClick={user ? toggleLike : setToggleTooltip}
                     >
                         <span 
                             className="listing-info-like-heart"
-                            onClick={user ? toggleLike : setToggleTooltip}>
+                        >
                             <Lottie
                                 options={{
                                     loop: false,
@@ -376,13 +377,13 @@ const ListingInfoPage = () => {
                                         preserveAspectRatio: 'xMidYMid slice'
                                     }
                                 }}
-                                height="35px"
-                                width="35px"
+                                height="30px"
+                                width="30px"
                                 isStopped={isStopped}
                             />
                         </span>
                         <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
-                    </div>
+                    </button>
                     <div className="listing-info-created-date">
                         <h5>Created { listingDate ? formatDistance(new Date(listingDate), new Date(), { addSuffix: true }) : null}</h5>
                     </div>

@@ -113,7 +113,7 @@ function LoginPage() {
                             </label>
                             <div className='errors-bottom'>
                                 {invalidLogin 
-                                    ? (<p className="invalid">There is no account with those credentials. Try again.</p>)
+                                    ? (<p className="invalid">There is no account with those credentials.</p>)
                                     : null
                                 }
                             </div>
@@ -124,7 +124,7 @@ function LoginPage() {
                                     <ClipLoader color='grey' loading={loading} size={15} />
                                 </div>
                                 :  
-                                <button className="button-primary" type="submit" value="Submit">
+                                <button className=" login-form-btn button-primary" type="submit" value="Submit">
                                     Log-in
                                 </button>
                                 }   

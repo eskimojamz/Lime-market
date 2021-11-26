@@ -8,6 +8,7 @@ import loginBtnSvg from "../assets/loginbtn.svg"
 import deleteSvg from "../assets/delete.svg";
 import goSvg from "../assets/go.svg";
 import sidebarCloseSvg from "../assets/rightarrow2.svg"
+import cart from "../assets/cart.svg"
 import MenuButton from "./MenuButton";
 import { UserContext } from "../App";
 import axios from "axios";
@@ -53,11 +54,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <MenuButton
-            profileOpen={profileOpen}
-            toggle={() => setProfileOpen(!profileOpen)}
-          />
-
           {profileOpen &&
           <motion.div className="mobile-menu-backdrop" onClick={() => setProfileOpen(!profileOpen)}>
             {/*  */}
@@ -65,14 +61,14 @@ const Navbar = () => {
           }
           
           <AnimatePresence>
-          {profileOpen && (
+          {/* {profileOpen && ( */}
             <motion.div
               layout
-              className="mobile-menu"
-              initial={{x: 100, opacity: 0 }}
-              animate={{x: 0, opacity: 1 }}
-              transition={{bounce: 0}}
-              exit={{x: 100, opacity: 0}}
+              className={`mobile-menu ${profileOpen && "open"}`}
+              // initial={{x: 20, opacity: 0 }}
+              // animate={{x: 0, opacity: 1 }}
+              // transition={{bounce: 0}}
+              // exit={{x: 20, opacity: 0}}
             >
               <motion.div className="mobile-menu-top">
                 <Link to="/listings">
@@ -111,7 +107,7 @@ const Navbar = () => {
 
                   <motion.div className="mobile-menu-liked">
                     <motion.div className="watchlist-h"> 
-                      <h2>Watchlist</h2>
+                      <h2>My Watchlist</h2>
                     </motion.div>
                     <motion.div layout className="watchlist-items">
                       {currentUser?.watchlist.map((listing) => {
@@ -121,15 +117,17 @@ const Navbar = () => {
                   </motion.div>
                 </>
               ) : (
+                <>
                 <Link to='/login'>
-                    <button className="login-btn" onClick={() => setProfileOpen(!profileOpen)}>
-                        <img className="login-btn-svg" src={loginBtnSvg} />
-                        Sign-in
+                    <button className="login-btn mobile-menu-login" onClick={() => setProfileOpen(!profileOpen)}>
+                      <img className="login-btn-svg" src={loginBtnSvg} />
+                      Sign-in
                     </button>
                 </Link>
+                </>
               )}
             </motion.div>
-          )}
+          {/* )} */}
           </AnimatePresence>
 
           <div className="nav-right-desktop">
@@ -146,8 +144,8 @@ const Navbar = () => {
                   className="profile"
                   src={currentUser?.profile_img || user?.profile_img}
                   onClick={() => setProfileOpen(!profileOpen)}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{ delay: 1.25, duration: 0.25 }}
                 ></motion.img>
 
@@ -173,7 +171,7 @@ const Navbar = () => {
                   </div>
                   <div className="profile-menu-watchlist">
                     <div className="watchlist-h">
-                      <h2>Watchlist</h2>
+                      <h2>My Watchlist</h2>
                     </div>
                     <motion.div layout className="watchlist-items">
                       { currentUser?.watchlist.length > 0 &&
@@ -190,6 +188,10 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <MenuButton
+        profileOpen={profileOpen}
+        toggle={() => setProfileOpen(!profileOpen)}
+      />
     </>
   );
 };
@@ -283,13 +285,12 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
 
   return (
     <motion.div layout className="watchlist-listing"
-      initial={{ opacity: 0, scale: 0}}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        transition: { duration: 0.2 },
-      }}
-      exit={{ opacity: 0 }}
+      // initial={{ opacity: 0}}
+      // animate={{
+      //   opacity: 1,
+      // }}
+      // exit={{ opacity: 0 }}
+      // transition= {{ duration: 0.2 }}
     >
       <motion.div layout className="watchlist-listing-initial">
         <motion.div className="watchlist-listing-img">
@@ -327,7 +328,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              transition: { duration: 0.5, delayChildren: 1.5 },
+              transition: { duration: 0.5, delay: 0.25 },
             }}
             exit={{ opacity: 0 }}
           >

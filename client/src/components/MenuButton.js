@@ -5,17 +5,55 @@ const Path = (props) => (
   <motion.path
     fill="transparent"
     strokeLinecap="round"
-    strokeWidth="3"
+    strokeWidth="4"
     {...props}
   />
 );
 
-const transition = { duration: 0.33 };
+const transition = { duration: 0.5, ease: "easeIn" };
 
 const MenuButton = ({toggle, profileOpen}) => {
     return (
       <div className="mobile-menu-button" onClick={toggle}>
-        <svg width="25" height="25" viewBox="0 0 23 23">
+        <svg width="45" height="45" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <motion.rect width="60" height="60" rx="30" 
+            animate={profileOpen ? "open" : "closed"}
+            initial={false}
+            variants={{
+              closed: { fill: "#74CD97" },
+              open: { fill: "white" }
+            }}
+            transition={transition}
+          />
+          <motion.rect x="14" y="17" width="31" height="4" rx="2" 
+            animate={profileOpen ? "open" : "closed"}
+            initial={false}
+            variants={{
+              closed: { fill: "white" },
+              open: { fill: "#74CD97" }
+            }}
+            transition={transition}
+          />
+          <motion.rect x="14" y="28" width="31" height="4" rx="2" 
+            animate={profileOpen ? "open" : "closed"}
+            initial={false}
+            variants={{
+              closed: { fill: "white" },
+              open: { fill: "#74CD97" }
+            }}
+            transition={transition}
+          />
+          <motion.rect x="14" y="39" width="31" height="4" rx="2" 
+            animate={profileOpen ? "open" : "closed"}
+            initial={false}
+            variants={{
+              closed: { fill: "white" },
+              open: { fill: "#74CD97" }
+            }}
+            transition={transition}
+          />
+        </svg>
+        {/* <svg width="23" height="23" viewBox="0 0 23 23">
           <Path
             animate={profileOpen ? "open" : "closed"}
             initial={false}
@@ -45,7 +83,7 @@ const MenuButton = ({toggle, profileOpen}) => {
             }}
             transition={transition}
           />
-        </svg>
+        </svg> */}
       </div>
     );
   }

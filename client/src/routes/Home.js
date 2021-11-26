@@ -48,7 +48,9 @@ const Home = () => {
                 >
                     <h1>buy & sell</h1>
                     <h1 className="highlight">safely & affordably</h1>
-                    <p>Lime Market makes it easy to buy and sell items on a safe and secure platform.</p> <p>Powered by the Paypal payment system, users can buy and sell items with confidence.</p>
+                    <div className="hero-left-text-bottom">
+                        <h4>Lime Market makes it easy to buy and sell items on a safe and secure platform. Powered by the Paypal payment system, users can buy and sell items with confidence.</h4>
+                    </div>
                 </motion.div>
                 <motion.button 
                     className="button-primary hero-button" 
@@ -58,7 +60,7 @@ const Home = () => {
                     onClick={() => {
                         history.push('/listings')
                     }}>
-                        Start Shopping!
+                        Start Shopping
                 </motion.button>
             </div>
 

@@ -135,13 +135,14 @@ function SignupPage() {
                                     />
                                 </label>
                             </div>
-                            {invalidSignup
-                                ?
+                            
                                 <div className='errors-bottom'>
-                                    <p className="invalid">Oops, your username and/or password is too short! Try again.</p>
-                                </div> 
-                                : null
-                            }
+                                {invalidSignup
+                                    ?
+                                    <p className="invalid">Username and/or password is too short!</p>
+                                    : null
+                                }
+                                </div>
 
                             {loading
                                 ?  

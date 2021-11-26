@@ -18,7 +18,7 @@ const Listing = ({listing, currentPage}) => {
     const history = useHistory()
     // const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
     // console.log(likedBool)
-    const [toggle, setToggle] = useState(false)
+    const [toggleTooltip, setToggleTooltip] = useState(false)
     const [likes, setLikes] = useState()
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
@@ -146,7 +146,10 @@ const Listing = ({listing, currentPage}) => {
         >
             {/* listing image */}
             <div className="listing-img-div">
-                <img src={listing.image1} />
+                <img src={listing.image1} 
+                    onClick={() => {
+                        history.push(`/listings/${listingId}`)
+                        }}/>
             </div>
 
             {/* title, price, details btn */}
@@ -154,13 +157,15 @@ const Listing = ({listing, currentPage}) => {
                 <h3>{listing.title}</h3>
             </div>
             <div className="listing-price">
-                <h3>${listing.price}</h3>
+                <h2>${listing.price}</h2>
             </div>
             <div className="listing-like">
-                
-                    <button 
-                        className={`listing-info-like-button ${liked && "liked"}`}
-                        onClick={user ? toggleLike : setToggle}
+                <button 
+                    className="listing-info-like-button"
+                    onClick={user ? toggleLike : setToggleTooltip}
+                >
+                    <span 
+                        className="listing-info-like-heart"
                     >
                         <Lottie
                             options={{
@@ -171,16 +176,17 @@ const Listing = ({listing, currentPage}) => {
                                     preserveAspectRatio: 'xMidYMid slice'
                                 }
                             }}
-                            height="35px"
-                            width="35px"
+                            height="30px"
+                            width="30px"
                             isStopped={isStopped}
                         />
-                        <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
-                    </button>
+                    </span>
+                    <span className="listing-info-like-text"><h5>{likes} Likes</h5></span>
+                </button>
             </div>
             <div className="listing-btn">
                 {/* <Link to={`listings/${listingId}`}> */}
-                    <button className="button-primary" 
+                    <button className="button-details button-primary" 
                         onClick={() => {
                         history.push(`/listings/${listingId}`)
                         }}
