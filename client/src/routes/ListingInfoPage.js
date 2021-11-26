@@ -327,7 +327,12 @@ const ListingInfoPage = () => {
                     <div className="listing-info-img-small">
                         <div className={`${listing?.image2 ? "listing-info-img-small-col-1" : "display-none"}`}>
                             {listing?.image2 && <img src={listing?.image2} onClick={() => handleImage(1)}/>}
-                            {listing?.image3 && <img src={listing?.image3} onClick={() => handleImage(2)}/>}
+                            {listing?.image3 
+                                ? 
+                                <img src={listing?.image3} onClick={() => handleImage(2)}/>
+                                : 
+                                <img src="https://limemarketstatic.s3.us-west-1.amazonaws.com/media/patternpad.jpeg" />
+                            }        
                         </div>
                     </div>
                 </div>
@@ -343,13 +348,14 @@ const ListingInfoPage = () => {
                     </div>
                     <div className="listing-info-creator">
                         <div className="listing-info-creator-img">
-                            
-                            <img src={listing?.creator_img} />
-                            
+                            <Link to={`/profile/${listing?.creator}`}>
+                                <img src={listing?.creator_img} />
+                            </Link>
                         </div>
                         <div className="listing-info-creator-name">
-                            
-                            <h5>{listing?.creator}</h5>
+                            <Link to={`/profile/${listing?.creator}`}>
+                                <h5>{listing?.creator}</h5>
+                            </Link>
                             <span className="listing-info-seller-check">
                                 <h4>Seller  ✓</h4>
                             </span>

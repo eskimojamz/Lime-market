@@ -1028,6 +1028,7 @@ iframe {
   height: 55px;
   border-radius: 50%;
   transition: opacity var(--speed);
+  object-fit: cover;
 }
 
 .profile {
@@ -1037,6 +1038,7 @@ iframe {
   margin-left: 1rem;
   transition: opacity var(--speed);
   cursor: pointer;
+  object-fit: cover;
 }
 
 .profile:hover {
@@ -1275,6 +1277,7 @@ iframe {
   height: 5rem;
   width: 5rem;
   border-radius: 50%;
+  object-fit: cover;
 }
 .login-form-profile-img-btn {
   font-size: 10px;
@@ -2302,6 +2305,7 @@ input[type=file]::file-selector-button {
   border-radius: 50%;
   border: 1px solid var(--bg);
   margin-right: 0.5rem;
+  object-fit: cover;
 }
 
 
@@ -2312,6 +2316,7 @@ input[type=file]::file-selector-button {
   margin-top: 0;
   margin-bottom: 0.1rem;
   align-self: center;
+  color: black;
 }
 
 .listing-info-seller-check {
@@ -2472,11 +2477,11 @@ input[type=file]::file-selector-button {
   width: 2rem;
   border-radius: 50%;
   margin-right: 0.5rem;
+  object-fit: cover;
 }
 
 .comment-body {
   margin-bottom: 1rem;
-  padding: 0 0.5rem;
 }
 
 .comment-body p {
@@ -2608,8 +2613,9 @@ input[type=file]::file-selector-button {
 
 .profile-info {
   margin: 2rem 1rem;
-  padding: 2rem 2rem;
-  background: var(--secondary);
+  padding: 0;
+  background: var(--primary-superlight);
+  border: solid 1px var(--secondary);
   border-radius: var(--border-radius);
   font: 'Sora';
   display: flex;
@@ -2618,6 +2624,13 @@ input[type=file]::file-selector-button {
   box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 820px;
+}
+
+.profile-info-bg {
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+  background-image: url(./assets/profilepattern.svg);
 }
 
 .profile-info-img {
@@ -2629,11 +2642,31 @@ input[type=file]::file-selector-button {
   height: 100px;
   width: 100px;
   border-radius: 50%;
+  object-fit: cover;
 }
 
 .profile-info-name {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+.profile-info-name h2 {
+  margin: 0.5rem 0 0 0 !important;
+}
+
+.profile-info-name h5 {
+  margin: 0.5rem 0 0 0 !important;
+  font-weight: 400;
+  background-color: var(--primary-superlight);
+  padding: 0.25rem;
+  border-radius: var(--border-radius);
+  color:rgba(0, 0, 0, 0.75);
+}
+
+.profile-info-bottom {
+  padding: 0 2rem 2rem 2rem;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2646,6 +2679,7 @@ input[type=file]::file-selector-button {
   .profile-info-listings-cards > .listing{
     margin: 1rem 0;
     width: 100% !important;
+    box-shadow: none !important;
   }
 }
 
@@ -2657,11 +2691,13 @@ input[type=file]::file-selector-button {
     grid-column-gap: 3rem;
     place-content: center;
     place-items: center;
+    margin-top: 2rem;
   }
 
   .profile-info-listings-cards > .listing{
     height: 375px;
     width: 300px;
-    background: white;
+    background: var(--bg);
+    box-shadow: none !important;
   }
 }
