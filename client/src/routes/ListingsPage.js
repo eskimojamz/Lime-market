@@ -4,10 +4,12 @@ import Listing from '../components/Listing'
 import Loading from '../components/Loading'
 
 import { useDispatch, useSelector } from 'react-redux'
-
+import {Link} from 'react-router-dom'
 import { motion} from 'framer-motion'
 import { getListings } from '../actions/actions'
 import { fetchListings } from '../api/api'
+
+import plus from '../assets/plus.svg'
 
 const ListingsPage = () => {
   const dispatch = useDispatch()
@@ -35,8 +37,33 @@ const ListingsPage = () => {
       currentData?.length > 0
         ? (
         <>
+        <div className="listings-top">
+          <div className="listings-filters">
+            <select name="recent" id="recent">
+              <option value="Newest">Newest</option>
+              <option value="Oldest">Oldest</option>
+            </select>
+            <select name="price" id="price">
+              <option value="All">Price</option>
+              <option value="Under $50">Under $50</option>
+              <option value="Oldest">Oldest</option>
+            </select>
+            <button className="button-filter">
+              Filter
+            </button>
+          </div>
+          <div className="listings-top-button-container">
+            <button className="listings-top-button-create">
+              <img src={plus} />
+              Create Listing
+            </button>
+          </div>
+        </div>
+        <div className="listings-count-container">
+          <h3>{listings?.length} Listings</h3>
+        </div>
         <div className="listings-grid">
-          {currentData.map(listing => 
+          {currentData.reverse().map(listing => 
             <Listing listing={listing} currentPage={currentPage} />
           )}
         </div>

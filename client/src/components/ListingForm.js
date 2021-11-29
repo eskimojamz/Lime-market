@@ -214,6 +214,19 @@ const ListingForm = () => {
     }
   };
 
+  function checkFiles(files) {   
+    console.log(files)    
+    if(files.length>3) {
+        alert("length exceeded; files have been truncated");
+
+        let list = new DataTransfer;
+        for(let i=0; i<10; i++)
+           list.items.add(files[i]) 
+
+        document.getElementById('files').files = list.files
+    }       
+  }
+
   useEffect(() => {
     if (currentListing.length !== 0) {
       let imageURLs = [
@@ -320,7 +333,7 @@ const ListingForm = () => {
 
           {/* Image File Upload */}
           <label for="files">
-            <h4>Images:</h4>
+            <h4>Images: (Select up to 3 images)</h4>
           </label>
           <input
             className="file-input"
@@ -329,7 +342,13 @@ const ListingForm = () => {
             name="files"
             accept="image/png, image/jpeg"
             multiple
+            data-max-files="3"
             onChange={(event) => {
+              if (Array.from(event.target.files).length > 3) {
+                event.preventDefault();
+                alert(`Cannot upload more than 3 images. Please try again.`);
+                return;
+              }
               console.log(event.target.files);
               if (currentListing) {
                 console.log("dispatched");
@@ -370,7 +389,7 @@ const ListingForm = () => {
               />
             ) : currentListingImages?.image1 ? (
               <img className="files-img" src={currentListingImages?.image1} />
-            ) : null}
+            ) : <img className="files-img" src="https://limemarketstatic.s3.us-west-1.amazonaws.com/media/patternpad.jpeg" />}
             {listingImages[1] ? (
               <img
                 className="files-img"
@@ -378,7 +397,7 @@ const ListingForm = () => {
               />
             ) : currentListingImages?.image2 ? (
               <img className="files-img" src={currentListingImages?.image2} />
-            ) : null}
+            ) : <img className="files-img" src="https://limemarketstatic.s3.us-west-1.amazonaws.com/media/patternpad.jpeg" />}
             {listingImages[2] ? (
               <img
                 className="files-img"
@@ -386,7 +405,7 @@ const ListingForm = () => {
               />
             ) : currentListingImages?.image3 ? (
               <img className="files-img" src={currentListingImages?.image3} />
-            ) : null}
+            ) : <img className="files-img" src="https://limemarketstatic.s3.us-west-1.amazonaws.com/media/patternpad.jpeg" />}
           </div>
 
           {/* <input type="file" multiple={true} onChange={(event) => setListingData({ ...listingData, selectedFile: event.target.files[0] })}></input> */}
