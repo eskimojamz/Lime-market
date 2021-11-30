@@ -1436,6 +1436,10 @@ iframe {
   gap: 1rem;
 }
 
+.listings-filters div:focus-visible {
+  
+}
+
 .listings-filters select {
   background-color: var(--bg);
   border: solid 1px var(--secondary);

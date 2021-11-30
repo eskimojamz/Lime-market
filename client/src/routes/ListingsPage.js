@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo, useContext } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import Pagination from '../pagination/Pagination'
 import Listing from '../components/Listing'
-import Loading from '../components/Loading'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -10,11 +11,13 @@ import { getListings } from '../actions/actions'
 import { fetchListings } from '../api/api'
 
 import plus from '../assets/plus.svg'
+import axios from 'axios'
 
 const ListingsPage = () => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true)
   const listings = useSelector(state => state.listings)
+  const [filteredListings, setFilteredListings] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const PageSize = 6
 
@@ -22,48 +25,138 @@ const ListingsPage = () => {
     dispatch(getListings())
   }, [])
 
+  useEffect(() => {
+    console.log(listings)
+    // destructure listings array, assign to new const 
+    // -- destructive to new const array, not original const listings
+    const reverseListings = [...listings].reverse()
+    setFilteredListings(reverseListings)
+  }, [listings])
+
   const currentData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * PageSize;
     const lastPageIndex = firstPageIndex + PageSize;
-    return listings?.slice(firstPageIndex, lastPageIndex);
-  }, [listings, currentPage]);
+    return filteredListings?.slice(firstPageIndex, lastPageIndex);
+  }, [filteredListings, currentPage]);
+
+  // console.log(listings)
+  // console.log(filteredListings)
+  // console.log(currentData)
+
+  const [recencyFilter, setRecencyFilter] = useState('newest')
+  const [priceFilter, setPriceFilter] = useState('all')
 
   console.log(listings)
-  console.log(currentData)
+  console.log(recencyFilter)
 
-  
+  const recencyOptions = [
+    { value: 'newest', label: 'Newest' },
+    { value: 'oldest', label: 'Oldest' },
+  ]
+
+  const priceOptions = [
+    { value: 'all', label: 'All' },
+    { value: 'under-50', label: 'Under $50' },
+    { value: '50-100', label: '$50-$100' },
+    { value: '100-plus', label: '$100+' }
+  ]
+
+  const selectStyles = {
+    control: (provided, state) => ({ ...provided,
+      minHeight: '35px',
+      height: '35px',
+      width: '138px',
+      border: state.isFocused ? 'solid 1px #74CD97' : 'solid 1px hsl(0, 0%, 80%)',
+      boxShadow: state.isFocused ? '0 0 0 1px #74CD97' : 'none',
+      '&:hover': {
+        borderColor: state.isFocused ? '#74CD97' : 'hsl(0, 0%, 70%)' 
+      }
+    }),
+    dropdownIndicator: (provided, state) => ({ ...provided,
+      padding: '7px'
+    }),
+    option: (provided, state) => ({ ...provided,                
+      width: '138px',
+      backgroundColor: state.isSelected ? '#74CD97' : 'white',
+      color: state.isSelected ? 'white' : 'black',
+      '&:hover': {
+        backgroundColor: state.isSelected ? '#74CD97' : '#E1FAE6'
+      },
+    }),
+    menu: (provided, state) => ({ ...provided,                 
+      width: '138px'
+    })
+  };
+
+  const onFilter = () => {
+    // clone []...listings] to new let variable
+    let filteringListings = [...listings]
+    // reverse array if 'newest'
+    if (recencyFilter === 'newest'){
+      filteringListings.reverse()
+    }
+    // filter for price
+    switch (priceFilter) {
+      case 'under-50':
+        filteringListings = filteringListings.filter(listing => listing.price < 50)
+        break
+      case '50-100':
+        filteringListings = filteringListings.filter(listing => listing.price >= 50 && listing.price <= 100)
+        break
+      case '100-plus':
+        filteringListings = filteringListings.filter(listing => listing.price > 100)
+        break
+      default: 
+        break
+    }
+    // setFilteredListings -- filtered array
+    return setFilteredListings(filteringListings)
+  }
 
   return (
-      currentData?.length > 0
-        ? (
-        <>
+      <>
         <div className="listings-top">
           <div className="listings-filters">
-            <select name="recent" id="recent">
-              <option value="Newest">Newest</option>
-              <option value="Oldest">Oldest</option>
-            </select>
-            <select name="price" id="price">
-              <option value="All">Price</option>
-              <option value="Under $50">Under $50</option>
-              <option value="Oldest">Oldest</option>
-            </select>
-            <button className="button-filter">
+            {/* Recency filter */}
+            <Select 
+              options={recencyOptions} 
+              defaultValue={{ value: 'newest', label: 'Newest' }}
+              styles={selectStyles}
+              value={recencyOptions.find(option => option.value === recencyFilter)}
+              onChange={e => setRecencyFilter(e.value)}
+            />
+            {/* Price filter */}
+            <Select 
+              options={priceOptions} 
+              defaultValue={{ value: 'all', label: 'All' }}
+              styles={selectStyles}
+              value={priceOptions.find(option => option.value === priceFilter)}
+              onChange={e => setPriceFilter(e.value)}
+            />
+            <button className="button-filter"
+              onClick={() => onFilter()}
+            >
               Filter
             </button>
           </div>
           <div className="listings-top-button-container">
-            <button className="listings-top-button-create">
+            <button className="listings-top-button-create"
+              
+            >
               <img src={plus} />
               Create Listing
             </button>
           </div>
         </div>
         <div className="listings-count-container">
-          <h3>{listings?.length} Listings</h3>
+          <h3>{filteredListings?.length} Listings</h3>
         </div>
+
+        {currentData?.length > 0
+        ? (
+        <>
         <div className="listings-grid">
-          {currentData.reverse().map(listing => 
+          {currentData.map(listing => 
             <Listing listing={listing} currentPage={currentPage} />
           )}
         </div>
@@ -98,7 +191,8 @@ const ListingsPage = () => {
           )}
         </div>
         </>
-        )  
+        )}  
+      </>
   )
 }
 
