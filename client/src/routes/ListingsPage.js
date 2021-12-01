@@ -116,10 +116,21 @@ const ListingsPage = () => {
   return (
       <>
         <div className="listings-top">
+          {/* For mobile */}
+          <div className="listings-top-button-container-mobile">
+            <Link to='/form'>
+            <button className="listings-top-button-create">
+              <img src={plus} />
+              Create Listing
+            </button>
+            </Link>
+          </div>
+          {/*  */}
           <div className="listings-filters">
             {/* Recency filter */}
             <Select 
               options={recencyOptions} 
+              isSearchable={false}
               defaultValue={{ value: 'newest', label: 'Newest' }}
               styles={selectStyles}
               value={recencyOptions.find(option => option.value === recencyFilter)}
@@ -128,25 +139,39 @@ const ListingsPage = () => {
             {/* Price filter */}
             <Select 
               options={priceOptions} 
+              isSearchable={false}
               defaultValue={{ value: 'all', label: 'All' }}
               styles={selectStyles}
               value={priceOptions.find(option => option.value === priceFilter)}
               onChange={e => setPriceFilter(e.value)}
             />
+            {/* For desktop */}
             <button className="button-filter"
               onClick={() => onFilter()}
             >
               Filter
             </button>
+            {/*  */}
           </div>
+          {/* For desktop */}
           <div className="listings-top-button-container">
-            <button className="listings-top-button-create"
-              
-            >
+            <Link to='/form'>
+            <button className="listings-top-button-create">
               <img src={plus} />
               Create Listing
             </button>
+            </Link>
           </div>
+          {/*  */}
+          {/* For mobile */}
+          <div className="listings-filter-btn-container-mobile">
+            <button className="button-filter-mobile"
+              onClick={() => onFilter()}
+            >
+              Filter
+            </button>
+          </div>
+          {/*  */}
         </div>
         <div className="listings-count-container">
           <h3>{filteredListings?.length} Listings</h3>

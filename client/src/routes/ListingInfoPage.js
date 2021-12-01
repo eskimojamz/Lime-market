@@ -18,7 +18,12 @@ import { formatDistance } from 'date-fns'
 
 const ListingInfoPage = () => {
     const user = JSON.parse(sessionStorage.getItem('user'))
-    const {currentUser, setCurrentUser} = useContext(UserContext)
+    const {
+        currentUser, 
+        setCurrentUser, 
+        edit, 
+        setEdit
+    } = useContext(UserContext)
     console.log(currentUser)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
@@ -32,7 +37,6 @@ const ListingInfoPage = () => {
     const [toggleCarousel, setToggleCarousel] = useState(false)
     const [toggleMenu, setToggleMenu] = useState(false)
     const [toggleTooltip, setToggleTooltip] = useState(false)
-    const [edit, setEdit] = useState(false)
     const [deleted, setDeleted] = useState(false)
 
     const [liked, setLiked] = useState()

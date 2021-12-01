@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react'
-
+import { useDispatch } from 'react-redux';
+import { setCurrentListing } from './actions/actions';
 import { Route, Switch, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import SignupPage from './routes/SignupPage'
@@ -15,18 +16,30 @@ export const UserContext = createContext(null)
 
 const App = () => {
     const location = useLocation()
+    const dispatch = useDispatch()
     const [currentUser, setCurrentUser] = useState(null)
+    const [edit, setEdit] = useState(false)
     console.log(currentUser)
+    console.log(edit)
 
     useEffect(() => {
       setCurrentUser(JSON.parse(sessionStorage.getItem('user')))
     }, [])
 
+    // setCurrentListing empty after leaving edit form page
+    useEffect(async() => {
+      if (edit && (location.pathname !== '/form')){
+        console.log('left edit form')
+        await dispatch(setCurrentListing([]))
+        setEdit(false)
+      }
+    }, [location])
+
   return (
       <>
         <AnimateSharedLayout>
         <motion.div className="wrapper">
-          <UserContext.Provider value={{currentUser, setCurrentUser}}>
+          <UserContext.Provider value={{currentUser, setCurrentUser, edit, setEdit}}>
           
           <Navbar />
           <motion.div className="container">

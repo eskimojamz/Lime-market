@@ -14,7 +14,7 @@ body {
   padding: 0;
   height: 100%;
   width: 100vw;
-  font-family: 'Open Sans',
+  font-family: 'Source Sans Pro',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,8 +49,8 @@ body {
   --red-light: rgba(255, 152, 152, 1);
 }
 
-h1 {
-  font-family: 'Sora', sans-serif;
+h1, h2, h3 {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .bold {
@@ -531,7 +531,6 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  font-family: 'Sora';
   opacity: 0;
   transform: translateX(20%);
   transition: all 0.25s ease-out;
@@ -598,8 +597,8 @@ button:focus {
   border-top-right-radius: 25px;
   background: none;
   padding: 0.5rem 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   color:black;
 }
 
@@ -628,8 +627,8 @@ button:focus {
   width: 100%;
   background: none;
   padding: 0.5rem 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
   color:var(--primary);
 }
 
@@ -1166,7 +1165,6 @@ iframe {
 
 .hero-button {
   box-shadow: var(--box-shadow);
-  font-family: 'Sora', sans-serif;
 }
 
 .hero-bottom {
@@ -1422,7 +1420,6 @@ iframe {
 
 .listings-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin: 4rem auto 0 auto;
   padding: 0.5rem;
@@ -1434,10 +1431,6 @@ iframe {
 .listings-filters {
   display: flex;
   gap: 1rem;
-}
-
-.listings-filters div:focus-visible {
-  
 }
 
 .listings-filters select {
@@ -1499,19 +1492,86 @@ iframe {
   place-items: center;
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (max-width: 450px) {
+  .button-filter {
+    display: none;
+  }
   .listings-top {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .listings-top-button-container-mobile {
+    width: 100%;
+  }
+  .listings-top-button-create {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 451px) {
+  .listings-top {
+    gap: 0;
+    justify-content: center;
+  }
+  .listings-top-button-container-mobile {
+    display: none;
+  }
+  .button-filter-mobile {
+    display: none;
+  }
+}
+@media only screen and (max-width: 649px) {
+  .listings-top {
+    width: 300px;
+    margin: 2rem auto 0 auto;
+  }
+  
+  .listings-filters {
+    gap: 0.5rem;
+  }
+  .listings-top-button-container {
+    display: none;
+  }
+  .listings-count-container { 
+    width: 300px;
+  }
+  .listings-filter-btn-container-mobile {
+    width: 100%;
+  }
+  .button-filter-mobile {
+    height: 35px;
+    width: 100%;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+  }
+  .listings-grid {
+    place-content: center;
+  }
+} 
+  
+@media only screen and (min-width: 650px) {
+  .listings-top {
+    width: calc(600px + 3rem);
+    justify-content: space-between !important;
+  }
+  .listings-count-container {
     width: calc(600px + 3rem);
   }
   .listings-grid {
     grid-template-columns: repeat(2, 300px) !important;
     width: calc(600px + 3rem);
   }
+  .listings-filter-btn-container-mobile {
+    display: none;
+  }
 }
 
 @media only screen and (min-width: 1080px) {
   .listings-top {
     width: 100% !important;
+  }
+  .listings-count-container {
+    width: 100%;
   }
   .listings-grid {
     grid-template-columns: repeat(3, 300px) !important;
@@ -2150,7 +2210,7 @@ input[type=file]::file-selector-button {
     justify-content: flex-start;
     align-items: center;
     background: var(--bg);
-    height: 18rem;
+    height: 16rem;
     width: 100vw;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
@@ -2282,16 +2342,16 @@ input[type=file]::file-selector-button {
 
 .button-menu-close-mobile-container {
   height: 4rem;
+  width: 100%;
   display: grid;
   place-items: center;
 }
 
 .button-menu-close-mobile {
-  height: 2rem;
-  width: fit-content;
+  height: 4rem;
+  width: 100%;
   padding: 0 1rem; 
   border: none;
-  border-radius: var(--border-radius);
   background: var(--secondary);
   font-size: 1rem;
 
@@ -2321,7 +2381,7 @@ input[type=file]::file-selector-button {
   display: flex;
   justify-content: center;
   height: 100%;
-  width: 100%;
+  width: auto;
   gap: 0.5rem;
 }
 

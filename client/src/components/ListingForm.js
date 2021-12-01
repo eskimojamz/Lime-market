@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
 import priceTagSvg from "../assets/pricetag.svg";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -9,6 +9,7 @@ import axios from "axios";
 import { UserContext } from "../App";
 
 const ListingForm = () => {
+  const location = useLocation()
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
@@ -210,22 +211,23 @@ const ListingForm = () => {
         })
         .catch((error) => {
           setLoading(false);
+          console.log(error.message)
         });
     }
   };
 
-  function checkFiles(files) {   
-    console.log(files)    
-    if(files.length>3) {
-        alert("length exceeded; files have been truncated");
+  // function checkFiles(files) {   
+  //   console.log(files)    
+  //   if(files.length>3) {
+  //       alert("length exceeded; files have been truncated");
 
-        let list = new DataTransfer;
-        for(let i=0; i<10; i++)
-           list.items.add(files[i]) 
+  //       let list = new DataTransfer;
+  //       for(let i=0; i<10; i++)
+  //          list.items.add(files[i]) 
 
-        document.getElementById('files').files = list.files
-    }       
-  }
+  //       document.getElementById('files').files = list.files
+  //   }       
+  // }
 
   useEffect(() => {
     if (currentListing.length !== 0) {
@@ -271,7 +273,7 @@ const ListingForm = () => {
         <img className="form-svg-top" src={priceTagSvg}></img>
       </div>
       <div className="form-form">
-        <h1>Create Listing</h1>
+        <h1>{currentListing.length !== 0 ? `Edit` : `Create`} Listing</h1>
         {redirect && <Redirect to={`/listings/${redirectId}`} />}
         <form>
           {/* Title */}
