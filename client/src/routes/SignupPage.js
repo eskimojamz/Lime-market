@@ -146,8 +146,8 @@ function SignupPage() {
 
                             {loading
                                 ?  
-                                <div className="button-secondary center-button">
-                                    Sign-up 
+                                <div className="button-secondary button-secondary-signup center-button">
+                                    Creating Account... 
                                     <ClipLoader color='grey' loading={loading} size={15} />
                                 </div>
                                 :

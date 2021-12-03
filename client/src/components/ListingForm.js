@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import priceTagSvg from "../assets/pricetag.svg";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -9,7 +9,6 @@ import axios from "axios";
 import { UserContext } from "../App";
 
 const ListingForm = () => {
-  const location = useLocation()
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
@@ -118,6 +117,7 @@ const ListingForm = () => {
     );
 
     if (currentListing.length === 0) {
+      // Create
       axios
         .post("http://localhost:8000/listings/create", formData, {
           headers: {
@@ -150,6 +150,7 @@ const ListingForm = () => {
           setLoading(false);
         });
     } else {
+      // Edit
       // Remove listing to edit from user data listings_created
       axios
         .patch(
@@ -416,7 +417,7 @@ const ListingForm = () => {
             loading
             ?
             <div className="button-secondary center-button">
-              Submit
+              {currentListing.length !== 0 ? `Editing...` : `Creating...`} Please Wait
               <ClipLoader color="grey" loading={loading} size={15} />
             </div>
             :

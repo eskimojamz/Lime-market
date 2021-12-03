@@ -74,6 +74,11 @@ function LoginPage() {
             })
     }
 
+    const demoLogin = () => {
+        setUsername('johnlime')
+        setPassword('johnlime')
+    }
+
     return(
         <>
         <motion.div className="page-wrapper"
@@ -119,13 +124,13 @@ function LoginPage() {
                             </div>
                                 {loading
                                 ?  
-                                <div className="button-secondary center-button">
-                                    Log-in 
+                                <div className="button-secondary button-secondary-login center-button">
+                                    Logging in... Please Wait
                                     <ClipLoader color='grey' loading={loading} size={15} />
                                 </div>
                                 :  
                                 <button className=" login-form-btn button-primary" type="submit" value="Submit">
-                                    Log-in
+                                    Sign-in
                                 </button>
                                 }   
                         </form>
@@ -135,6 +140,13 @@ function LoginPage() {
                         <Link to='/register'>
                             <a>Create an account</a>
                         </Link>
+                    </div>
+                    <div className="demo-login">
+                        <button className="demo-login-btn"
+                            onClick={() => demoLogin()}
+                        >
+                            Demo Account
+                        </button>
                     </div>
                 </div>
             </div>

@@ -186,11 +186,11 @@ const Listing = ({listing, currentPage}) => {
             </div>
             <div className="listing-btn">
                 {/* <Link to={`listings/${listingId}`}> */}
-                    <button className="button-details button-primary" 
+                    <button className="button-view button-primary" 
                         onClick={() => {
                         history.push(`/listings/${listingId}`)
                         }}
-                    >Details</button>
+                    >View</button>
                 {/* </Link> */}
             </div>
         </motion.div>

@@ -127,15 +127,6 @@ const ListingsPage = () => {
           </div>
           {/*  */}
           <div className="listings-filters">
-            {/* Recency filter */}
-            <Select 
-              options={recencyOptions} 
-              isSearchable={false}
-              defaultValue={{ value: 'newest', label: 'Newest' }}
-              styles={selectStyles}
-              value={recencyOptions.find(option => option.value === recencyFilter)}
-              onChange={e => setRecencyFilter(e.value)}
-            />
             {/* Price filter */}
             <Select 
               options={priceOptions} 
@@ -144,6 +135,15 @@ const ListingsPage = () => {
               styles={selectStyles}
               value={priceOptions.find(option => option.value === priceFilter)}
               onChange={e => setPriceFilter(e.value)}
+            />
+            {/* Recency filter */}
+            <Select 
+              options={recencyOptions} 
+              isSearchable={false}
+              defaultValue={{ value: 'newest', label: 'Newest' }}
+              styles={selectStyles}
+              value={recencyOptions.find(option => option.value === recencyFilter)}
+              onChange={e => setRecencyFilter(e.value)}
             />
             {/* For desktop */}
             <button className="button-filter"
@@ -191,7 +191,10 @@ const ListingsPage = () => {
           currentPage={currentPage}
           totalCount={listings?.length}
           pageSize={PageSize}
-          onPageChange={page => setCurrentPage(page)}
+          onPageChange={(page) => {
+            setCurrentPage(page)
+            window.scrollTo(0, 0)
+          }}
         />
         </>
         )

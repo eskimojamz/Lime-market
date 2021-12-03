@@ -7,7 +7,6 @@
     margin: 0 auto;
     padding: 0.5rem 0;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
   
     .pagination-item {
       padding: 1.2rem;
@@ -31,7 +30,7 @@
         cursor: default;
       }
       &:hover {
-        background-color: var(--primary-light);
+        background-color: var(--primary-light-transparent);
         cursor: pointer;
       }
   

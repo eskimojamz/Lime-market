@@ -63,15 +63,16 @@ h1, h2, h3 {
   flex-direction: column;
   align-items: center;
   padding: 0;
-  height: 100%;
+  height: fit-content;
   width: 100vw;
 }
 
 .container {
   position: relative;
-  height: 100%;
+  height: fit-content;
   width: 100%;
   margin-top: 64px;
+  margin-bottom: 2rem;
 }
 
 .page-wrapper {
@@ -397,7 +398,6 @@ button:focus {
   width: 77.41px;
   border-radius: var(--border-radius);
   border: solid 1px var(--secondary-dark);
-  font-family: 'Sora';
   font-size: 0.9rem;
   font-weight: 400;
   color: var(--secondary-dark);
@@ -413,7 +413,6 @@ button:focus {
   height: 35px;
   border-radius: var(--border-radius);
   border: 1px solid var(--secondary-dark);
-  font-family: 'Sora';
   font-size: 0.9rem;
   font-weight: 400;
   box-shadow: var(--box-shadow);
@@ -613,7 +612,7 @@ button:focus {
   border-radius: var(--border-radius);
   padding: 0.5rem 0.5rem;
   width: 6rem;
-  font-size: 0.9rem;
+  font-size: 16px;
   font-weight: 500;
   color:black;
 }
@@ -638,7 +637,7 @@ button:focus {
   border-radius: var(--border-radius);
   padding: 0.5rem 0.5rem;
   width: 6rem;
-  font-size: 0.9rem;
+  font-size: 16px;
   font-weight: 500;
   color: var(--primary);
 }
@@ -819,7 +818,7 @@ iframe {
 }
 
 .watchlist-h h2{
-  margin-top: 1rem !important;
+  margin-top: 0.75rem !important;
   margin-bottom: 0.5rem !important;
 }
 
@@ -1322,6 +1321,24 @@ iframe {
   font-size: 16px;
   font-weight: 600;
 }
+.demo-login {
+  width: 100%;
+}
+.demo-login-btn {
+  width: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 0.75rem;
+  margin: 1rem 0;
+  height: 35px;
+  border-radius: var(--border-radius);
+  border: solid 1px black;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
 
 @media only screen and (max-width: 767px) {
   .login-div {
@@ -1413,8 +1430,17 @@ iframe {
   font-weight: 600;
 }
 
-.button-secondary span {
-  margin-left: 1rem;
+.button-secondary-login span {
+
+}
+
+.button-secondary-login span {
+  margin-left: 11rem;
+  position: absolute !important;
+}
+
+.button-secondary-signup span {
+  margin-left: 11rem !important;
   position: absolute !important;
 }
 
@@ -1681,7 +1707,7 @@ iframe {
   align-self: center;
 }
 
-.button-details {
+.button-view {
   width: 100px;
 }
 
@@ -1726,8 +1752,8 @@ iframe {
   width: 100%;
 }
 
-.form span {
-  margin-left: 1rem;
+.form span:first-child {
+  margin-left: 10rem;
   position: absolute;
 }
 
@@ -2445,7 +2471,7 @@ input[type=file]::file-selector-button {
 
 
 .listing-info-creator-name h5 {
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 0.1rem;
@@ -2464,7 +2490,7 @@ input[type=file]::file-selector-button {
 }
 
 .listing-info-creator-name h4 {
-  font-size: 0.8rem;
+  font-size: 12px;
   font-weight: 600;
   margin: 0;
   padding: 2px 5px 0 5px !important;
