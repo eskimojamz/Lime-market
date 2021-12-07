@@ -2,20 +2,14 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import Pagination from '../pagination/Pagination'
 import Listing from '../components/Listing'
 import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
-import { motion} from 'framer-motion'
 import { getListings } from '../actions/actions'
-import { fetchListings } from '../api/api'
 
 import plus from '../assets/plus.svg'
-import axios from 'axios'
-
 const ListingsPage = () => {
   const dispatch = useDispatch()
-  const [loading, setLoading] = useState(true)
   const listings = useSelector(state => state.listings)
   const [filteredListings, setFilteredListings] = useState()
   const [currentPage, setCurrentPage] = useState(1)

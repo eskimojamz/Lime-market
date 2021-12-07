@@ -413,7 +413,7 @@ button:focus {
   height: 35px;
   border-radius: var(--border-radius);
   border: 1px solid var(--secondary-dark);
-  font-size: 0.9rem;
+  font-size: 13px;
   font-weight: 400;
   box-shadow: var(--box-shadow);
 }
@@ -1438,8 +1438,15 @@ iframe {
   font-weight: 600;
 }
 
-.button-secondary-login span {
-
+@media only screen and (max-width: 767px) {
+  .button-secondary-login span {
+    margin-left: 7rem !important;
+    position: absolute !important;
+  }
+  .button-secondary-signup span {
+    margin-left: 7rem !important;
+    position: absolute !important;
+  }
 }
 
 .button-secondary-login span {
@@ -1448,7 +1455,7 @@ iframe {
 }
 
 .button-secondary-signup span {
-  margin-left: 11rem !important;
+  margin-left: 11rem;
   position: absolute !important;
 }
 
@@ -2749,7 +2756,7 @@ input[type=file]::file-selector-button {
   width: 20rem;
   padding: 1rem;
   background: var(--primary-superlight);
-  box-shadow: 0px 4px 250px 500px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
   display: flex; 
   flex-direction: column;
@@ -2776,9 +2783,8 @@ input[type=file]::file-selector-button {
   margin: 1rem 0;
   border-radius: var(--border-radius);
   border: none;
-  font-family: 'Sora';
-  font-size: 0.9rem;
   font-weight: 400;
+  font-size: 13px;
 }
 
 .delete-modal-yes:active {

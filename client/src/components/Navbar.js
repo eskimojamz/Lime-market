@@ -14,6 +14,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 
 const Navbar = () => {
+  const api = 'https://lime-market-backend.herokuapp.com'
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   console.log(currentUser);
@@ -199,6 +200,7 @@ const Navbar = () => {
 export default Navbar;
 
 function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
+  const api = 'https://lime-market-backend.herokuapp.com'
   const {currentUser, setCurrentUser} = useContext(UserContext)
   const token = sessionStorage.getItem('token')
 
@@ -213,7 +215,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
   const remove = () => {
     axios
       .patch(
-        `http://localhost:8000/listings/${listingId}/like`,
+        `${api}/listings/${listingId}/like`,
         {
           like_count: likes - 1,
         },
@@ -234,7 +236,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
         console.log(newWatchlist);
 
         return axios.patch(
-          `http://localhost:8000/users/update/${currentUser?.username}`,
+          `${api}/users/update/${currentUser?.username}`,
           {
             watchlist: newWatchlist,
           },
@@ -247,7 +249,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
       })
       .then(() => {
         return axios
-          .get(`http://localhost:8000/users/view/${currentUser?.username}`)
+          .get(`${api}/users/view/${currentUser?.username}`)
           .then((response) => {
             sessionStorage.setItem("user", JSON.stringify(response.data));
             setCurrentUser(response.data);
@@ -255,7 +257,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
       })
       // .then(() => {
       //   return axios
-      //     .get(`http://localhost:8000/listings/${listingId}/likeCount`)
+      //     .get(`${api}/listings/${listingId}/likeCount`)
       //     .then((response) => {
       //       setLikes(response.data.like_count);
       //       setIsStopped(!isStopped);
@@ -266,14 +268,14 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
 
   useEffect(() => {
     const getListing = () => {
-      axios.get(`http://localhost:8000/listings/${listingId}`)
+      axios.get(`${api}/listings/${listingId}`)
       .then(response => {
         setListingData(response.data)
       })
     }
     const getLikes = () => {
       const listingId = listing.id
-      axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+      axios.get(`${api}/listings/${listingId}/likeCount`)
       .then(response => {
           setLikes(response.data.like_count)
       })

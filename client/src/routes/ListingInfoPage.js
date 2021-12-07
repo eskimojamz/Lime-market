@@ -25,12 +25,12 @@ const ListingInfoPage = () => {
         edit, 
         setEdit
     } = useContext(UserContext)
-    console.log(currentUser)
+    // console.log(currentUser)
     const token = sessionStorage.getItem('token')
     const dispatch = useDispatch()
     const { listingId } = useParams()
     const listing = useSelector((state) => state.listing)
-    console.log(listing)
+    // console.log(listing)
     const listingDate = listing?.created_at
     const [currentImage, setCurrentImage] = useState(null)
     const [likes, setLikes] = useState()
@@ -43,7 +43,6 @@ const ListingInfoPage = () => {
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
     const [listingComments, setComments] = useState()
-    
     const [newComment, setNewComment] = useState("")
     const [deleteModalOn, setDeleteModal] = useState(false)
 
@@ -214,6 +213,7 @@ const ListingInfoPage = () => {
         ))
         setNewComment("")
         getComments(listingId)
+        setComments([...listingComments])
     }
 
     const handleCommentDelete = async(commentId) => {
@@ -294,7 +294,7 @@ const ListingInfoPage = () => {
             { deleted && <Redirect to="/listings" /> }
 
             {/* Toggles */}
-            <Tooltip content="Please log-in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
+            <Tooltip content="Please sign-in to like and save listings" toggleTooltip={toggleTooltip} setToggleTooltip={setToggleTooltip} />
             <EditMenuBackdrop toggleMenu={toggleMenu} setToggleMenu={setToggleMenu} handleEdit={handleEdit} handleDelete={handleDelete}/>
             {toggleCarousel 
                 ?
@@ -413,7 +413,7 @@ const ListingInfoPage = () => {
                                         <motion.div className="delete-modal-overlay"
                                             initial={{opacity: 0, scale: 0}}
                                             animate={{opacity: 1, scale: 1}}
-                                            transition={{type: 'spring', bounce: 1, duration: 0.2}}
+                                            transition={{duration: 0.2}}
                                             exit={{opacity: 0, scale: 0}}
                                         >
                                             <motion.div>

@@ -3,9 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Lottie from 'react-lottie-segments'
 import like from '../assets/like.json'
-import { Link } from 'react-router-dom'
 import axios from 'axios'
-import Tooltip from '../components/Tooltip.js';
 import { UserContext } from '../App'
 
 const Listing = ({listing, currentPage}) => {
@@ -19,7 +17,6 @@ const Listing = ({listing, currentPage}) => {
     const history = useHistory()
     // const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
     // console.log(likedBool)
-    const [toggleTooltip, setToggleTooltip] = useState(false)
     const [likes, setLikes] = useState()
     const [liked, setLiked] = useState()
     const [isStopped, setIsStopped] = useState(true)
@@ -163,7 +160,7 @@ const Listing = ({listing, currentPage}) => {
             <div className="listing-like">
                 <button 
                     className="listing-info-like-button"
-                    onClick={user ? toggleLike : setToggleTooltip}
+                    onClick={user && toggleLike}
                 >
                     <span 
                         className="listing-info-like-heart"

@@ -15,7 +15,7 @@ export default function Tooltip({ content, toggleTooltip, setToggleTooltip }) {
                     <img src={loginPlease} />
                     <Link to="/login">
                         <button className="button-primary">
-                            Log-in
+                            Sign-in
                         </button>
                     </Link>
                 </div>
