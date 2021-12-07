@@ -26,56 +26,57 @@ const Home = () => {
         <img src={blob2} className="hero-blob2-filter" /> */}
         <div className="hero-container">
         <div className="hero-bg-pattern">
-        </div>
-        <div className="hero">
-            
-            <motion.div 
-                className="hero-mobile"
-            >
-                <motion.img src={hero} className="hero-img" 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.25, duration: 0.25 }}
-                />
-            </motion.div>
-            
-            <div className="hero-left">
-                <motion.div
-                    className="hero-left-text"
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.25 }}
+        
+            <div className="hero">
+                
+                <motion.div 
+                    className="hero-mobile"
                 >
-                    <h1>buy & sell</h1>
-                    <h1 className="highlight">safely & affordably</h1>
-                    <div className="hero-left-text-bottom">
-                        <h4>Lime Market makes it easy to buy and sell items on a safe and secure platform. Powered by the Paypal payment system, users can buy and sell items with confidence.</h4>
-                    </div>
+                    <motion.img src={hero} className="hero-img" 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.25, duration: 0.25 }}
+                    />
                 </motion.div>
-                <motion.button 
-                    className="button-primary hero-button" 
+                
+                <div className="hero-left">
+                    <motion.div
+                        className="hero-left-text"
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 0.25 }}
+                    >
+                        <h1>buy & sell</h1>
+                        <h1 className="highlight">safely & affordably</h1>
+                        <div className="hero-left-text-bottom">
+                            <h4>Lime Market makes it easy to buy and sell items on a safe and secure platform. Powered by the Paypal payment system, users can buy and sell items with confidence.</h4>
+                        </div>
+                    </motion.div>
+                    <motion.button 
+                        className="button-primary hero-button" 
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.5, duration: 0.25 }}
+                        onClick={() => {
+                            history.push('/listings')
+                        }}>
+                            Start Shopping
+                    </motion.button>
+                </div>
+
+                <motion.div 
+                    className="hero-right"
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.25 }}
-                    onClick={() => {
-                        history.push('/listings')
-                    }}>
-                        Start Shopping
-                </motion.button>
+                    >
+                    <motion.img src={hero} className="hero-img" 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.25, duration: 0.25 }}
+                    />
+                </motion.div>
             </div>
-
-            <motion.div 
-                className="hero-right"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.25 }}
-                >
-                <motion.img src={hero} className="hero-img" 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.25, duration: 0.25 }}
-                />
-            </motion.div>
         </div>
         </div>
 

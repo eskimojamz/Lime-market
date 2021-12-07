@@ -136,6 +136,7 @@ const ListingsPage = () => {
               value={priceOptions.find(option => option.value === priceFilter)}
               onChange={e => setPriceFilter(e.value)}
             />
+            <span className="listings-filters-span" />
             {/* Recency filter */}
             <Select 
               options={recencyOptions} 

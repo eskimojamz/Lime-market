@@ -17,6 +17,7 @@ import ImageCarousel from '../components/ImageCarousel';
 import { formatDistance } from 'date-fns'
 
 const ListingInfoPage = () => {
+    const api = 'https://lime-market-backend.herokuapp.com'
     const user = JSON.parse(sessionStorage.getItem('user'))
     const {
         currentUser, 
@@ -48,7 +49,7 @@ const ListingInfoPage = () => {
 
     const getComments = async(listingId) => {
         await axios
-            .get(`http://localhost:8000/comments?listing_id=${listingId}`)
+            .get(`${api}/comments?listing_id=${listingId}`)
             .then(response => {
                 setComments(response.data)
             })
@@ -56,7 +57,7 @@ const ListingInfoPage = () => {
 
     const toggleLike = () => {
         if (!liked) {
-            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+            axios.patch(`${api}/listings/${listingId}/like`, 
                 {
                     like_count: likes + 1
                 },
@@ -73,7 +74,7 @@ const ListingInfoPage = () => {
                 newWatchlist[index] = {
                     id: listingId
                 }
-                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                return axios.patch(`${api}/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
                     },
@@ -85,7 +86,7 @@ const ListingInfoPage = () => {
                 )
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                return axios.get(`${api}/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
                         setCurrentUser(response.data)
@@ -93,7 +94,7 @@ const ListingInfoPage = () => {
                     })
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                return axios.get(`${api}/listings/${listingId}/likeCount`)
                     .then(response => {
                         setLikes(response.data.like_count)
                         setIsStopped(!isStopped)
@@ -101,7 +102,7 @@ const ListingInfoPage = () => {
                     })
             })
         } else if (liked) {
-            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+            axios.patch(`${api}/listings/${listingId}/like`, 
                 {
                     like_count: likes - 1
                 },
@@ -119,7 +120,7 @@ const ListingInfoPage = () => {
                 }
                 console.log(newWatchlist)
 
-                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                return axios.patch(`${api}/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
                     },
@@ -131,14 +132,14 @@ const ListingInfoPage = () => {
                 )
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                return axios.get(`${api}/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
                         setCurrentUser(response.data)
                     })
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                return axios.get(`${api}/listings/${listingId}/likeCount`)
                     .then(response => {
                         setLikes(response.data.like_count)
                         setIsStopped(!isStopped)
@@ -149,7 +150,7 @@ const ListingInfoPage = () => {
     }
 
     const getLikes = (listingId) => {
-        axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+        axios.get(`${api}/listings/${listingId}/likeCount`)
         .then(response => {
             setLikes(response.data.like_count)
         })
@@ -165,7 +166,7 @@ const ListingInfoPage = () => {
     }
 
     const handleDelete = async() => {
-        await axios.delete(`http://localhost:8000/listings/delete/${listingId}`,
+        await axios.delete(`${api}/listings/delete/${listingId}`,
             {
                 headers: {
                     'Authorization': `Token ${token}`
@@ -174,7 +175,7 @@ const ListingInfoPage = () => {
         ).then(async() => {
             const newList = user?.listings_created.filter(l => l.id !== parseInt(listingId))
 
-            await axios.patch(`http://localhost:8000/users/update/${user.username}`,
+            await axios.patch(`${api}/users/update/${user.username}`,
                 {
                     listings_created: newList
                 },
@@ -216,7 +217,7 @@ const ListingInfoPage = () => {
     }
 
     const handleCommentDelete = async(commentId) => {
-        await axios.delete(`http://localhost:8000/comments/delete/${commentId}`,
+        await axios.delete(`${api}/comments/delete/${commentId}`,
             {
                 headers: {
                     'Authorization': `Token ${token}`

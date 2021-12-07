@@ -9,6 +9,7 @@ import Tooltip from '../components/Tooltip.js';
 import { UserContext } from '../App'
 
 const Listing = ({listing, currentPage}) => {
+    const api = 'https://lime-market-backend.herokuapp.com'
     const listingId = listing.id.toString()
     const user = JSON.parse(sessionStorage.getItem('user'))
     console.log(user)
@@ -25,7 +26,7 @@ const Listing = ({listing, currentPage}) => {
     console.log(listing)
     const toggleLike = () => {
         if (!liked) {
-            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+            axios.patch(`${api}/listings/${listingId}/like`, 
                 {
                     like_count: likes + 1
                 },
@@ -45,7 +46,7 @@ const Listing = ({listing, currentPage}) => {
                     title: listing.title,
                     price: listing.price
                 }
-                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                return axios.patch(`${api}/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
                     },
@@ -57,7 +58,7 @@ const Listing = ({listing, currentPage}) => {
                 )
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                return axios.get(`${api}/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
                         setCurrentUser(response.data)
@@ -65,7 +66,7 @@ const Listing = ({listing, currentPage}) => {
                     })
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                return axios.get(`${api}/listings/${listingId}/likeCount`)
                     .then(response => {
                         setLikes(response.data.like_count)
                         setIsStopped(!isStopped)
@@ -73,7 +74,7 @@ const Listing = ({listing, currentPage}) => {
                     })
             })
         } else if (liked) {
-            axios.patch(`http://localhost:8000/listings/${listingId}/like`, 
+            axios.patch(`${api}/listings/${listingId}/like`, 
                 {
                     like_count: likes - 1
                 },
@@ -89,7 +90,7 @@ const Listing = ({listing, currentPage}) => {
                 if (index > -1) {
                     newWatchlist.splice(index, 1)
                 }
-                return axios.patch(`http://localhost:8000/users/update/${user.username}`, 
+                return axios.patch(`${api}/users/update/${user.username}`, 
                     {
                         watchlist: newWatchlist
                     },
@@ -101,14 +102,14 @@ const Listing = ({listing, currentPage}) => {
                 )
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/users/view/${user.username}`)
+                return axios.get(`${api}/users/view/${user.username}`)
                     .then((response) => {
                         sessionStorage.setItem('user', JSON.stringify(response.data))
                         setCurrentUser(response.data)
                     })
             })
             .then(() => {
-                return axios.get(`http://localhost:8000/listings/${listingId}/likeCount`)
+                return axios.get(`${api}/listings/${listingId}/likeCount`)
                     .then(response => {
                         setLikes(response.data.like_count)
                         setIsStopped(!isStopped)
@@ -119,7 +120,7 @@ const Listing = ({listing, currentPage}) => {
     }
 
     const getLikes = (listing_id) => {
-        axios.get(`http://localhost:8000/listings/${listing_id}/likeCount`)
+        axios.get(`${api}/listings/${listing_id}/likeCount`)
         .then(response => {
             setLikes(response.data.like_count)
         })

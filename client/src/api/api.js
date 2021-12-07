@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const auth = 'http://localhost:8000/auth'
-const users = 'http://localhost:8000/users'
-const listings = 'http://localhost:8000/listings';
-const comments = 'http://localhost:8000/comments';
+const auth = 'https://lime-market-backend.herokuapp.com/auth'
+const users = 'https://lime-market-backend.herokuapp.com/users'
+const listings = 'https://lime-market-backend.herokuapp.com/listings';
+const comments = 'https://lime-market-backend.herokuapp.com/comments';
 
 // Authorization Token Call
 export const authUser = (userCredentials) => axios.post(auth, userCredentials)

@@ -7,6 +7,7 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import { UserContext } from '../App'
 
 function LoginPage() {
+    const api = 'https://lime-market-backend.herokuapp.com'
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     // const [fixPassword, setFixPassword] = useState(false)
@@ -23,11 +24,11 @@ function LoginPage() {
 
     // const fetchWatchlist = () => {
     //     // Object.keys(user.watchlist).map(key => {
-    //     //     axios.get('http://localhost:8000/listings/')
+    //     //     axios.get('${api}/listings/')
     //     // })
     //     let newWatchlist = [] 
     //     for (let listing in user?.watchlist) {
-    //         axios.get(`http://localhost:8000/listings/${user?.watchlist[listing]}`)
+    //         axios.get(`${api}/listings/${user?.watchlist[listing]}`)
     //         .then(response => {
     //             newWatchlist.push({
     //                 id: response.data.id,
@@ -45,7 +46,7 @@ function LoginPage() {
         setLoading(true)
         
         await axios
-            .post('http://localhost:8000/auth/', {
+            .post(`${api}/auth/`, {
                 username: `${loginCredentials.username}`,
                 password: `${loginCredentials.password}`
             })
@@ -54,7 +55,7 @@ function LoginPage() {
                 sessionStorage.setItem('token', response.data.token)
 
                 await axios
-                    .get(`http://localhost:8000/users/view/${username}`)
+                    .get(`${api}/users/view/${username}`)
                     .then((response) => {
                         console.log(response)
                         setCurrentUser(response.data)

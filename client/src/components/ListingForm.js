@@ -9,6 +9,7 @@ import axios from "axios";
 import { UserContext } from "../App";
 
 const ListingForm = () => {
+  const api = 'https://lime-market-backend.herokuapp.com'
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
@@ -119,7 +120,7 @@ const ListingForm = () => {
     if (currentListing.length === 0) {
       // Create
       axios
-        .post("http://localhost:8000/listings/create", formData, {
+        .post(`${api}/listings/create`, formData, {
           headers: {
             Authorization: `Token ${token}`,
             "Content-Type": "multipart/form-data",
@@ -130,7 +131,7 @@ const ListingForm = () => {
           setRedirectId(response.data.id);
           const userListings = [...user?.listings_created, response.data];
           await axios.patch(
-            `http://localhost:8000/users/update/${user?.username}`,
+            `${api}/users/update/${user?.username}`,
             {
               listings_created: userListings,
             },
@@ -154,7 +155,7 @@ const ListingForm = () => {
       // Remove listing to edit from user data listings_created
       axios
         .patch(
-          `http://localhost:8000/users/update/${user?.username}`,
+          `${api}/users/update/${user?.username}`,
           {
             listings_created: updatedListings,
           },
@@ -165,14 +166,14 @@ const ListingForm = () => {
           }
         )
         // .then(async() => {
-        //     await axios.get(`http://localhost:8000/users/view/${user?.username}`)
+        //     await axios.get(`${api}/users/view/${user?.username}`)
         // })
         .then(async (response) => {
           console.log(response);
           console.log(user);
           await axios
             .patch(
-              `http://localhost:8000/listings/update/${listingId}`,
+              `${api}/listings/update/${listingId}`,
               formData,
               {
                 headers: {
@@ -187,7 +188,7 @@ const ListingForm = () => {
               const userListings = [...updatedListings, response.data];
               await axios
                 .patch(
-                  `http://localhost:8000/users/update/${user?.username}`,
+                  `${api}/users/update/${user?.username}`,
                   {
                     listings_created: userListings,
                   },

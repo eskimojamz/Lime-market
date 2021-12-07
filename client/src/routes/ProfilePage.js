@@ -6,12 +6,13 @@ import { motion, AnimateSharedLayout} from 'framer-motion'
 import axios from 'axios';
 
 const Profile = () => {
+  const api = 'https://lime-market-backend.herokuapp.com'
   const { userId } = useParams()
   const [userImg, setUserImg] = useState('')
   const [userListings, setUserListings] = useState([])
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/users/view/${userId}`)
+    axios.get(`${api}/users/view/${userId}`)
       .then(response => {
         console.log(response)
         setUserImg(response.data.profile_img)

@@ -7,6 +7,7 @@ import ClipLoader from 'react-spinners/ClipLoader'
 import { UserContext } from '../App'
 
 function SignupPage() {
+    const api = 'https://lime-market-backend.herokuapp.com'
     const {currentUser, setCurrentUser} = useContext(UserContext)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -45,7 +46,7 @@ function SignupPage() {
         formData.append("profile_img", profile_img);
 
         await axios
-            .post('http://localhost:8000/users/create', formData, {
+            .post(`${api}/users/create`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -55,7 +56,7 @@ function SignupPage() {
                 sessionStorage.setItem('user', JSON.stringify(response.data))
                 
                 await axios
-                    .post('http://localhost:8000/auth/', {
+                    .post(`${api}/auth/`, {
                         username: `${username}`,
                         password: `${password}`
                     }).then((response) => {
