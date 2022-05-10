@@ -4,17 +4,17 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import loginBtnSvg from "../assets/loginbtn.svg"
+import loginBtnSvg from "../assets/loginbtn.svg";
 import deleteSvg from "../assets/delete.svg";
 import goSvg from "../assets/go.svg";
-import sidebarCloseSvg from "../assets/rightarrow2.svg"
-import cart from "../assets/cart.svg"
+import sidebarCloseSvg from "../assets/rightarrow2.svg";
+import cart from "../assets/cart.svg";
 import MenuButton from "./MenuButton";
 import { UserContext } from "../App";
 import axios from "axios";
 
 const Navbar = () => {
-  const api = 'https://lime-market-backend.herokuapp.com'
+  const api = "https://lime-market-backend.herokuapp.com";
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
   console.log(currentUser);
@@ -38,31 +38,27 @@ const Navbar = () => {
               <motion.img
                 className="logo"
                 src={logo}
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
+                initial={{ opacity: 0.5 }}
+                animate={{ opacity: 1 }}
                 transition={{ delay: 0.25, duration: 0.25 }}
               ></motion.img>
             </Link>
             <Link to="/">
-              <motion.h1
-                className="logo-text"
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.25 }}
-              >
-                Lime Market
-              </motion.h1>
+              <h2>Lime Market</h2>
             </Link>
           </div>
 
-          {profileOpen &&
-          <motion.div className="mobile-menu-backdrop" onClick={() => setProfileOpen(!profileOpen)}>
-            {/*  */}
-          </motion.div>
-          }
-          
+          {profileOpen && (
+            <motion.div
+              className="mobile-menu-backdrop"
+              onClick={() => setProfileOpen(!profileOpen)}
+            >
+              {/*  */}
+            </motion.div>
+          )}
+
           <AnimatePresence>
-          {/* {profileOpen && ( */}
+            {/* {profileOpen && ( */}
             <motion.div
               layout
               className={`mobile-menu ${profileOpen && "open"}`}
@@ -73,11 +69,21 @@ const Navbar = () => {
             >
               <motion.div className="mobile-menu-top">
                 <Link to="/listings">
-                  <motion.button onClick={() => setProfileOpen(!profileOpen)} className="listings-nav-btn-mobile">Listings</motion.button>
+                  <motion.button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="listings-nav-btn-mobile"
+                  >
+                    Listings
+                  </motion.button>
                 </Link>
                 <motion.span className="span-mobile-menu" />
                 <Link to="/form">
-                  <motion.button onClick={() => setProfileOpen(!profileOpen)} className="sell-nav-btn-mobile">Sell Now</motion.button>
+                  <motion.button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="sell-nav-btn-mobile"
+                  >
+                    Sell Now
+                  </motion.button>
                 </Link>
                 <span className="span-mobile-menu" />
               </motion.div>
@@ -95,10 +101,16 @@ const Navbar = () => {
                       <h4>{currentUser?.username || user?.username}</h4>
                     </motion.div>
                   </motion.div>
-                  
+
                   <motion.div className="mobile-menu-bottom-logout">
-                    <Link className="mobile-menu-profile-link" to={`/profile/${user?.username}`}>
-                      <button className="profile-btn-mobile" onClick={() => setProfileOpen(!profileOpen)}>
+                    <Link
+                      className="mobile-menu-profile-link"
+                      to={`/profile/${user?.username}`}
+                    >
+                      <button
+                        className="profile-btn-mobile"
+                        onClick={() => setProfileOpen(!profileOpen)}
+                      >
                         My Profile
                       </button>
                     </Link>
@@ -107,28 +119,37 @@ const Navbar = () => {
                   <span className="span-mobile-menu" />
 
                   <motion.div className="mobile-menu-liked">
-                    <motion.div className="watchlist-h"> 
+                    <motion.div className="watchlist-h">
                       <h2>My Watchlist</h2>
                     </motion.div>
                     <motion.div layout className="watchlist-items">
                       {currentUser?.watchlist.map((listing) => {
-                        return <WatchlistListing listing={listing} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />;
+                        return (
+                          <WatchlistListing
+                            listing={listing}
+                            profileOpen={profileOpen}
+                            setProfileOpen={setProfileOpen}
+                          />
+                        );
                       })}
                     </motion.div>
                   </motion.div>
                 </>
               ) : (
                 <>
-                <Link to='/login'>
-                    <button className="login-btn mobile-menu-login" onClick={() => setProfileOpen(!profileOpen)}>
+                  <Link to="/login">
+                    <button
+                      className="login-btn mobile-menu-login"
+                      onClick={() => setProfileOpen(!profileOpen)}
+                    >
                       <img className="login-btn-svg" src={loginBtnSvg} />
                       Sign-in
                     </button>
-                </Link>
+                  </Link>
                 </>
               )}
             </motion.div>
-          {/* )} */}
+            {/* )} */}
           </AnimatePresence>
 
           <div className="nav-right-desktop">
@@ -175,10 +196,16 @@ const Navbar = () => {
                       <h2>My Watchlist</h2>
                     </div>
                     <motion.div layout className="watchlist-items">
-                      { currentUser?.watchlist.length > 0 &&
-                      currentUser?.watchlist.map((listing) => {
-                        return <WatchlistListing listing={listing} profileOpen={profileOpen} setProfileOpen={setProfileOpen} />;
-                      })}
+                      {currentUser?.watchlist.length > 0 &&
+                        currentUser?.watchlist.map((listing) => {
+                          return (
+                            <WatchlistListing
+                              listing={listing}
+                              profileOpen={profileOpen}
+                              setProfileOpen={setProfileOpen}
+                            />
+                          );
+                        })}
                     </motion.div>
                   </div>
                 </div>
@@ -187,12 +214,12 @@ const Navbar = () => {
               <LoginButton />
             )}
           </div>
+          <MenuButton
+            profileOpen={profileOpen}
+            toggle={() => setProfileOpen(!profileOpen)}
+          />
         </div>
       </nav>
-      <MenuButton
-        profileOpen={profileOpen}
-        toggle={() => setProfileOpen(!profileOpen)}
-      />
     </>
   );
 };
@@ -200,15 +227,15 @@ const Navbar = () => {
 export default Navbar;
 
 function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
-  const api = 'https://lime-market-backend.herokuapp.com'
-  const {currentUser, setCurrentUser} = useContext(UserContext)
-  const token = sessionStorage.getItem('token')
+  const api = "https://lime-market-backend.herokuapp.com";
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const token = sessionStorage.getItem("token");
 
   const [removeOpen, setRemoveOpen] = useState(false);
-  const listingId = listing.id
-  const [listingData, setListingData] = useState()
-  console.log(listingId)
-  const [likes, setLikes] = useState()
+  const listingId = listing.id;
+  const [listingData, setListingData] = useState();
+  console.log(listingId);
+  const [likes, setLikes] = useState();
 
   const toggleRemove = () => setRemoveOpen(!removeOpen);
 
@@ -254,39 +281,39 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
             sessionStorage.setItem("user", JSON.stringify(response.data));
             setCurrentUser(response.data);
           });
-      })
-      // .then(() => {
-      //   return axios
-      //     .get(`${api}/listings/${listingId}/likeCount`)
-      //     .then((response) => {
-      //       setLikes(response.data.like_count);
-      //       setIsStopped(!isStopped);
-      //       setLiked(!liked);
-      //     });
-      // });
+      });
+    // .then(() => {
+    //   return axios
+    //     .get(`${api}/listings/${listingId}/likeCount`)
+    //     .then((response) => {
+    //       setLikes(response.data.like_count);
+    //       setIsStopped(!isStopped);
+    //       setLiked(!liked);
+    //     });
+    // });
   };
 
   useEffect(() => {
     const getListing = () => {
-      axios.get(`${api}/listings/${listingId}`)
-      .then(response => {
-        setListingData(response.data)
-      })
-    }
+      axios.get(`${api}/listings/${listingId}`).then((response) => {
+        setListingData(response.data);
+      });
+    };
     const getLikes = () => {
-      const listingId = listing.id
-      axios.get(`${api}/listings/${listingId}/likeCount`)
-      .then(response => {
-          setLikes(response.data.like_count)
-      })
-    }
-    getListing()
-    getLikes()
-    console.log(listingData)
-  }, [currentUser])
+      const listingId = listing.id;
+      axios.get(`${api}/listings/${listingId}/likeCount`).then((response) => {
+        setLikes(response.data.like_count);
+      });
+    };
+    getListing();
+    getLikes();
+    console.log(listingData);
+  }, [currentUser]);
 
   return (
-    <motion.div layout className="watchlist-listing"
+    <motion.div
+      layout
+      className="watchlist-listing"
       // initial={{ opacity: 0}}
       // animate={{
       //   opacity: 1,
@@ -297,27 +324,29 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
       <motion.div layout className="watchlist-listing-initial">
         <motion.div className="watchlist-listing-img">
           <Link to={`/listings/${listingData?.id}`}>
-            <motion.img 
-              src={listingData?.image1} 
-              onClick={() => setProfileOpen(!profileOpen)} 
-            >
-            </motion.img>
+            <motion.img
+              src={listingData?.image1}
+              onClick={() => setProfileOpen(!profileOpen)}
+            ></motion.img>
           </Link>
         </motion.div>
         <motion.div className="watchlist-listing-info">
-          <motion.h4 className="watchlist-title">{listingData?.title}</motion.h4>
-          <motion.h4 className="watchlist-price">${listingData?.price}</motion.h4>
+          <motion.h4 className="watchlist-title">
+            {listingData?.title}
+          </motion.h4>
+          <motion.h4 className="watchlist-price">
+            ${listingData?.price}
+          </motion.h4>
         </motion.div>
         <motion.div className="watchlist-listing-buttons">
           <motion.a>
             <motion.img src={deleteSvg} onClick={toggleRemove}></motion.img>
           </motion.a>
           <Link to={`/listings/${listingData?.id}`}>
-            <motion.img 
+            <motion.img
               src={goSvg}
               onClick={() => setProfileOpen(!profileOpen)}
-            >
-            </motion.img>
+            ></motion.img>
           </Link>
         </motion.div>
       </motion.div>
@@ -338,7 +367,7 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
             <motion.h5 className="watchlist-listing-bottom-text-h" layout>Are you sure?</motion.h5>
           </motion.div> */}
             <motion.div className="watchlist-listing-bottom-buttons">
-              <motion.button 
+              <motion.button
                 className="watchlist-listing-bottom-buttons-remove"
                 onClick={remove}
               >

@@ -12,48 +12,72 @@ const Path = (props) => (
 
 const transition = { duration: 0.5, ease: "easeIn" };
 
-const MenuButton = ({toggle, profileOpen}) => {
-    return (
-      <div className="mobile-menu-button" onClick={toggle}>
-        <svg width="45" height="45" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <motion.rect width="60" height="60" rx="30" 
-            animate={profileOpen ? "open" : "closed"}
-            initial={false}
-            variants={{
-              closed: { fill: "#74CD97" },
-              open: { fill: "white" }
-            }}
-            transition={transition}
-          />
-          <motion.rect x="14" y="17" width="31" height="4" rx="2" 
-            animate={profileOpen ? "open" : "closed"}
-            initial={false}
-            variants={{
-              closed: { fill: "white" },
-              open: { fill: "#74CD97" }
-            }}
-            transition={transition}
-          />
-          <motion.rect x="14" y="28" width="31" height="4" rx="2" 
-            animate={profileOpen ? "open" : "closed"}
-            initial={false}
-            variants={{
-              closed: { fill: "white" },
-              open: { fill: "#74CD97" }
-            }}
-            transition={transition}
-          />
-          <motion.rect x="14" y="39" width="31" height="4" rx="2" 
-            animate={profileOpen ? "open" : "closed"}
-            initial={false}
-            variants={{
-              closed: { fill: "white" },
-              open: { fill: "#74CD97" }
-            }}
-            transition={transition}
-          />
-        </svg>
-        {/* <svg width="23" height="23" viewBox="0 0 23 23">
+const MenuButton = ({ toggle, profileOpen }) => {
+  return (
+    <div className="mobile-menu-button" onClick={toggle}>
+      {/* <svg
+        width="35"
+        height="35"
+        viewBox="0 0 60 60"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      > */}
+      {/* <motion.rect
+          width="60"
+          height="60"
+          rx="30"
+          animate={profileOpen ? "open" : "closed"}
+          initial={false}
+          variants={{
+            closed: { fill: "#74CD97" },
+            open: { fill: "white" },
+          }}
+          transition={transition}
+        /> */}
+      {/* <motion.rect
+          x="14"
+          y="17"
+          width="31"
+          height="4"
+          rx="2"
+          animate={profileOpen ? "open" : "closed"}
+          initial={false}
+          variants={{
+            closed: { fill: "rgba(0, 12, 115, 1)" },
+            open: { fill: "#74CD97" },
+          }}
+          transition={transition}
+        />
+        <motion.rect
+          x="14"
+          y="28"
+          width="31"
+          height="4"
+          rx="2"
+          animate={profileOpen ? "open" : "closed"}
+          initial={false}
+          variants={{
+            closed: { fill: "rgba(0, 12, 115, 1)" },
+            open: { fill: "#74CD97" },
+          }}
+          transition={transition}
+        />
+        <motion.rect
+          x="14"
+          y="39"
+          width="31"
+          height="4"
+          rx="2"
+          animate={profileOpen ? "open" : "closed"}
+          initial={false}
+          variants={{
+            closed: { fill: "rgba(0, 12, 115, 1)" },
+            open: { fill: "#74CD97" },
+          }}
+          transition={transition}
+        /> */}
+      {/* </svg> */}
+      {/* <svg width="23" height="23" viewBox="0 0 23 23">
           <Path
             animate={profileOpen ? "open" : "closed"}
             initial={false}
@@ -84,8 +108,11 @@ const MenuButton = ({toggle, profileOpen}) => {
             transition={transition}
           />
         </svg> */}
-      </div>
-    );
-  }
+      <span />
+      <span />
+      <span />
+    </div>
+  );
+};
 
-  export default MenuButton
+export default MenuButton;
