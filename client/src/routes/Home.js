@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import hero from "../assets/hero.png";
-import pattern from "../assets/patternpad.svg";
-import blob1 from "../assets/blob1.svg";
-import blob2 from "../assets/blob2.svg";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { getListings } from "../actions/actions";
 import Listing from "../components/Listing";
+import cardIllustration1 from "../assets/cardIllustration1.svg";
+import cardIllustration2 from "../assets/cardIllustration2.svg";
+import cardIllustration3 from "../assets/cardIllustration3.svg";
 
 const Home = () => {
   const history = useHistory();
@@ -77,31 +77,63 @@ const Home = () => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
       >
-        {/* Popular Listings */}
-        <motion.div
-          className="hero-bottom-h"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.35, duration: 0.25 }}
-        >
-          <h3>Recent Listings</h3>
-        </motion.div>
-        <div className="listings-grid">
-          {listings.slice(-3).map((listing) => (
-            <Listing listing={listing} />
-          ))}
+        <div className="hero-bottom-cards">
+          <div className="hero-bottom-card">
+            <img src={cardIllustration1} />
+            <div>
+              <h3>Find Hidden Treasures</h3>
+              <p>
+                Goods listed on Lime Market are audited for quality. You’ll find
+                the fairest prices on the web. Offerings range from clothes,
+                tech and art to more!
+              </p>
+            </div>
+          </div>
+          <div className="hero-bottom-card">
+            <img src={cardIllustration2} />
+            <div>
+              <h3>Find Hidden Treasures</h3>
+              <p>
+                Goods listed on Lime Market are audited for quality. You’ll find
+                the fairest prices on the web. Offerings range from clothes,
+                tech and art to more!
+              </p>
+            </div>
+          </div>
+          <div className="hero-bottom-card">
+            <img src={cardIllustration3} />
+            <div>
+              <h3>Find Hidden Treasures</h3>
+              <p>
+                Goods listed on Lime Market are audited for quality. You’ll find
+                the fairest prices on the web. Offerings range from clothes,
+                tech and art to more!
+              </p>
+            </div>
+          </div>
         </div>
-        <motion.button
-          className="button-primary"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.25 }}
-          onClick={() => {
-            history.push("/listings");
-          }}
-        >
-          See More
-        </motion.button>
+        {/* Popular Listings */}
+        <div className="recent-listings">
+          <div className="recent-listings-header">
+            <h3>Recent Listings</h3>
+          </div>
+          <div className="recent-listings-grid">
+            {listings.slice(-3).map((listing) => (
+              <Listing listing={listing} />
+            ))}
+          </div>
+          <motion.button
+            className="button-seemore"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.25 }}
+            onClick={() => {
+              history.push("/listings");
+            }}
+          >
+            See More
+          </motion.button>
+        </div>
       </motion.div>
     </div>
   );
