@@ -13,6 +13,7 @@ import LoginButton from "../components/LoginButton";
 import EditMenuBackdrop from "../components/EditMenuBackdrop";
 import ImageCarousel from "../components/ImageCarousel";
 import { formatDistance } from "date-fns";
+import Heart from "../assets/Heart";
 
 const ListingInfoPage = () => {
   const api = "https://lime-market-backend.herokuapp.com";
@@ -22,6 +23,7 @@ const ListingInfoPage = () => {
   // console.log(currentUser)
   const token = sessionStorage.getItem("token");
   const dispatch = useDispatch();
+  const history = useHistory();
   const { listingId } = useParams();
   const listing = useSelector((state) => state.listing);
   // console.log(listing)
@@ -257,44 +259,44 @@ const ListingInfoPage = () => {
     getComments(listingId);
   }, [currentUser]);
 
-  useEffect(() => {
-    const product = {
-      price: listing?.price,
-      description: listing?.description,
-    };
+  // useEffect(() => {
+  //   const product = {
+  //     price: listing?.price,
+  //     description: listing?.description,
+  //   };
 
-    window.paypal
-      .Buttons({
-        style: {
-          color: "silver",
-          size: "medium",
-          layout: "vertical",
-          label: "checkout",
-        },
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [
-              {
-                description: product.description,
-                amount: {
-                  currency_code: "USD",
-                  value: product.price,
-                },
-              },
-            ],
-          });
-        },
-        onApprove: async (data, actions) => {
-          const order = await actions.order.capture();
+  //   window.paypal
+  //     .Buttons({
+  //       style: {
+  //         color: "silver",
+  //         size: "medium",
+  //         layout: "vertical",
+  //         label: "checkout",
+  //       },
+  //       createOrder: (data, actions) => {
+  //         return actions.order.create({
+  //           purchase_units: [
+  //             {
+  //               description: product.description,
+  //               amount: {
+  //                 currency_code: "USD",
+  //                 value: product.price,
+  //               },
+  //             },
+  //           ],
+  //         });
+  //       },
+  //       onApprove: async (data, actions) => {
+  //         const order = await actions.order.capture();
 
-          console.log(order);
-        },
-        onError: (err) => {
-          console.log(err);
-        },
-      })
-      .render(paypal.current);
-  }, []);
+  //         console.log(order);
+  //       },
+  //       onError: (err) => {
+  //         console.log(err);
+  //       },
+  //     })
+  //     .render(paypal.current);
+  // }, []);
 
   return (
     <>
@@ -356,75 +358,87 @@ const ListingInfoPage = () => {
 
             {edit && <Redirect to="/form" />}
             <div className="listing-info-img">
-              <img src={listing?.image1} onClick={() => handleImage(0)} />
-              <div className="listing-info-img-small">
-                <div
-                  className={`${
-                    listing?.image2
-                      ? "listing-info-img-small-col-1"
-                      : "display-none"
-                  }`}
-                >
-                  {listing?.image2 && (
-                    <img src={listing?.image2} onClick={() => handleImage(1)} />
-                  )}
+              <div className="listing-info-img-container">
+                <img
+                  className="listing-info-img-main"
+                  src={listing?.image1}
+                  onClick={() => handleImage(0)}
+                />
+                <div className="listing-info-img-side">
+                  {listing?.image2 ? (
+                    <img
+                      className="listing-info-img-2"
+                      src={listing?.image2}
+                      onClick={() => handleImage(1)}
+                    />
+                  ) : null}
                   {listing?.image3 ? (
-                    <img src={listing?.image3} onClick={() => handleImage(2)} />
+                    <img
+                      className="listing-info-img-3"
+                      src={listing?.image3}
+                      onClick={() => handleImage(2)}
+                    />
                   ) : (
-                    <img src="https://limemarketstatic.s3.us-west-1.amazonaws.com/media/patternpad.jpeg" />
+                    <div className="listing-info-img-placeholder">
+                      View Images
+                    </div>
                   )}
                 </div>
               </div>
             </div>
-            <div className="listing-info-title">
-              <h2>{listing?.title}</h2>
-            </div>
-            <div className="listing-info-desc">
-              <p>{listing?.description}</p>
-            </div>
-            <div className="listing-info-bottom">
-              <div className="listing-info-price">
-                <h1>${listing?.price}</h1>
-              </div>
-              <div className="listing-info-creator">
-                <div className="listing-info-creator-img">
-                  <Link to={`/profile/${listing?.creator}`}>
-                    <img src={listing?.creator_img} />
-                  </Link>
+            <div className="listing-info-details">
+              <div>
+                <div className="listing-info-title">
+                  <h2>{listing?.title}</h2>
                 </div>
-                <div className="listing-info-creator-name">
-                  <Link to={`/profile/${listing?.creator}`}>
-                    <h5>{listing?.creator}</h5>
-                  </Link>
-                  <span className="listing-info-seller-check">
-                    <h4>Seller ✓</h4>
-                  </span>
+                <div className="listing-info-price">
+                  <h2>${listing?.price}</h2>
                 </div>
               </div>
-            </div>
-            <div className="listing-info-paypal" ref={paypal}>
-              {/* Paypal */}
-            </div>
-
-            <div className="listing-info-like-created">
-              <button
-                className="listing-info-like-button"
-                onClick={user ? toggleLike : setToggleTooltip}
-              >
-                <span className="listing-info-like-heart"></span>
-                <span className="listing-info-like-text">
-                  <h5>{likes} Likes</h5>
-                </span>
-              </button>
-              <div className="listing-info-created-date">
-                <h5>
-                  Created{" "}
+              <div className="listing-info-created">
+                <p>
                   {listingDate
                     ? formatDistance(new Date(listingDate), new Date(), {
                         addSuffix: true,
                       })
                     : null}
-                </h5>
+                </p>
+              </div>
+            </div>
+
+            <div className="listing-info-desc">
+              <p>{listing?.description}</p>
+            </div>
+
+            <div className="listing-info-actions">
+              <div className="listing-like">
+                <span
+                  className="listing-like-heart"
+                  onClick={() => setLiked(!liked)}
+                >
+                  <Heart liked={liked} />
+                </span>
+                <span className="listing-like-text">
+                  <h5>{likes} Likes</h5>
+                </span>
+              </div>
+              <button className="listing-info-buy-btn">Buy Now</button>
+            </div>
+
+            <div className="listing-info-bottom">
+              <div className="listing-info-creator">
+                <div className="listing-info-creator-img">
+                  <img
+                    src={listing?.creator_img}
+                    onClick={() => history.push(`/profile/${listing?.creator}`)}
+                  />
+                </div>
+                <div className="listing-info-creator-name">
+                  <Link to={`/profile/${listing?.creator}`}>
+                    <h5>{listing?.creator}</h5>
+                  </Link>
+                  <h6>Seller</h6>
+                </div>
               </div>
             </div>
 
