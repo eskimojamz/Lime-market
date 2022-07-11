@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
@@ -228,6 +229,7 @@ export default Navbar;
 
 function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
   const api = "https://lime-market-backend.herokuapp.com";
+  const history = useHistory();
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const token = sessionStorage.getItem("token");
 
@@ -330,7 +332,12 @@ function WatchlistListing({ listing, profileOpen, setProfileOpen }) {
             ></motion.img>
           </Link>
         </motion.div>
-        <motion.div className="watchlist-listing-info">
+        <motion.div className="watchlist-listing-info"
+          onClick={() => {
+            history.push(`/listings/${listingData?.id}`);
+            setProfileOpen(!profileOpen)
+          }}
+        >
           <motion.h4 className="watchlist-title">
             {listingData?.title}
           </motion.h4>

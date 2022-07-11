@@ -863,6 +863,7 @@ iframe {
 .watchlist-items {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .watchlist-items a:hover {
@@ -877,6 +878,15 @@ iframe {
   flex-direction: column;
   background: white;
   box-shadow: var(--box-shadow);
+}
+
+@media only screen and (max-width: 480px) {
+  .watchlist-listing {
+    width: 100%;
+  }
+  .watchlist-listing-initial {
+    width: 100% !important;
+  }
 }
 
 .watchlist-listing-initial {
@@ -953,7 +963,7 @@ iframe {
 
 .watchlist-listing-bottom-text-h h5{
   font-weight: 500 !important;
-  margin-top: none;
+  margin-top: 0;
 }
 
 .watchlist-listing-bottom-buttons {
