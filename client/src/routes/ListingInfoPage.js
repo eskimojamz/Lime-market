@@ -259,45 +259,6 @@ const ListingInfoPage = () => {
     getComments(listingId);
   }, [currentUser]);
 
-  // useEffect(() => {
-  //   const product = {
-  //     price: listing?.price,
-  //     description: listing?.description,
-  //   };
-
-  //   window.paypal
-  //     .Buttons({
-  //       style: {
-  //         color: "silver",
-  //         size: "medium",
-  //         layout: "vertical",
-  //         label: "checkout",
-  //       },
-  //       createOrder: (data, actions) => {
-  //         return actions.order.create({
-  //           purchase_units: [
-  //             {
-  //               description: product.description,
-  //               amount: {
-  //                 currency_code: "USD",
-  //                 value: product.price,
-  //               },
-  //             },
-  //           ],
-  //         });
-  //       },
-  //       onApprove: async (data, actions) => {
-  //         const order = await actions.order.capture();
-
-  //         console.log(order);
-  //       },
-  //       onError: (err) => {
-  //         console.log(err);
-  //       },
-  //     })
-  //     .render(paypal.current);
-  // }, []);
-
   return (
     <>
       {listing && (
@@ -364,7 +325,7 @@ const ListingInfoPage = () => {
                   src={listing?.image1}
                   onClick={() => handleImage(0)}
                 />
-                <div className="listing-info-img-side">
+                <div className="listing-info-img-side" style={{display: listing?.image2 === undefined && 'none'}}>
                   {listing?.image2 ? (
                     <img
                       className="listing-info-img-2"
@@ -379,7 +340,8 @@ const ListingInfoPage = () => {
                       onClick={() => handleImage(2)}
                     />
                   ) : (
-                    <div className="listing-info-img-placeholder">
+                    <div className="listing-info-img-placeholder"
+                         onClick={() => handleImage(0)}>
                       View Images
                     </div>
                   )}

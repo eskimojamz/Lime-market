@@ -14,7 +14,7 @@ import MenuButton from "./MenuButton";
 import { UserContext } from "../App";
 import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({navBg}) => {
   const api = "https://lime-market-backend.herokuapp.com";
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -32,7 +32,11 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="nav-container">
+      <nav className="nav-container"
+           style={{
+             backgroundColor: navBg ? 'rgba(247, 252, 248, 1)' : 'transparent',
+             borderBottom: navBg ? '1px solid #E8E8E8' : 'none'
+           }}>
         <div className="nav">
           <div className="nav-left">
             <Link to="/">

@@ -31,7 +31,7 @@ body {
   --divider: #E8E8E8;
   --nav-size: 60px;
   --border: 1px solid #474a4d;
-  --border-radius: 5px;
+  --border-radius: 15px;
   --box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.1);
   --box-shadow-lite: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
   --box-shadow-strong: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
@@ -88,7 +88,6 @@ svg {
   width: 100%;
   margin-top: 64px;
   margin-bottom: 2rem;
-  padding: 0 20px;
 }
 
 .page-wrapper {
@@ -1106,13 +1105,11 @@ iframe {
 }
 
 .home-wrapper {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  background-color: rgba(238, 250, 240, 1);
 }
 
 .hero-container {
-  height: 40rem;
   position: relative;
   overflow-x: clip;
 }
@@ -1153,8 +1150,9 @@ iframe {
   margin: 0 auto;
   height: 100%;
   width: 100%;
+  max-width: 1080px;
   gap: 5rem;
-  padding: 7rem 1rem;
+  padding: 2rem 1rem;
 }
 
 .hero-blob1 {
@@ -1265,12 +1263,12 @@ iframe {
 }
 
 .hero-bottom {
+  max-width: 1080px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 4rem;
   align-items: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin: 2rem auto;
   text-align: center;
 }
 
@@ -1285,6 +1283,17 @@ iframe {
   z-index: 2;
 }
 
+@media only screen and (min-width: 768px) {
+  .hero-bottom-cards {
+    flex-direction: row;
+  }
+}
+
+.hero-bottom-card {
+  border-radius: 15px;
+  padding: 1rem 2rem;
+}
+
 .hero-bottom-card h3{
   font-size: 20px;
   color:rgba(0, 12, 115, 1);
@@ -1297,6 +1306,18 @@ iframe {
   font-size: 13px;
   font-weight: 500;
   color: #5A5A5A;
+}
+
+.hero-bottom-card:first-child {
+  background: linear-gradient(rgba(255, 241, 245, 1), rgba(224, 227, 255, 1));
+}
+
+.hero-bottom-card:nth-child(2) {
+  background: linear-gradient(rgba(225, 255, 253, 1), rgba(185, 244, 255, 1));
+}
+
+.hero-bottom-card:last-child {
+  background: linear-gradient(rgba(255, 234, 239, 1), rgba(255, 205, 219, 1));
 }
 
 @media only screen and (max-width: 767px) {
@@ -1317,20 +1338,9 @@ iframe {
   .hero-bottom-card {
     height: fit-content;
     width: 100%;
-    padding: 1rem 2rem;
-    border-radius: 15px;
-  }
-  .hero-bottom-card:first-child {
-    background: linear-gradient(rgba(255, 241, 245, 1), rgba(224, 227, 255, 1));
-  }
-  .hero-bottom-card:nth-child(2) {
-    background: linear-gradient(rgba(225, 255, 253, 1), rgba(185, 244, 255, 1));
-  }
-  .hero-bottom-card:last-child {
-    background: linear-gradient(rgba(255, 234, 239, 1), rgba(255, 205, 219, 1));
   }
   .recent-listings-grid {
-    flex-direction: column;
+    grid-auto-flow: row !important;
   }
 }
 
@@ -1389,6 +1399,7 @@ iframe {
   width: 100%;
   display: grid;
   gap: 1.5rem;
+  grid-auto-flow: column;
 }
 
 .button-seemore {
@@ -1695,7 +1706,7 @@ iframe {
   place-items: center;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 480px) {
   .button-filter {
     display: none;
   }
@@ -1713,6 +1724,7 @@ iframe {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 0 1rem;
   }
 }
 
@@ -1747,6 +1759,7 @@ iframe {
   }
   .listings-count-container { 
     width: 300px;
+    margin: 2rem 1rem 0 1rem;
   }
   .listings-filter-btn-container-mobile {
     width: 100%;
@@ -2121,7 +2134,6 @@ input[type=file]::file-selector-button {
   margin: 2rem 0;
   background: none;
   border-radius: var(--border-radius);
-  font: 'Sora';
 }
 
 @media only screen and (max-width: 767px) {
@@ -2219,6 +2231,7 @@ input[type=file]::file-selector-button {
 @media only screen and (min-width: 768px) {
   .carousel-backdrop {
     z-index: 600;
+    top: 0;
     background: rgba(0, 0, 0, 0.75);
     position: fixed;
     height: 100vh;
@@ -2239,7 +2252,7 @@ input[type=file]::file-selector-button {
     z-index: 601;
     position: relative;
     height: 2rem;
-    top: 14rem;
+    top: 19rem;
     cursor: pointer;
   }
   .carousel-arrow-left {
@@ -2306,10 +2319,10 @@ input[type=file]::file-selector-button {
 
 @media only screen and (min-width: 768px) {
   .listing-info {
-    width: 45rem;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(2, 7.5rem) auto auto 5rem 5rem auto;
+    max-width: 35rem;
+    /*display: grid;*/
+    /*grid-template-columns: repeat(12, 1fr);*/
+    /*grid-template-rows: repeat(2, 7.5rem) auto auto 5rem 5rem auto;*/
   }
   .listing-info-edit-menu {
     grid-column: 9 / -1;
@@ -2318,6 +2331,7 @@ input[type=file]::file-selector-button {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
+    padding-bottom: 1rem;
   }
   .listing-info-img {
     grid-column: 3 / 11;
@@ -2372,7 +2386,7 @@ input[type=file]::file-selector-button {
     justify-self: center;
     align-self: center;
     /* padding-top: 1rem; */
-    text-align: center;
+    /*text-align: center;*/
 
   }
   .listing-info-paypal {
@@ -2389,7 +2403,7 @@ input[type=file]::file-selector-button {
     grid-column: 1 / -1;
     grid-row: 7 / 8;
     margin: 0 auto;
-    width: 70%;
+    width: 100%;
   }
 
 }
@@ -2500,6 +2514,7 @@ input[type=file]::file-selector-button {
 }
 
 .edit-menu {
+  position: absolute;
   padding: 0;
   margin-top: 0.5rem;
   margin-right: 1rem;
@@ -2622,13 +2637,13 @@ input[type=file]::file-selector-button {
 }
 
 .listing-info-img-2 {
-  height: 50%;
+  height: calc(50% - 4px);
   width: 100%;
 }
 
 .listing-info-img-3,
 .listing-info-img-placeholder {
-  height: 50%;
+  height: calc(50% - 4px);
   width: 100%;
 }
 
@@ -2640,6 +2655,7 @@ input[type=file]::file-selector-button {
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .listing-info-details {
@@ -2647,7 +2663,7 @@ input[type=file]::file-selector-button {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 16px 0;
   border-bottom: 1px solid var(--divider);
 }
 
@@ -2666,7 +2682,7 @@ input[type=file]::file-selector-button {
 }
 
 .listing-info-desc {
-  padding: 8px 0;
+  padding: 16px 0;
 }
 
 .listing-info-desc p {
@@ -2712,6 +2728,7 @@ input[type=file]::file-selector-button {
   width: 45px;
   display: flex;
   align-items: center;
+  margin-right: 0.5rem;
 }
 
 .listing-info-creator-img img {
@@ -2719,7 +2736,6 @@ input[type=file]::file-selector-button {
   width: 45px;
   border-radius: 50%;
   border: 1px solid var(--bg);
-  margin-right: 0.5rem;
   object-fit: cover;
 }
 
@@ -2919,13 +2935,14 @@ input[type=file]::file-selector-button {
   height: 100vh;
   display: grid;
   place-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .delete-modal-overlay {
   z-index: 4;
   height: 10rem;
   width: 20rem;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
   background: var(--primary-superlight);
   box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
@@ -3023,7 +3040,7 @@ input[type=file]::file-selector-button {
 }
 
 .profile-info-bottom {
-  padding: 0 2rem 2rem 2rem;
+  padding: 2rem 1rem;
 }
 
 @media only screen and (max-width: 767px) {

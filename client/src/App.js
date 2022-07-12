@@ -22,6 +22,12 @@ const App = () => {
     console.log(currentUser)
     console.log(edit)
 
+    const [navBg, setNavBg] = useState(false)
+
+    const changeNavBg = () => {
+        window.scrollY >= 16 ? setNavBg(true) : setNavBg(false);
+    }
+
     useEffect(() => {
       setCurrentUser(JSON.parse(sessionStorage.getItem('user')))
     }, [])
@@ -35,13 +41,20 @@ const App = () => {
       }
     }, [location])
 
+    useEffect(() => {
+        window.addEventListener('scroll', changeNavBg);
+        return () => {
+            window.removeEventListener('scroll', changeNavBg);
+        }
+    }, [])
+
   return (
       <>
         <AnimateSharedLayout>
         <motion.div className="wrapper">
           <UserContext.Provider value={{currentUser, setCurrentUser, edit, setEdit}}>
           
-          <Navbar />
+          <Navbar navBg={navBg}/>
           <motion.div className="container">
             <Switch location={location} key={location.pathname}>
               <Route path='/' exact component={Home} />
