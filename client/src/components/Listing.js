@@ -178,7 +178,11 @@ const Listing = ({ listing, currentPage }) => {
           </div>
           <div className="listing-text-bottom">
             <div className="listing-like">
-              <span className="listing-like-heart">
+              <span className="listing-like-heart"
+                    onClick={() => {
+                      setLiked(!liked);
+                      toggleLike();
+                    }}>
                 <Heart liked={liked} />
               </span>
               <span className="listing-like-text">

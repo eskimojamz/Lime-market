@@ -244,8 +244,6 @@ const ListingInfoPage = () => {
       });
   };
 
-  const paypal = useRef();
-
   useEffect(() => {
     dispatch(getListing(listingId));
     if (user) {
@@ -376,7 +374,10 @@ const ListingInfoPage = () => {
               <div className="listing-like">
                 <span
                   className="listing-like-heart"
-                  onClick={() => setLiked(!liked)}
+                  onClick={() => {
+                      setLiked(!liked);
+                      toggleLike();
+                  }}
                 >
                   <Heart liked={liked} />
                 </span>
