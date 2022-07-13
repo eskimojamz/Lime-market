@@ -165,7 +165,10 @@ const Listing = ({ listing, currentPage }) => {
 
         {/* title, price, details btn */}
         <div className="listing-text">
-          <div className="listing-text-top">
+          <div className="listing-text-top"
+               onClick={() => {
+                 history.push(`/listings/${listingId}`);
+               }}>
             <div className="listing-title">
               <h3>{listing.title}</h3>
             </div>

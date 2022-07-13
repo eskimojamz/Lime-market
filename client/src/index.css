@@ -2137,6 +2137,9 @@ input[type=file]::file-selector-button {
 }
 
 @media only screen and (max-width: 767px) {
+  .listing-info {
+    padding: 0 1rem;
+  }
   .carousel-backdrop {
     z-index: 600;
     background: rgba(0, 0, 0, 0.75);
