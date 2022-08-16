@@ -182,7 +182,7 @@ const ListingInfoPage = () => {
       })
       .then(async () => {
         const newList = user?.listings_created.filter(
-          (l) => l.id !== parseInt(listingId)
+          (l) => l.id !== listingId
         );
 
         await axios
@@ -501,6 +501,7 @@ const ListingInfoPage = () => {
                 <form onSubmit={handleComment}>
                   <textarea
                     className="input-box"
+                    disabled={user ? false : true}
                     placeholder={
                       user
                         ? "Comments must be at least 10 characters long."

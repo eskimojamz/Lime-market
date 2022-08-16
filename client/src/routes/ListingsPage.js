@@ -176,7 +176,7 @@ const ListingsPage = () => {
         ? (
         <>
         <div className="listings-grid">
-          {currentData.map(listing => 
+          {currentData.map(listing =>
             <Listing listing={listing} currentPage={currentPage} />
           )}
         </div>
@@ -193,18 +193,17 @@ const ListingsPage = () => {
         />
         </>
         )
-        : (
+        :
+            (
         <>
         {/* skeleton loading */}
         <div className="listings-grid">
           {/* create array from length of PageSize and map to div element */}
           {Array.from({length: PageSize}, (item, index) =>
             <div className="listing-skeleton">
-              <div className="listing-img-div skeleton skeleton-img">
+              <div className="skeleton skeleton-img">
               </div>
               <div className="listing-skeleton-text">
-                <div className="skeleton skeleton-text"></div>
-                <div className="skeleton skeleton-text"></div>
                 <div className="skeleton skeleton-text"></div>
                 <div className="skeleton skeleton-text"></div>
                 <div className="skeleton skeleton-text"></div>
@@ -214,7 +213,7 @@ const ListingsPage = () => {
           )}
         </div>
         </>
-        )}  
+        )}
       </>
   )
 }

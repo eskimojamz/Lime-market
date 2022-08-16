@@ -128,6 +128,10 @@ const Listing = ({ listing, currentPage }) => {
     }
   };
 
+  // const handleNotLoggedInLike = () => {
+  //
+  // }
+
   const getLikes = (listing_id) => {
     axios.get(`${api}/listings/${listing_id}/likeCount`).then((response) => {
       setLikes(response.data.like_count);
@@ -149,9 +153,6 @@ const Listing = ({ listing, currentPage }) => {
     <>
       <motion.div
         className="listing"
-        initial={{ y: 10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.5, duration: 0.25 }}
       >
         {/* listing image */}
         <div className="listing-img-div">
@@ -180,14 +181,23 @@ const Listing = ({ listing, currentPage }) => {
             <div className="listing-like">
               <span className="listing-like-heart"
                     onClick={() => {
-                      setLiked(!liked);
-                      toggleLike();
+                      if(user) {
+                        setLiked(prevLiked => !prevLiked);
+                        toggleLike();
+                      } else {
+                        handleNotLoggedInLike();
+                      }
                     }}>
                 <Heart liked={liked} />
               </span>
               <span className="listing-like-text">
                 <h5>{likes} Likes</h5>
               </span>
+              {!user &&
+              <span id="listing-like-tooltip">
+                <p>You must be logged in to like and save a listing.</p>
+              </span>
+              }
             </div>
             <div className="listing-date">
               <h5>

@@ -86,18 +86,14 @@ const ListingForm = () => {
 
     return true;
   };
-  // const axiosInstance = axios.create({
-  //     timeout: 5000,
-  //     headers: {
-  //         ,
-  //         Accept: '*/*',
-  //     },
-  // })
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    validate()
+    if (validate() === false) {
+      setLoading(false);
+      return;
+    }
     let formData = new FormData();
     formData.append("title", listingData.title);
     formData.append("description", listingData.description);
