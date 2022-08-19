@@ -58,9 +58,11 @@ export const createListing = (newListing, auth) => (dispatch) => {
     }
 }
 
-export const addComment = (comment, auth) => () => {
+export const addComment = (comment, auth) => async() => {
     try {
-        api.addComment(comment, auth);
+        const { data } = await api.addComment(comment, auth);
+        console.log(data)
+        return data;
     } catch (error) {
         console.log(error.message);
     }

@@ -128,10 +128,6 @@ const Listing = ({ listing, currentPage }) => {
     }
   };
 
-  // const handleNotLoggedInLike = () => {
-  //
-  // }
-
   const getLikes = (listing_id) => {
     axios.get(`${api}/listings/${listing_id}/likeCount`).then((response) => {
       setLikes(response.data.like_count);
@@ -184,8 +180,6 @@ const Listing = ({ listing, currentPage }) => {
                       if(user) {
                         setLiked(prevLiked => !prevLiked);
                         toggleLike();
-                      } else {
-                        handleNotLoggedInLike();
                       }
                     }}>
                 <Heart liked={liked} />

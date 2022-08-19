@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {useState, useEffect, useRef, useContext, useMemo} from "react";
 import { Link, Redirect, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentListing, addComment, getListing } from "../actions/actions";
@@ -208,9 +208,9 @@ const ListingInfoPage = () => {
     setToggleCarousel(true);
   };
 
-  const handleComment = (e) => {
+  const handleComment = async(e) => {
     e.preventDefault();
-    dispatch(
+    const comment = await dispatch(
       addComment(
         // comment
         {
@@ -227,8 +227,7 @@ const ListingInfoPage = () => {
       )
     );
     setNewComment("");
-    getComments(listingId);
-    setComments([...listingComments]);
+    setComments((prevState) => [...prevState, comment]);
   };
 
   const handleCommentDelete = async (commentId) => {
