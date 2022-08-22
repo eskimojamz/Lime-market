@@ -103,6 +103,10 @@ const ListingsPage = () => {
       default: 
         break
     }
+    // set currentPage to 1, after filter
+    if (currentPage > 1) {
+      setCurrentPage(1);
+    }
     // setFilteredListings -- filtered array
     return setFilteredListings(filteringListings)
   }
@@ -184,7 +188,7 @@ const ListingsPage = () => {
         <Pagination
           className="pagination-bar"
           currentPage={currentPage}
-          totalCount={listings?.length}
+          totalCount={filteredListings?.length}
           pageSize={PageSize}
           onPageChange={(page) => {
             setCurrentPage(page)
