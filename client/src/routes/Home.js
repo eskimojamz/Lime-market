@@ -8,6 +8,7 @@ import Listing from "../components/Listing";
 import cardIllustration1 from "../assets/cardIllustration1.svg";
 import cardIllustration2 from "../assets/cardIllustration2.svg";
 import cardIllustration3 from "../assets/cardIllustration3.svg";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const Home = () => {
   const history = useHistory();
@@ -24,16 +25,18 @@ const Home = () => {
         <img src={blob1} className="hero-blob1-filter" />
         <img src={blob2} className="hero-blob2" />
         <img src={blob2} className="hero-blob2-filter" /> */}
-      <div className="hero-container">
+      <motion.div
+          className="hero-container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.25 }}
+      >
         <div className="hero-bg-1" />
         <div className="hero-bg-2" />
         <div className="hero">
           <div className="hero-left">
-            <motion.div
+            <div
               className="hero-left-text"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.25 }}
             >
               <h1>Buy & Sell</h1>
               <h1 className="highlight">safely & affordably</h1>
@@ -44,7 +47,7 @@ const Home = () => {
                   can buy and sell items with confidence.
                 </h4>
               </div>
-            </motion.div>
+            </div>
             <button
               className="hero-button"
               onClick={() => {
@@ -55,27 +58,22 @@ const Home = () => {
             </button>
           </div>
 
-          <motion.div
+          <div
             className="hero-right"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.25 }}
           >
-            <motion.img
+            <img
               src={hero}
               className="hero-img"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25, duration: 0.25 }}
             />
-          </motion.div>
+          </div>
         </div>
-      </div>
+      </motion.div>
 
       <motion.div
         className="hero-bottom"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.75, duration: 0.25 }}
       >
         <div className="hero-bottom-cards">
           <div className="hero-bottom-card">
@@ -92,35 +90,42 @@ const Home = () => {
           <div className="hero-bottom-card">
             <img src={cardIllustration2} />
             <div>
-              <h3>Find Hidden Treasures</h3>
+              <h3>Communicate with Sellers</h3>
               <p>
-                Goods listed on Lime Market are audited for quality. You’ll find
-                the fairest prices on the web. Offerings range from clothes,
-                tech and art to more!
+                Lime Market users are able to chat in real-time with sellers and buyers.
+                Every listing has a fully featured comments section.
               </p>
             </div>
           </div>
           <div className="hero-bottom-card">
             <img src={cardIllustration3} />
             <div>
-              <h3>Find Hidden Treasures</h3>
+              <h3>Save Items for Later</h3>
               <p>
-                Goods listed on Lime Market are audited for quality. You’ll find
-                the fairest prices on the web. Offerings range from clothes,
-                tech and art to more!
+                Whenever you like like a listing, by pressing the green heart icon, items are saved in your watchlist.
+                Go back and check them out anytime!
               </p>
             </div>
           </div>
         </div>
-        {/* Popular Listings */}
+        {/* Recent Listings */}
         <div className="recent-listings">
           <div className="recent-listings-header">
             <h3>Recent Listings</h3>
           </div>
           <div className="recent-listings-grid">
-            {listings.slice(-3).map((listing) => (
-              <Listing listing={listing} />
-            ))}
+            {
+              listings
+                ? listings.slice(-3).map((listing) => (
+                <Listing listing={listing} />
+              ))
+                : (
+                    <>
+                    <PulseLoader color={'#74CDA1'}/>
+                    <p>Fetching...</p>
+                    </>
+                  )
+            }
           </div>
           <motion.button
             className="button-seemore"

@@ -10,17 +10,15 @@ const Listing = ({ listing, currentPage }) => {
   const api = "https://lime-market-backend.herokuapp.com";
   const listingId = listing.id.toString();
   const user = JSON.parse(sessionStorage.getItem("user"));
-  console.log(user);
+  // console.log(user);
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  console.log(currentUser);
+  // console.log(currentUser);
   const token = sessionStorage.getItem("token");
   const history = useHistory();
-  // const likedBool = currentUser?.watchlist.some(listing => listing.id === listingId.toString())
-  // console.log(likedBool)
   const [likes, setLikes] = useState();
   const [liked, setLiked] = useState();
   const [isStopped, setIsStopped] = useState(true);
-  console.log(listing);
+  // console.log(listing);
   const toggleLike = () => {
     if (!liked) {
       axios
@@ -201,16 +199,6 @@ const Listing = ({ listing, currentPage }) => {
               </h5>
             </div>
           </div>
-          {/* <div className="listing-btn">
-            <button
-              className="button-view button-primary"
-              onClick={() => {
-                history.push(`/listings/${listingId}`);
-              }}
-            >
-              View
-            </button>
-          </div> */}
         </div>
       </motion.div>
     </>
